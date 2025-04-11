@@ -6,10 +6,10 @@ const api = axios.create({
 
 // Interceptor para agregar el token solo si no es una ruta de login
 api.interceptors.request.use((config) => {
-    const token = localStorage.getItem("AUTH_TOKEN");
+    const token = localStorage.getItem("AUTH_CROCA");
 
     // Rutas donde NO se debe enviar el token
-    const excludedRoutes = ["/login", "/auth/login"];
+    const excludedRoutes = ["/login", "/api/login/"];
 
     const isExcluded = excludedRoutes.some(route =>
         config.url?.includes(route)
