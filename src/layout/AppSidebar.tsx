@@ -6,7 +6,7 @@ import {
   BoxCubeIcon,
   CalenderIcon,
   ChevronDownIcon,
-  GridIcon,
+  GridIcon, GroupIcon,
   HorizontaLDots,
   ListIcon,
   PageIcon,
@@ -16,7 +16,6 @@ import {
   UserCircleIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
-import SidebarWidget from "./SidebarWidget";
 
 type NavItem = {
   name: string;
@@ -29,22 +28,58 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+    subItems: [
+      { name: "Ventas", path: "/dash-ventas", pro: false },
+      { name: "Empleados", path: "/dash-empleados", pro: false },
+      { name: "Devoluciones", path: "/dash-devolucions", pro: false }
+    ],
+  },
+  {
+    icon: <BoxCubeIcon />,
+    name: "Almacenes",
+    subItems: [
+      { name: "Devoluciones", path: "/devoluciones", pro: false },
+      { name: "Despachos", path: "/despachos", pro: false },
+      { name: "Stock", path: "/stock", pro: false }
+    ],
+  },
+  {
+    icon: <GroupIcon />,
+    name: "Usuarios",
+    subItems: [
+      { name: "Vendedores", path: "/vendedores", pro: false },
+      { name: "Almacenes", path: "/alamcenes", pro: false },
+    ],
   },
   {
     icon: <CalenderIcon />,
-    name: "Calendar",
+    name: "Calendario",
     path: "/calendar",
   },
+  {
+    name: "Ventas",
+    icon: <ListIcon />,
+    subItems: [
+      { name: "Vender", path: "/vender", pro: false },
+      { name: "Nuevo Cliente", path: "/-", pro: false },
+      { name: "Clientes", path: "/clientes", pro: false }
+    ],
+  },
+];
+
+const othersItems: NavItem[] = [
   {
     icon: <UserCircleIcon />,
     name: "User Profile",
     path: "/profile",
   },
   {
-    name: "Forms",
-    icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
+    icon: <PieChartIcon />,
+    name: "Charts",
+    subItems: [
+      { name: "Line Chart", path: "/line-chart", pro: false },
+      { name: "Bar Chart", path: "/bar-chart", pro: false },
+    ],
   },
   {
     name: "Tables",
@@ -57,17 +92,6 @@ const navItems: NavItem[] = [
     subItems: [
       { name: "Blank Page", path: "/blank", pro: false },
       { name: "404 Error", path: "/error-404", pro: false },
-    ],
-  },
-];
-
-const othersItems: NavItem[] = [
-  {
-    icon: <PieChartIcon />,
-    name: "Charts",
-    subItems: [
-      { name: "Line Chart", path: "/line-chart", pro: false },
-      { name: "Bar Chart", path: "/bar-chart", pro: false },
     ],
   },
   {
@@ -368,7 +392,6 @@ const AppSidebar: React.FC = () => {
             </div>
           </div>
         </nav>
-        {isExpanded || isHovered || isMobileOpen ? <SidebarWidget /> : null}
       </div>
     </aside>
   );

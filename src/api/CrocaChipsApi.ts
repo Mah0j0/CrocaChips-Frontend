@@ -6,7 +6,7 @@ export async function loginUser(formData: LoginForm): Promise<void> {
     try {
         const response = await api.post("/api/login/", formData);
         const accessToken = response.data.access;
-
+        console.log(accessToken);
         if (!accessToken) {
             throw new Error("Token no recibido del servidor.");
         }
