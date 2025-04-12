@@ -5,6 +5,7 @@ import { LoginForm } from "../types/empleados";
 export async function loginUser(formData: LoginForm): Promise<void> {
     try {
         const response = await api.post("/api/login/", formData);
+        console.log(response);
         const accessToken = response.data.access;
         console.log(accessToken);
         if (!accessToken) {
@@ -14,9 +15,8 @@ export async function loginUser(formData: LoginForm): Promise<void> {
         // Guardar token en localStorage
         localStorage.setItem("AUTH_CROCA", accessToken);
     } catch (error) {
-        console.error("Error al iniciar sesión:", error);
-
         if (isAxiosError(error) && error.response) {
+            console.error("Error al iniciar sesión:", error.response);
             // Puedes adaptar este mensaje según tu backend
             throw new Error(error.response.data.detail || "Error en la autenticación.");
         }
