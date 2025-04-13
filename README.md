@@ -72,8 +72,8 @@ src/
 
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/tu-usuario/tailadmin-react.git
-   cd tailadmin-react
+   git clone https://github.com/Mah0j0/CrocaChips-Frontend.git
+   cd CrocaChips-Frontend
    ```
 
 2. Instala las dependencias:
@@ -90,17 +90,3 @@ src/
    ```bash
    npm run dev
    ```
-
-## 📄 Licencia
-
-Este proyecto está licenciado bajo los términos que definas (MIT, GPL, etc.).
-
----
-
-> 💡 ¿Quieres desplegarlo en producción? Puedes usar Vercel, Netlify, o cualquier servidor que soporte aplicaciones Vite/React.
-
-```
-
----
-
-¿Quieres que también te genere el `.env.example` y una estructura real de carpetas inicial para el proyecto?
