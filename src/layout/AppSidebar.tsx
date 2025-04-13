@@ -31,24 +31,27 @@ const navItems: NavItem[] = [
     subItems: [
       { name: "Ventas", path: "/dash-ventas", pro: false },
       { name: "Empleados", path: "/dash-empleados", pro: false },
-      { name: "Devoluciones", path: "/dash-devolucions", pro: false }
+      { name: "Almacén", path: "/dash-devolucions", pro: false }
     ],
   },
   {
     icon: <BoxCubeIcon />,
-    name: "Almacenes",
+    name: "Inventario",
     subItems: [
-      { name: "Devoluciones", path: "/devoluciones", pro: false },
+      { name: "Almacén", path: "/almacen", pro: false },
+      { name: "Producción", path: "/lotes", pro: false },
       { name: "Despachos", path: "/despachos", pro: false },
-      { name: "Stock", path: "/stock", pro: false }
+      { name: "Devoluciones", path: "/devoluciones", pro: false },
+    
+      
     ],
   },
   {
-    icon: <GroupIcon />,
-    name: "Usuarios",
+    name: "Comercial",
+    icon: <ListIcon />,
     subItems: [
-      { name: "Vendedores", path: "/vendedores", pro: false },
-      { name: "Almacenes", path: "/alamcenes", pro: false },
+      { name: "Ventas", path: "/vender", pro: false },
+      { name: "Clientes", path: "/clientes", pro: false }
     ],
   },
   {
@@ -57,14 +60,11 @@ const navItems: NavItem[] = [
     path: "/calendar",
   },
   {
-    name: "Ventas",
-    icon: <ListIcon />,
-    subItems: [
-      { name: "Vender", path: "/vender", pro: false },
-      { name: "Nuevo Cliente", path: "/-", pro: false },
-      { name: "Clientes", path: "/clientes", pro: false }
-    ],
+    icon: <GroupIcon />,
+    name: "Usuarios",
+    path: "/usuarios",
   },
+  
 ];
 
 const othersItems: NavItem[] = [
