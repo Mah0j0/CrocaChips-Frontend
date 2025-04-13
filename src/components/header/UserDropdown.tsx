@@ -2,11 +2,15 @@ import { useState } from "react";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import {useNavigate} from "react-router";
-import {useQuery, useQueryClient} from "@tanstack/react-query";
 import { useAuth }  from "../../context/AuthContext";
-import {getUser} from "../../api/EmpleadoApi.ts";
+import {EmpleadoInfo} from "../../types/empleados.ts";
+import {useQueryClient} from "@tanstack/react-query";
 
-export default function UserDropdown() {
+type PropsDropdown = {
+  data?: EmpleadoInfo;
+}
+
+export default function UserDropdown({data}: PropsDropdown) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const {logout} = useAuth();
@@ -19,14 +23,6 @@ export default function UserDropdown() {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data, } = useQuery({
-    queryFn: getUser,
-    queryKey: ["user"],
-    retryDelay: (attempt) => Math.min(1000 * 5 ** attempt, 1000),
-    retry: 1,
-    refetchOnWindowFocus: false,
-
-  });
   console.log(data);
   const toggleDropdown = () => setIsOpen((prev) => !prev);
   const closeDropdown = () => setIsOpen(false);
