@@ -7,6 +7,7 @@ import App from "./App.tsx";
 import { AppWrapper } from "./components/common/PageMeta.tsx";
 import { ThemeProvider } from "./context/ThemeContext.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { AuthProvider} from "./context/AuthContext.tsx";
 
 // 1. Crear el cliente de React Query
 const queryClient = new QueryClient();
@@ -17,7 +18,9 @@ createRoot(document.getElementById("root")!).render(
         <QueryClientProvider client={queryClient}>
             <ThemeProvider>
                 <AppWrapper>
-                    <App />
+                    <AuthProvider>
+                        <App />
+                    </AuthProvider>
                 </AppWrapper>
             </ThemeProvider>
         </QueryClientProvider>

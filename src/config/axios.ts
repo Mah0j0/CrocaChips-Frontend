@@ -5,7 +5,10 @@ const api = axios.create({
 });
 
 // Interceptor para agregar el token solo si no es una ruta de login
+
+console.log(api);
 api.interceptors.request.use((config) => {
+    console.log("esta mos en el interpolador ");
     const token = localStorage.getItem("AUTH_CROCA");
 
     // Rutas donde NO se debe enviar el token

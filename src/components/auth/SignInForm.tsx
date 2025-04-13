@@ -1,30 +1,20 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import { loginUser } from "../../api/CrocaChipsApi.ts";
+import { LoginForm } from "../../types/empleados.ts";
+import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router";
+import { useAuth } from "../../context/AuthContext";
 import { EyeCloseIcon, EyeIcon } from "../../icons";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
 import Button from "../ui/button/Button";
-import { useNavigate } from "react-router";
-import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { loginUser } from "../../api/CrocaChipsApi.ts";
-import { ToastContainer, toast } from "react-toastify";
-import { LoginForm } from "../../types/empleados.ts";
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: loginUser,
-    onError: (error: Error) => {
-      console.log(error);
-      toast.error(error.message);
-    },
-    onSuccess: () => {
-      toast.success("Bienvenido");
-      navigate("/home");
-    },
-  });
+  const { login } = useAuth();
 
   const {
     register,
@@ -34,6 +24,18 @@ export default function SignInForm() {
     defaultValues: {
       usuario: "",
       clave: "",
+    },
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: loginUser,
+    onSuccess: (token: string) => {
+      login(token);
+      toast.success("Bienvenido");
+      navigate("/");
+    },
+    onError: (error: Error) => {
+      toast.error(error.message);
     },
   });
 
@@ -55,7 +57,6 @@ export default function SignInForm() {
           </header>
 
           <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
-            {/* Usuario */}
             <div>
               <Label htmlFor="usuario">
                 Usuario <span className="text-error-500">*</span>
@@ -72,7 +73,6 @@ export default function SignInForm() {
               />
             </div>
 
-            {/* Contraseña */}
             <div>
               <Label htmlFor="password">
                 Contraseña <span className="text-error-500">*</span>
@@ -103,14 +103,8 @@ export default function SignInForm() {
               </div>
             </div>
 
-            {/* Botón de envío */}
             <div>
-              <Button
-                  className="w-full"
-                  size="sm"
-                  type="submit"
-                  disabled={isPending}
-              >
+              <Button className="w-full" size="sm" type="submit" disabled={isPending}>
                 Iniciar
               </Button>
             </div>
