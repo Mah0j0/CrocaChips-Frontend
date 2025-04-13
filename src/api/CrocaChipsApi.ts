@@ -1,12 +1,14 @@
 import { isAxiosError } from "axios";
 import api from "../config/axios";
 import { LoginForm, Empleado } from "../types/empleados";
+import { Producto } from "../types/productos";
 
 type LoginResponse = {
     access: string;
     refresh?: string;
 };
 
+//Inicio de sesión
 export async function loginUser(formData: LoginForm): Promise<string> {
     try {
         const response = await api.post<LoginResponse>("/login/", formData);
@@ -39,3 +41,17 @@ export async function getUser() {
         }
     }
 }
+
+//Productos
+export async function getProductos(): Promise<Producto[]> { 
+    try {
+      const { data } = await api.get<Producto[]>("/productos/");
+      return data;
+    } catch (error) {
+      console.error("Error al obtener productos:", error);
+      if (isAxiosError(error) && error.response) {
+        throw new Error(error.response.data.error || "Error al cargar productos.");
+      }
+      throw new Error("Ocurrió un error inesperado al cargar productos.");
+    }
+  }
