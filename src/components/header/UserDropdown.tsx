@@ -164,7 +164,7 @@ export default function UserDropdown() {
               fill=""
             />
           </svg>
-          Sign out
+          Cerrar sesión
         </button>
       </Dropdown>
     </div>
