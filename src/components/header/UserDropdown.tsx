@@ -12,9 +12,8 @@ export default function UserDropdown() {
 
   const handleLogout = () => {
     logout();
-    queryClient.invalidateQueries 
+    queryClient.invalidateQueries();
     navigate("/login");
-    
   }
 
   const [isOpen, setIsOpen] = useState(false);
