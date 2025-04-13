@@ -31,38 +31,32 @@ const LayoutContent: React.FC = () => {
 };
 
 export default function AppLayout() {
-    console.log("AppLayout");
+
     const { data, isLoading, isError } = useQuery({
         queryFn: getUser,
         queryKey: ["user"],
-        retry: 5,
+        retry: 1,
         retryDelay: (attempt) => Math.min(1000 * 5 ** attempt, 1000),
         refetchOnWindowFocus: false,
     });
-    console.log("data", data, "isLoading", isLoading, "isError", isError);
 
     if (isLoading) {
-        console.log("Loading ---> Loading", isLoading, "isError", isError);
         return (
             <p className="font-bold text-2xl text-center text-white">Cargando...</p>
         );
     }
 
     if (isError && !data) {
-        console.log("Error ----> Error", isLoading, "isError", isError, "data", data);
-        console.log("error", isError, "data", !data, "is", isError && !data);
         return <Navigate to="/login" replace/>;
     }
 
     if (data) {
-        console.log("data", data);
         return (
             <SidebarProvider>
                 <LayoutContent/>
             </SidebarProvider>
         );
     }
-    console.log("End ---> Loading", isLoading, "isError", isError);
     // Si no hay datos y no hay error, mostramos una página de error 404
     // return <Navigate to="/not-found" replace />;
 }
