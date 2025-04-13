@@ -5,6 +5,8 @@ import Backdrop from "./Backdrop";
 import AppSidebar from "./AppSidebar";
 import { Navigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { getUser } from "../api/CrocaChipsApi";
+
 const LayoutContent: React.FC = () => {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
 
@@ -27,8 +29,6 @@ const LayoutContent: React.FC = () => {
     </div>
   );
 };
-import { getUser } from "../api/CrocaChipsApi";
-
 
 export default function AppLayout() {
     console.log("AppLayout");
