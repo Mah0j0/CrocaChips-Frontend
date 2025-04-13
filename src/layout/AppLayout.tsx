@@ -5,7 +5,7 @@ import Backdrop from "./Backdrop";
 import AppSidebar from "./AppSidebar";
 import { Navigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { getUser } from "../api/CrocaChipsApi";
+import { getUser } from "../api/EmpleadoApi.ts";
 
 const LayoutContent: React.FC = () => {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();

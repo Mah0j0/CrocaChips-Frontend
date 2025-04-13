@@ -14,3 +14,8 @@ export type RegisterForm = Pick<Empleado, "nombre" | "apellido" | "rol"> & {
 export type LoginForm = Pick<Empleado, "usuario"> & {
     clave: string;
 };
+
+export type LoginResponse = {
+    access: string;
+    refresh: string;
+};
