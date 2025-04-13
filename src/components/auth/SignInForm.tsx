@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { loginUser } from "../../api/CrocaChipsApi.ts";
-import { LoginForm } from "../../types/empleados.ts";
+import { loginUser } from "../../api/EmpleadoApi.ts";
+import { LoginForm, LoginResponse } from "../../types/empleados.ts";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../context/AuthContext";
@@ -29,8 +29,8 @@ export default function SignInForm() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: loginUser,
-    onSuccess: (token: string) => {
-      login(token);
+    onSuccess: ({access, refresh}: LoginResponse) => {
+      login(access, refresh);
       toast.success("Bienvenido");
       navigate("/");
     },

@@ -1,23 +1,18 @@
 import { isAxiosError } from "axios";
 import api from "../config/axios";
-import { LoginForm, Empleado } from "../types/empleados";
+import { LoginForm, Empleado, LoginResponse } from "../types/empleados";
 
-type LoginResponse = {
-    access: string;
-    refresh?: string;
-};
-
-export async function loginUser(formData: LoginForm): Promise<string> {
+export async function loginUser(formData: LoginForm): Promise<LoginResponse> {
     try {
         const response = await api.post<LoginResponse>("/login/", formData);
-        console.log("Response :",response);
-        const accessToken = response.data.access;
-        console.log("Access token",accessToken);
-        if (!accessToken) {
-            throw new Error("Token de acceso no recibido del servidor.");
+
+        const { access, refresh } = response.data;
+
+        if (!access || !refresh) {
+            throw new Error("No se recibieron tokens del servidor.");
         }
 
-        return accessToken;
+        return { access, refresh };
     } catch (error: unknown) {
         if (isAxiosError(error) && error.response) {
             const detail = (error.response.data as { detail?: string }).detail;
@@ -28,14 +23,16 @@ export async function loginUser(formData: LoginForm): Promise<string> {
     }
 }
 
-export async function getUser() {
+export async function getUser(): Promise<Empleado> {
     try {
         const { data } = await api.get<Empleado>("/mi-perfil/");
         return data;
     } catch (error) {
-        console.log("error", error);
         if (isAxiosError(error) && error.response) {
-            throw new Error(error.response.data.error);
+            const message = (error.response.data as { error?: string }).error;
+            throw new Error(message || "Error al obtener el perfil.");
         }
+
+        throw new Error("Error inesperado al obtener los datos del usuario.");
     }
 }
