@@ -5,4 +5,5 @@ export type Producto = {
     tiempo_vida: number;
     precio_unitario: number;
     stock: number;
+    habilitado: boolean;
 };
