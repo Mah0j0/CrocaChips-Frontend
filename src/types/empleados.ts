@@ -6,6 +6,8 @@ export type Empleado = {
     usuario: string;
     telefono: number;
     carnet: string;
+    imagen: string;
+    habilitado: boolean;
 };
 
 export type EmpleadoDatos = Pick<Empleado, "nombre" | "apellido" | "rol" | "usuario" | "telefono" | "carnet">;
