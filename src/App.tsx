@@ -19,7 +19,6 @@ import AppLayout from "./layout/AppLayout";
 import Home from "./pages/Dashboard/Home";
 import Usuarios from "./pages/Usuarios/Usuarios";
 import { ScrollToTop } from "./components/common/ScrollToTop";
-import Home from "./pages/Dashboard/Home";
 import Productos from "./pages/Almacen/Productos";
 
 export default function App() {

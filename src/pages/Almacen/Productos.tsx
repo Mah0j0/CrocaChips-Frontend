@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { getProductos } from "../../api/CrocaChipsApi";
+import { getProductos } from "../../api/ProductosApi";
 import { Producto } from "../../types/productos";
 import Button from "../../components/ui/button/Button";
 import { PlusIcon } from "../../icons";
 import { MoreDotIconHor } from "../../icons";
+
 export default function Productos() {
   const { data, isLoading, isError } = useQuery<Producto[]>({
     queryFn: getProductos,
