@@ -1,7 +1,6 @@
 import React from "react"; // Asegúrate de importar React
 import { SidebarProvider, useSidebar } from "../context/SidebarContext";
 import { Outlet, Navigate } from "react-router-dom"; // Agrupa imports de react-router-dom
-import { useQuery } from "@tanstack/react-query";
 
 // Componentes de UI
 import AppHeader from "./AppHeader";
@@ -10,8 +9,8 @@ import AppSidebar from "./AppSidebar";
 import LoadingSpinner from "./LoadingSpinner";
 
 // API y Tipos
-import { getUser } from "../api/EmpleadoApi";
 import { EmpleadoInfo } from "../types/empleados";
+import {useEmpleado} from "../hooks/useEmpleado.ts";
 
 // --- Componente de Contenido del Layout ---
 type LayoutContentProps = {
@@ -48,14 +47,7 @@ const LayoutContent: React.FC<LayoutContentProps> = ({ userData }) => {
 // --- Componente Principal del Layout ---
 
 export default function AppLayout() {
-    const { data: userData, isLoading, isError } = useQuery({
-        queryKey: ["user"],
-        queryFn: getUser,
-        retry: 1,
-        // retryDelay: (attempt) => Math.min(1000 * 2 ** attempt, 30000), // Estrategia de backoff exponencial (opcional)
-        refetchOnWindowFocus: false,
-        staleTime: 5 * 60 * 1000,
-    });
+    const { data: userData, isLoading, isError } = useEmpleado();
 
     // 1. Estado de Carga
     if (isLoading) {
