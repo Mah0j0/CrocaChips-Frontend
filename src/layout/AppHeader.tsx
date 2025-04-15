@@ -5,8 +5,13 @@ import { useSidebar } from "../context/SidebarContext";
 import { ThemeToggleButton } from "../components/common/ThemeToggleButton";
 import NotificationDropdown from "../components/header/NotificationDropdown";
 import UserDropdown from "../components/header/UserDropdown";
+import { EmpleadoInfo } from "../types/empleados.ts";
 
-const AppHeader: React.FC = () => {
+type AppHeaderProps = {
+  userData?: EmpleadoInfo;
+}
+
+const AppHeader: React.FC<AppHeaderProps> = ({userData}) => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
 
   const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
@@ -164,7 +169,7 @@ const AppHeader: React.FC = () => {
             {/* <!-- Notification Menu Area --> */}
           </div>
           {/* <!-- User Area --> */}
-          <UserDropdown />
+          <UserDropdown data={userData}/>
         </div>
       </div>
     </header>

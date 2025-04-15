@@ -8,34 +8,42 @@ import React, {
 
 interface AuthContextType {
     authenticated: boolean;
-    login: (token: string) => void;
+    login: (access: string, refresh: string) => void;
     logout: () => void;
 }
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 interface AuthProviderProps {
     children: ReactNode;
 }
 
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+
     const [authenticated, setAuthenticated] = useState<boolean>(false);
 
     useEffect(() => {
-        console.log("AuthProvider useEffect");
-        const token = localStorage.getItem("AUTH_CROCA");
-        setAuthenticated(!!token);
+        const access = localStorage.getItem("AUTH_CROCA");
+        const refresh = localStorage.getItem("REFRESH_CROCA");
+
+        if (access && refresh) {
+            setAuthenticated(true);
+        } else {
+            setAuthenticated(false);
+        }
     }, []);
 
-    const login = (token: string) => {
-        console.log("login", token);
-        localStorage.setItem("AUTH_CROCA", token);
+    const login = (access: string, refresh: string) => {
+        localStorage.setItem("AUTH_CROCA", access);
+        localStorage.setItem("REFRESH_CROCA", refresh);
         setAuthenticated(true);
     };
 
     const logout = () => {
         localStorage.removeItem("AUTH_CROCA");
+        localStorage.removeItem("REFRESH_CROCA");
         setAuthenticated(false);
+        window.location.href = "/login"; // Redirige si quieres
     };
 
     return (

@@ -4,8 +4,13 @@ export type Empleado = {
     rol: string;
     _id: number;
     usuario: string;
+    telefono: number;
+    carnet: string;
+    imagen: string;
+    habilitado: boolean;
 };
 
+export type EmpleadoDatos = Pick<Empleado, "nombre" | "apellido" | "rol" | "usuario" | "telefono" | "carnet">;
 export type RegisterForm = Pick<Empleado, "nombre" | "apellido" | "rol"> & {
     password: string;
     password_confirmation: string;
@@ -14,3 +19,10 @@ export type RegisterForm = Pick<Empleado, "nombre" | "apellido" | "rol"> & {
 export type LoginForm = Pick<Empleado, "usuario"> & {
     clave: string;
 };
+
+export type LoginResponse = {
+    access: string;
+    refresh: string;
+};
+
+export type EmpleadoInfo = Pick<Empleado, "nombre" | "apellido" |"rol" | "usuario" >

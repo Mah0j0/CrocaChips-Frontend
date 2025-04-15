@@ -16,6 +16,8 @@ import BasicTables from "./pages/Tables/BasicTables";
 import FormElements from "./pages/Forms/FormElements";
 import Blank from "./pages/Blank";
 import AppLayout from "./layout/AppLayout";
+import Home from "./pages/Dashboard/Home";
+import Usuarios from "./pages/Usuarios/Usuarios";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 import Productos from "./pages/Almacen/Productos";
@@ -35,6 +37,8 @@ export default function App() {
             <Route path="/almacen" element={<Productos/>} />
 
             <Route path="/profile" element={<UserProfiles />} />
+            <Route path="/usuarios" element={<Usuarios/>}/>
+
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/blank" element={<Blank />} />
             <Route path="/form-elements" element={<FormElements />} />

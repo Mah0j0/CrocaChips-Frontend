@@ -1,68 +1,77 @@
+import React from "react"; // Asegúrate de importar React
 import { SidebarProvider, useSidebar } from "../context/SidebarContext";
-import { Outlet } from "react-router";
+import { Outlet, Navigate } from "react-router-dom"; // Agrupa imports de react-router-dom
+
+// Componentes de UI
 import AppHeader from "./AppHeader";
 import Backdrop from "./Backdrop";
 import AppSidebar from "./AppSidebar";
-import { Navigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-const LayoutContent: React.FC = () => {
-  const { isExpanded, isHovered, isMobileOpen } = useSidebar();
+import LoadingSpinner from "./LoadingSpinner";
 
-  return (
-    <div className="min-h-screen xl:flex">
-      <div>
-        <AppSidebar />
-        <Backdrop />
-      </div>
-      <div
-        className={`flex-1 transition-all duration-300 ease-in-out ${
-          isExpanded || isHovered ? "lg:ml-[290px]" : "lg:ml-[90px]"
-        } ${isMobileOpen ? "ml-0" : ""}`}
-      >
-        <AppHeader />
-        <div className="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
-          <Outlet />
+// API y Tipos
+import { EmpleadoInfo } from "../types/empleados";
+import {useEmpleado} from "../hooks/useEmpleado.ts";
+
+// --- Componente de Contenido del Layout ---
+type LayoutContentProps = {
+    userData: EmpleadoInfo;
+}
+
+const LayoutContent: React.FC<LayoutContentProps> = ({ userData }) => {
+    const { isExpanded, isHovered, isMobileOpen } = useSidebar();
+
+    const sidebarMarginClass = isExpanded || isHovered ? "lg:ml-[290px]" : "lg:ml-[90px]";
+    const mobileMarginClass = isMobileOpen ? "ml-0" : "";
+
+    return (
+        <div className="flex min-h-screen">
+            <div>
+                <AppSidebar />
+                <Backdrop />
+            </div>
+
+            <div
+                className={`flex-1 transition-margin duration-300 ease-in-out ${sidebarMarginClass} ${mobileMarginClass}`} // Usa `transition-margin` si eso es lo que estás transicionando
+            >
+                <AppHeader userData={userData} />
+
+                <main className="p-4 mx-auto max-w-screen-2xl md:p-6">
+                    <Outlet />
+                </main>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
-import { getUser } from "../api/CrocaChipsApi";
 
+
+// --- Componente Principal del Layout ---
 
 export default function AppLayout() {
-    console.log("AppLayout");
-    const { data, isLoading, isError } = useQuery({
-        queryFn: getUser,
-        queryKey: ["user"],
-        retry: 5,
-        retryDelay: (attempt) => Math.min(1000 * 5 ** attempt, 1000),
-        refetchOnWindowFocus: false,
-    });
-    console.log("data", data, "isLoading", isLoading, "isError", isError);
+    const { data: userData, isLoading, isError } = useEmpleado();
 
+    // 1. Estado de Carga
     if (isLoading) {
-        console.log("Loading ---> Loading", isLoading, "isError", isError);
         return (
-            <p className="font-bold text-2xl text-center text-white">Cargando...</p>
+            <div className="flex items-center justify-center min-h-screen bg-gray-25 dark:bg-gray-800">
+                <LoadingSpinner />
+            </div>
         );
     }
 
-    if (isError && !data) {
-        console.log("Error ----> Error", isLoading, "isError", isError, "data", data);
-        console.log("error", isError, "data", !data, "is", isError && !data);
-        return <Navigate to="/login" replace/>;
+    // 2. Estado de Error
+    if (isError) {
+        return  <Navigate to="/login" replace />; ;
     }
 
-    if (data) {
-        console.log("data", data);
+    // 3. Estado Exitoso (userData está disponible)
+    if (userData) {
         return (
             <SidebarProvider>
-                <LayoutContent/>
+                <LayoutContent userData={userData} />
             </SidebarProvider>
         );
     }
-    console.log("End ---> Loading", isLoading, "isError", isError);
-    // Si no hay datos y no hay error, mostramos una página de error 404
-    // return <Navigate to="/not-found" replace />;
+
+    // 4. Estado Inesperado (userData no está disponible)
+    return <Navigate to="/login" replace />;
 }

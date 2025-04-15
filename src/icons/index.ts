@@ -53,8 +53,10 @@ import { ReactComponent as MoreDotIcon } from "./moredot.svg?react";
 import { ReactComponent as MoreDotIconHor } from "./moredot-horizontal.svg?react";
 import { ReactComponent as AlertHexaIcon } from "./alert-hexa.svg?react";
 import { ReactComponent as ErrorHexaIcon } from "./info-hexa.svg?react";
+import { ReactComponent as SearchIcon } from "./search.svg?react";
 
 export {
+  SearchIcon,
   ErrorHexaIcon,
   AlertHexaIcon,
   MoreDotIcon,
