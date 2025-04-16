@@ -85,7 +85,7 @@ export default function Usuarios() {
                         <BasicTableOne
                             headers={headers}
                             data={empleadosFiltrados}
-                            getKey={(empleado) => empleado._id}
+                            getKey={(empleado) => empleado.id}
                             renderRow={(empleado) => (
                                 <>
                                     <TableCell className="px-5 py-4 sm:px-6 text-start">

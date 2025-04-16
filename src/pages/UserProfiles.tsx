@@ -3,12 +3,8 @@ import UserMetaCard from "../components/UserProfile/UserMetaCard";
 import UserInfoCard from "../components/UserProfile/UserInfoCard";
 {/*import UserAddressCard from "../components/UserProfile/UserAddressCard";*/}
 import PageMeta from "../components/common/PageMeta";
-import {useQueryClient} from "@tanstack/react-query";
-import {Empleado} from "../types/empleados.ts";
 
 export default function UserProfiles() {
-    const queryClient = useQueryClient();
-    const data = queryClient.getQueryData<Empleado>(["empleado"]);
 
     return (
         <>
@@ -20,8 +16,8 @@ export default function UserProfiles() {
             <div className="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6">
 
                 <div className="space-y-6">
-                    <UserMetaCard data={data || { nombre: "", apellido: "", rol: "", usuario: "" }} />
-                    <UserInfoCard data={data || { nombre: "", apellido: "", rol: "", usuario: "", telefono: 0, carnet: "" }} />
+                    <UserMetaCard />
+                    <UserInfoCard />
                     {/*<UserAddressCard/>*/}
                 </div>
             </div>

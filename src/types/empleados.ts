@@ -2,7 +2,7 @@ export type Empleado = {
     nombre: string;
     apellido: string;
     rol: string;
-    _id: number;
+    id: number;
     usuario: string;
     telefono: number;
     carnet: string;
