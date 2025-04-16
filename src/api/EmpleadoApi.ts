@@ -50,3 +50,17 @@ export async function getUsers(): Promise<Empleado[]> {
         throw new Error("Error inesperado al obtener los empleados.");
     }
 }
+
+export async function editUser(): Promise<Empleado> {
+    try {
+        const { data } = await api.put<Empleado>("/mi-perfil/");
+        return data;
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            const message = (error.response.data as { error?: string }).error;
+            throw new Error(message || "Error al editar el perfil.");
+        }
+
+        throw new Error("Error inesperado al editar el perfil.");
+    }
+}
