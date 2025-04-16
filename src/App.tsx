@@ -19,6 +19,7 @@ import AppLayout from "./layout/AppLayout";
 import Home from "./pages/Dashboard/Home";
 import Usuarios from "./pages/Usuarios/Usuarios";
 import { ScrollToTop } from "./components/common/ScrollToTop";
+import Productos from "./pages/Almacen/Productos";
 
 export default function App() {
   return (
@@ -32,6 +33,8 @@ export default function App() {
           {/* Dashboard Layout with nested routes */}
           <Route element={<AppLayout />}>
             <Route path="/" element={<Home />} />
+            <Route path="/almacen" element={<Productos/>} />
+
             <Route path="/profile" element={<UserProfiles />} />
             <Route path="/usuarios" element={<Usuarios/>}/>
 
