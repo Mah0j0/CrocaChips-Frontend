@@ -20,6 +20,7 @@ import Home from "./pages/Dashboard/Home";
 import Usuarios from "./pages/Usuarios/Usuarios";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import Productos from "./pages/Almacen/Productos";
+import {ToastContainer} from "react-toastify";
 
 export default function App() {
   return (
@@ -55,6 +56,18 @@ export default function App() {
           {/* 404 Route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            toastClassName="z-[99999]"
+        />
       </Router>
   );
 }

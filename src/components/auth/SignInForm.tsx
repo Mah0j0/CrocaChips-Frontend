@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { loginUser } from "../../api/EmpleadoApi.ts";
 import { LoginForm, LoginResponse } from "../../types/empleados.ts";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../context/AuthContext";
 import { EyeCloseIcon, EyeIcon } from "../../icons";
@@ -45,7 +45,6 @@ export default function SignInForm() {
 
   return (
       <div className="flex flex-1 flex-col">
-        <ToastContainer />
         <div className="flex flex-1 flex-col justify-center w-full max-w-md mx-auto">
           <header className="mb-5 sm:mb-8">
             <h1 className="text-title-sm sm:text-title-md font-semibold text-gray-800 dark:text-white/90 mb-2">

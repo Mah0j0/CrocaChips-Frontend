@@ -51,9 +51,9 @@ export async function getUsers(): Promise<Empleado[]> {
     }
 }
 
-export async function editUser(): Promise<Empleado> {
+export async function editUser(empleado: Empleado): Promise<Empleado> {
     try {
-        const { data } = await api.put<Empleado>("/mi-perfil/");
+        const { data } = await api.put<Empleado>("/empleados/actualizar/", empleado);
         return data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
