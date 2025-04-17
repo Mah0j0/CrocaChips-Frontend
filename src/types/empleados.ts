@@ -10,12 +10,6 @@ export type Empleado = {
     habilitado: boolean;
 };
 
-export type EmpleadoDatos = Pick<Empleado, "nombre" | "apellido" | "rol" | "usuario" | "telefono" | "carnet">;
-export type RegisterForm = Pick<Empleado, "nombre" | "apellido" | "rol"> & {
-    password: string;
-    password_confirmation: string;
-};
-
 export type LoginForm = Pick<Empleado, "usuario"> & {
     clave: string;
 };
@@ -26,3 +20,7 @@ export type LoginResponse = {
 };
 
 export type EmpleadoInfo = Pick<Empleado, "nombre" | "apellido" |"rol" | "usuario" >
+
+export type EmpleadoPasUser = Pick<Empleado, "usuario"> & {
+    clave: string;
+}

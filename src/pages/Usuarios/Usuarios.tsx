@@ -10,9 +10,13 @@ import { useState } from "react";
 import Input from "../../components/form/input/InputField.tsx";
 import { GroupIcon, SearchIcon} from "../../icons";
 import Button from "../../components/ui/button/Button.tsx";
+import CreateEmpleadoModal from "../../components/empleados/CreateEmpleadoModal.tsx";
+import {useModalContext} from "../../context/ModalContext.tsx";
 
 
 export default function Usuarios() {
+
+    const { openModal } = useModalContext();
     const { data, isLoading, error } = useEmpleados();
     const [filtro, setFiltro] = useState("");
 
@@ -77,10 +81,12 @@ export default function Usuarios() {
                         <Button
                             size="md"
                             variant="primary"
+                            onClick={() => openModal("createEmpleado")}
                             endIcon={<GroupIcon className="size-5" />}
                         >
                             Nuevo Usuario
                         </Button>
+                        <CreateEmpleadoModal/>
                     </div>
                     {/* Tabla */}
                     {empleadosFiltrados.length === 0 ? (

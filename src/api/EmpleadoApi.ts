@@ -67,7 +67,8 @@ export async function editUser(empleado: Empleado): Promise<Empleado> {
 
 export async function createUser(empleado: Empleado): Promise<Empleado> {
     try {
-        const { data } = await api.put<Empleado>("/empleados/registrar/", empleado);
+        const { data } = await api.post<Empleado>("/empleados/registrar/", empleado);
+        console.log(data);
         return data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {

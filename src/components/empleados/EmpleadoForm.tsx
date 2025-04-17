@@ -48,6 +48,10 @@ export default function EmpleadoForm({
                     errors={errors}
                     disabled={isDisabled("nombre")}
                     validation={{
+                        required: {
+                            value: true,
+                            message: "El Nombre es requerido",
+                        },
                         minLength: {
                             value: 3,
                             message: "El Nombre debe tener al menos 3 caracteres",
@@ -65,6 +69,10 @@ export default function EmpleadoForm({
                     errors={errors}
                     disabled={isDisabled("apellido")}
                     validation={{
+                        required:{
+                            value: true,
+                            message: "El Apellido es requerido",
+                        },
                         minLength: {
                             value: 3,
                             message: "El Apellido debe tener al menos 3 caracteres",
@@ -80,7 +88,7 @@ export default function EmpleadoForm({
                     name="usuario"
                     register={register}
                     errors={errors}
-                    disabled={isDisabled("usuario")}
+                    disabled={true}
                 />
                 <FormField
                     label="Carnet"
@@ -89,6 +97,10 @@ export default function EmpleadoForm({
                     errors={errors}
                     disabled={isDisabled("carnet")}
                     validation={{
+                        required: {
+                            value: true,
+                            message: "El Carnet es requerido",
+                        },
                         pattern: {
                             value: /^[0-9]{8}$/,
                             message: "El Carnet debe contener exactamente 8 dígitos",
@@ -112,6 +124,10 @@ export default function EmpleadoForm({
                     errors={errors}
                     disabled={isDisabled("telefono")}
                     validation={{
+                        required: {
+                            value: true,
+                            message: "El Teléfono es requerido",
+                        },
                         pattern: {
                             value: /^[0-9]{8}$/,
                             message: "El Teléfono debe contener solo números",
@@ -149,7 +165,6 @@ const FormField = ({ label, name, register, errors, disabled = false, validation
         <Input
             type="text"
             {...register(name, {
-                required: `El ${label} es obligatorio`,
                 ...validation,
             })}
             disabled={disabled}

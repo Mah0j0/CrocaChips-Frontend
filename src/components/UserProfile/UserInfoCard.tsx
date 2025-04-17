@@ -4,10 +4,9 @@ import { Empleado } from "../../types/empleados";
 import { useModalContext } from "../../context/ModalContext.tsx";
 
 export default function UserInfoCard() {
-    const {modals, openModal } = useModalContext();
+    const { openModal } = useModalContext();
     const queryClient = useQueryClient();
     const data = queryClient.getQueryData<Empleado>(["empleado"]);
-    console.log("Estado de modals:", modals);
     return (
         <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
             <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
