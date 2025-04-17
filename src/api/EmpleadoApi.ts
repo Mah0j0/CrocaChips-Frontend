@@ -1,6 +1,6 @@
 import { isAxiosError } from "axios";
 import api from "../config/axios";
-import { LoginForm, Empleado, LoginResponse } from "../types/empleados";
+import {LoginForm, Empleado, LoginResponse, EmpleadoPasUser} from "../types/empleados";
 
 export async function loginUser(formData: LoginForm): Promise<LoginResponse> {
     try {
@@ -65,17 +65,16 @@ export async function editUser(empleado: Empleado): Promise<Empleado> {
     }
 }
 
-export async function createUser(empleado: Empleado): Promise<Empleado> {
+export async function createUser(empleado: Empleado): Promise<EmpleadoPasUser> {
     try {
-        const { data } = await api.post<Empleado>("/empleados/registrar/", empleado);
-        console.log(data);
+        const { data } = await api.post<EmpleadoPasUser>("/empleados/registrar/", empleado);
         return data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
             const message = (error.response.data as { error?: string }).error;
-            throw new Error(message || "Error al editar el perfil.");
+            throw new Error(message || "Error al registrar el empleado.");
         }
 
-        throw new Error("Error inesperado al editar el perfil.");
+        throw new Error("Error inesperado al registrar el empleado.");
     }
 }

@@ -21,6 +21,7 @@ export type LoginResponse = {
 
 export type EmpleadoInfo = Pick<Empleado, "nombre" | "apellido" |"rol" | "usuario" >
 
-export type EmpleadoPasUser = Pick<Empleado, "usuario"> & {
-    clave: string;
+export type EmpleadoPasUser =  {
+    usuario_generado: string;
+    clave_generada: string;
 }
