@@ -8,7 +8,8 @@ import Badge from "../../components/ui/badge/Badge.tsx";
 import Alert from "../../components/ui/alert/Alert.tsx";
 import { useState } from "react";
 import Input from "../../components/form/input/InputField.tsx";
-import { SearchIcon} from "../../icons";
+import { GroupIcon, SearchIcon} from "../../icons";
+import Button from "../../components/ui/button/Button.tsx";
 
 
 export default function Usuarios() {
@@ -59,17 +60,27 @@ export default function Usuarios() {
 
             <div className="space-y-6">
                 <ComponentCard title="">
-                    <div className="relative">
-                        <Input
-                            placeholder="Buscar por nombre, apellido o usuario..."
-                            type="text"
-                            value={filtro}
-                            onChange={(e) => setFiltro(e.target.value)}
-                            className="pl-[62px]"
-                        />
-                        <span className="absolute left-0 top-1/2 -translate-y-1/2 border-r border-gray-200 px-3.5 py-3 text-gray-500 dark:border-gray-800 dark:text-gray-400">
+                    <div className="flex flex-row gap-10 items-center justify-between mb-5">
+                        <div className="relative">
+                            <Input
+                                placeholder="Buscar por nombre, apellido o usuario..."
+                                type="text"
+                                value={filtro}
+                                onChange={(e) => setFiltro(e.target.value)}
+                                className="pl-[62px]"
+                            />
+                            <span className="absolute left-0 top-1/2 -translate-y-1/2 border-r border-gray-200 px-3.5 py-3 text-gray-500 dark:border-gray-800 dark:text-gray-400">
                             <SearchIcon className="size-6" />
                         </span>
+                        </div>
+
+                        <Button
+                            size="md"
+                            variant="primary"
+                            endIcon={<GroupIcon className="size-5" />}
+                        >
+                            Nuevo Usuario
+                        </Button>
                     </div>
                     {/* Tabla */}
                     {empleadosFiltrados.length === 0 ? (

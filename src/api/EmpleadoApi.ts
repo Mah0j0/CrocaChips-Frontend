@@ -64,3 +64,17 @@ export async function editUser(empleado: Empleado): Promise<Empleado> {
         throw new Error("Error inesperado al editar el perfil.");
     }
 }
+
+export async function createUser(empleado: Empleado): Promise<Empleado> {
+    try {
+        const { data } = await api.put<Empleado>("/empleados/registrar/", empleado);
+        return data;
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            const message = (error.response.data as { error?: string }).error;
+            throw new Error(message || "Error al editar el perfil.");
+        }
+
+        throw new Error("Error inesperado al editar el perfil.");
+    }
+}
