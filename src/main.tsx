@@ -9,7 +9,7 @@ import { ThemeProvider } from "./context/ThemeContext.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AuthProvider} from "./context/AuthContext.tsx";
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
-
+import {ModalProvider} from "./context/ModalContext.tsx";
 // 1. Crear el cliente de React Query
 const queryClient = new QueryClient();
 
@@ -20,7 +20,9 @@ createRoot(document.getElementById("root")!).render(
             <ThemeProvider>
                 <AppWrapper>
                     <AuthProvider>
-                        <App />
+                        <ModalProvider>
+                            <App />
+                        </ModalProvider>
                     </AuthProvider>
                 </AppWrapper>
             </ThemeProvider>
