@@ -22,6 +22,7 @@ import { ScrollToTop } from "./components/common/ScrollToTop";
 import Productos from "./pages/Almacen/Productos";
 import {ToastContainer} from "react-toastify";
 import IconsList from "./pages/UiElements/IconsList.tsx";
+import ClientesPage from "./pages/Clientes/ClientesPage.tsx";
 
 export default function App() {
   return (
@@ -39,6 +40,8 @@ export default function App() {
 
             <Route path="/profile" element={<UserProfiles />} />
             <Route path="/usuarios" element={<Usuarios/>}/>
+            <Route path="/clientes" element={<ClientesPage/>}/>
+
 
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/icons" element={<IconsList />} />
