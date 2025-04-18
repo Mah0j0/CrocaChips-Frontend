@@ -16,6 +16,7 @@ import Label from "../../components/form/Label.tsx";
 import Select from "../../components/form/Select.tsx";
 import { estados, roles } from "../../data";
 import {useState} from "react";
+import {LoadData} from "../OtherPage/LoadData.tsx";
 
 export default function Usuarios() {
     const { openModal } = useModalContext();
@@ -37,16 +38,7 @@ export default function Usuarios() {
     };
 
     if (isLoading) {
-        return (
-            <ComponentCard title="Info Alert">
-                <Alert
-                    variant="info"
-                    title="Cargando"
-                    message="Cargando Empleados..."
-                    showLink={false}
-                />
-            </ComponentCard>
-        );
+        return (<LoadData message={"empleado"}/>)
     }
 
     if (error) {
