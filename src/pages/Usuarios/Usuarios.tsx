@@ -7,7 +7,7 @@ import { TableCell } from "../../components/ui/table";
 import Badge from "../../components/ui/badge/Badge.tsx";
 import Alert from "../../components/ui/alert/Alert.tsx";
 import Input from "../../components/form/input/InputField.tsx";
-import {ArrowRightIcon, ChevronLeftIcon, GroupIcon, MoreDotIcon, SearchIcon} from "../../icons";
+import {ChevronLeftIcon, GroupIcon, MoreDotIcon, SearchIcon} from "../../icons";
 import Button from "../../components/ui/button/Button.tsx";
 import CreateEmpleadoModal from "../../components/empleados/CreateEmpleadoModal.tsx";
 import { useModalContext } from "../../context/ModalContext.tsx";
@@ -16,6 +16,7 @@ import Label from "../../components/form/Label.tsx";
 import Select from "../../components/form/Select.tsx";
 import { estados, roles } from "../../data";
 import {useState} from "react";
+import {LoadData} from "../OtherPage/LoadData.tsx";
 
 export default function Usuarios() {
     const { openModal } = useModalContext();
@@ -37,16 +38,7 @@ export default function Usuarios() {
     };
 
     if (isLoading) {
-        return (
-            <ComponentCard title="Info Alert">
-                <Alert
-                    variant="info"
-                    title="Cargando"
-                    message="Cargando Empleados..."
-                    showLink={false}
-                />
-            </ComponentCard>
-        );
+        return (<LoadData message={"empleado"}/>)
     }
 
     if (error) {
