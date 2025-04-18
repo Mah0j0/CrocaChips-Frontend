@@ -12,7 +12,7 @@ import { GroupIcon, SearchIcon} from "../../icons";
 import Button from "../../components/ui/button/Button.tsx";
 import CreateEmpleadoModal from "../../components/empleados/CreateEmpleadoModal.tsx";
 import {useModalContext} from "../../context/ModalContext.tsx";
-
+import {InfoIcon} from "../../icons";
 
 export default function Usuarios() {
 
@@ -20,7 +20,7 @@ export default function Usuarios() {
     const { data, isLoading, error } = useEmpleados();
     const [filtro, setFiltro] = useState("");
 
-    const headers = ["Nombre", "Carnet", "Rol", "Telefono", "Estado"];
+    const headers = ["Nombre", "Carnet", "Rol", "Telefono", "Estado",""];
 
     if (isLoading) {
         return (
@@ -74,10 +74,9 @@ export default function Usuarios() {
                                 className="pl-[62px]"
                             />
                             <span className="absolute left-0 top-1/2 -translate-y-1/2 border-r border-gray-200 px-3.5 py-3 text-gray-500 dark:border-gray-800 dark:text-gray-400">
-                            <SearchIcon className="size-6" />
-                        </span>
+                                <SearchIcon className="size-6" />
+                            </span>
                         </div>
-
                         <Button
                             size="md"
                             variant="primary"
@@ -153,12 +152,32 @@ export default function Usuarios() {
                                             {empleado.habilitado ? "Habilitado" : "Deshabilitado"}
                                         </Badge>
                                     </TableCell>
+                                    <TableCell>
+                                        <div className="flex items-center gap-3">
+                                            <Button
+                                                endIcon={<InfoIcon/>}
+                                                variant="primary"
+                                                size="sm"
+                                                onClick={() =>
+                                                    openModal("editEmpleado")
+                                                }
+                                            >
+                                                Editar
+                                            </Button>
+                                            <Button
+                                                size="sm"
+                                                onClick={() =>
+                                                    openModal("deleteEmpleado")
+                                                }
+                                            >
+                                                Eliminar
+                                            </Button>
+                                        </div>
+                                    </TableCell>
                                 </>
                             )}
                         />
                     )}
-
-
                 </ComponentCard>
             </div>
         </div>
