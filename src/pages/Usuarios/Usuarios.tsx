@@ -6,9 +6,8 @@ import { useEmpleados } from "../../hooks/useEmpleado.ts";
 import { TableCell } from "../../components/ui/table";
 import Badge from "../../components/ui/badge/Badge.tsx";
 import Alert from "../../components/ui/alert/Alert.tsx";
-import { useState } from "react";
 import Input from "../../components/form/input/InputField.tsx";
-import { GroupIcon, MoreDotIcon, SearchIcon } from "../../icons";
+import {ArrowRightIcon, ChevronLeftIcon, GroupIcon, MoreDotIcon, SearchIcon} from "../../icons";
 import Button from "../../components/ui/button/Button.tsx";
 import CreateEmpleadoModal from "../../components/empleados/CreateEmpleadoModal.tsx";
 import { useModalContext } from "../../context/ModalContext.tsx";
@@ -16,6 +15,7 @@ import EditEmpleadoModal from "../../components/empleados/EditEmpleadoModal.tsx"
 import Label from "../../components/form/Label.tsx";
 import Select from "../../components/form/Select.tsx";
 import { estados, roles } from "../../data";
+import {useState} from "react";
 
 export default function Usuarios() {
     const { openModal } = useModalContext();
@@ -23,6 +23,8 @@ export default function Usuarios() {
     const [filtro, setFiltro] = useState("");
     const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true");
     const [rolSeleccionado, setRolSeleccionado] = useState<string>("Almacen");
+    const [paginaActual, setPaginaActual] = useState(1);
+    const elementosPorPagina = 10;
 
     const headers = ["Nombre", "Carnet", "Rol", "Telefono", "Estado", ""];
 
@@ -60,6 +62,7 @@ export default function Usuarios() {
         );
     }
 
+    // Filtrar empleados
     const empleadosFiltrados = (data ?? [])
         .filter((empleado) =>
             `${empleado.nombre} ${empleado.apellido} ${empleado.usuario}`
@@ -72,6 +75,15 @@ export default function Usuarios() {
         .filter((empleado) =>
             rolSeleccionado ? empleado.rol === rolSeleccionado : true
         );
+
+    // Calcular datos de la página actual
+    const indiceInicio = (paginaActual - 1) * elementosPorPagina;
+    const indiceFin = indiceInicio + elementosPorPagina;
+    const empleadosPaginados = empleadosFiltrados.slice(indiceInicio, indiceFin);
+
+    // Calcular el número total de páginas
+    const totalPaginas = Math.ceil(empleadosFiltrados.length / elementosPorPagina);
+
 
     return (
         <div>
@@ -147,7 +159,7 @@ export default function Usuarios() {
                     ) : (
                         <BasicTableOne
                             headers={headers}
-                            data={empleadosFiltrados}
+                            data={empleadosPaginados}
                             getKey={(empleado) => empleado.id}
                             renderRow={(empleado) => (
                                 <>
@@ -210,6 +222,30 @@ export default function Usuarios() {
                             )}
                         />
                     )}
+                    {/* Controles de paginación */}
+                    <div className="flex justify-between items-center mt-4">
+                        <Button
+                            size="sm"
+                            variant="outline"
+                            startIcon={<ChevronLeftIcon className="size-6"/>}
+                            disabled={paginaActual === 1}
+                            onClick={() => setPaginaActual(paginaActual - 1)}
+                        >
+                            Anterior
+                        </Button>
+                        <span className="text-gray-400 dark:text-gray-500">
+                            Página {paginaActual} de {totalPaginas}
+                        </span>
+                        <Button
+                            size="sm"
+                            variant="outline"
+                            endIcon={<ChevronLeftIcon className="rotate-180 size-6"/>}
+                            disabled={paginaActual === totalPaginas}
+                            onClick={() => setPaginaActual(paginaActual + 1)}
+                        >
+                            Siguiente
+                        </Button>
+                    </div>
                 </ComponentCard>
             </div>
             <EditEmpleadoModal />
