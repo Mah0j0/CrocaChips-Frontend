@@ -6,6 +6,9 @@ import Select from "../form/Select";
 import Button from "../ui/button/Button";
 import { roles } from "../../data";
 import { useEffect } from "react";
+import {deleteUser} from "../../api/EmpleadoApi.ts";
+import {toast} from "react-toastify";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
 
 type Props = {
     onSubmit: (data: Empleado) => void;
@@ -30,6 +33,8 @@ export default function EmpleadoForm({
         formState: { errors },
     } = useForm<Empleado>();
 
+    const queryClient = useQueryClient();
+
     useEffect(() => {
         if (defaultValues) {
             reset(defaultValues);
@@ -37,6 +42,27 @@ export default function EmpleadoForm({
     }, [defaultValues, reset]);
 
     const isDisabled = (field: keyof Empleado) => disabledFields.includes(field);
+
+    const { mutate: deleteEmpleado, isPending: isDeleting } = useMutation({
+        mutationFn: deleteUser,
+        onSuccess: () => {
+            toast.success("Empleado eliminado correctamente");
+            queryClient.invalidateQueries({ queryKey: ["empleados"] });
+            if (onCancel) onCancel();
+        },
+        onError: (error: Error) => {
+            toast.error(error.message || "Error al eliminar el empleado");
+        },
+    });
+
+    const handleDelete = () => {
+        if (!defaultValues?.id) {
+            console.error("No se puede eliminar: falta el ID del empleado.");
+            return;
+        }
+
+        deleteEmpleado(defaultValues as Empleado);
+    };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -48,6 +74,10 @@ export default function EmpleadoForm({
                     errors={errors}
                     disabled={isDisabled("nombre")}
                     validation={{
+                        required: {
+                            value: true,
+                            message: "El Nombre es requerido",
+                        },
                         minLength: {
                             value: 3,
                             message: "El Nombre debe tener al menos 3 caracteres",
@@ -65,6 +95,10 @@ export default function EmpleadoForm({
                     errors={errors}
                     disabled={isDisabled("apellido")}
                     validation={{
+                        required:{
+                            value: true,
+                            message: "El Apellido es requerido",
+                        },
                         minLength: {
                             value: 3,
                             message: "El Apellido debe tener al menos 3 caracteres",
@@ -80,7 +114,7 @@ export default function EmpleadoForm({
                     name="usuario"
                     register={register}
                     errors={errors}
-                    disabled={isDisabled("usuario")}
+                    disabled={true}
                 />
                 <FormField
                     label="Carnet"
@@ -89,6 +123,10 @@ export default function EmpleadoForm({
                     errors={errors}
                     disabled={isDisabled("carnet")}
                     validation={{
+                        required: {
+                            value: true,
+                            message: "El Carnet es requerido",
+                        },
                         pattern: {
                             value: /^[0-9]{8}$/,
                             message: "El Carnet debe contener exactamente 8 dígitos",
@@ -99,8 +137,11 @@ export default function EmpleadoForm({
                     <Label>Rol</Label>
                     <Select
                         disabled={isDisabled("rol")}
-                        options={roles}
-                        defaultValue={defaultValues.rol}
+                        options={roles.map((rol) => ({
+                            value: String(rol.value), // Convertir a string
+                            label: rol.label,
+                        }))}
+                        defaultValue={String(defaultValues.rol)} // Convertir a string
                         onChange={(value) => setValue("rol", value)}
                         className="dark:bg-dark-900"
                     />
@@ -112,6 +153,10 @@ export default function EmpleadoForm({
                     errors={errors}
                     disabled={isDisabled("telefono")}
                     validation={{
+                        required: {
+                            value: true,
+                            message: "El Teléfono es requerido",
+                        },
                         pattern: {
                             value: /^[0-9]{8}$/,
                             message: "El Teléfono debe contener solo números",
@@ -119,8 +164,18 @@ export default function EmpleadoForm({
                     }}
                 />
             </div>
-
             <div className="flex items-center gap-3 justify-end">
+                {defaultValues?.habilitado && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={handleDelete}
+                        disabled={isDeleting}
+                    >
+                        {isDeleting ? "Eliminando..." : "Eliminar"}
+                    </Button>
+                )}
                 {onCancel && (
                     <Button type="button" variant="outline" size="sm" onClick={onCancel}>
                         Cancelar
@@ -149,7 +204,6 @@ const FormField = ({ label, name, register, errors, disabled = false, validation
         <Input
             type="text"
             {...register(name, {
-                required: `El ${label} es obligatorio`,
                 ...validation,
             })}
             disabled={disabled}

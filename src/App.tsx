@@ -21,6 +21,7 @@ import Usuarios from "./pages/Usuarios/Usuarios";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import Productos from "./pages/Almacen/Productos";
 import {ToastContainer} from "react-toastify";
+import IconsList from "./pages/UiElements/IconsList.tsx";
 
 export default function App() {
   return (
@@ -40,6 +41,7 @@ export default function App() {
             <Route path="/usuarios" element={<Usuarios/>}/>
 
             <Route path="/calendar" element={<Calendar />} />
+            <Route path="/icons" element={<IconsList />} />
             <Route path="/blank" element={<Blank />} />
             <Route path="/form-elements" element={<FormElements />} />
             <Route path="/basic-tables" element={<BasicTables />} />

@@ -3,21 +3,26 @@ import EmpleadoForm from "./EmpleadoForm";
 import { useModalContext } from "../../context/ModalContext.tsx";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createUser } from "../../api/EmpleadoApi";
-import { Empleado } from "../../types/empleados";
+import { Empleado, EmpleadoPasUser } from "../../types/empleados";
 import { toast } from "react-toastify";
-import React from "react";
+import React, { useState } from "react";
+import CopyButton from "../ui/copy/CopyToClipboard.tsx";
 
 function CreateEmpleadoModal() {
     const { modals, closeModal } = useModalContext();
     const isOpen = modals["createEmpleado"];
     const queryClient = useQueryClient();
+    const [credenciales, setCredenciales] = useState<EmpleadoPasUser | null>(null);
 
     const { mutate, isPending } = useMutation({
         mutationFn: createUser,
-        onSuccess: async () => {
+        onSuccess: async (data) => {
             await queryClient.invalidateQueries({ queryKey: ["empleados"] });
             toast.success("Usuario creado correctamente");
-            closeModal("createEmpleado");
+            setCredenciales(data);
+            setTimeout(() => {
+                closeModal("createEmpleado");
+            }, 10000);
         },
         onError: (error: Error) => {
             toast.error(error.message);
@@ -38,12 +43,21 @@ function CreateEmpleadoModal() {
                     Completa la información para registrar un nuevo usuario
                 </p>
 
-                <EmpleadoForm
-                    onSubmit={handleEmpleadoCreate}
-                    defaultValues={{}}
-                    isSubmitting={isPending}
-                    onCancel={() => closeModal("createEmpleado")}
-                />
+
+                {credenciales ? (
+                    <div className="mb-6 flex flex-col gap-4 rounded-lg border border-gray-200 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800">
+                        <p className="text-sm text-gray-700 dark:text-gray-300">Credenciales generadas:</p>
+                        <CopyButton textToCopy={credenciales.usuario_generado} />
+                        <CopyButton textToCopy={credenciales.clave_generada} />
+                    </div>
+                ) : (
+                    <EmpleadoForm
+                        onSubmit={handleEmpleadoCreate}
+                        defaultValues={{}}
+                        isSubmitting={isPending}
+                        onCancel={() => closeModal("createEmpleado")}
+                    />
+                )}
             </div>
         </Modal>
     );

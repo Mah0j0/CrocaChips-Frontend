@@ -4,10 +4,9 @@ import { Empleado } from "../../types/empleados";
 import { useModalContext } from "../../context/ModalContext.tsx";
 
 export default function UserInfoCard() {
-    const {modals, openModal } = useModalContext();
+    const { openModal } = useModalContext();
     const queryClient = useQueryClient();
     const data = queryClient.getQueryData<Empleado>(["empleado"]);
-    console.log("Estado de modals:", modals);
     return (
         <div className="p-5 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
             <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
@@ -25,7 +24,7 @@ export default function UserInfoCard() {
                 </div>
 
                 <button
-                    onClick={() => openModal("editEmpleado")}
+                    onClick={() => openModal("editEmpleado", data)}
                     className="flex w-full items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 lg:inline-flex lg:w-auto"
                 >
                     ✏️ Editar

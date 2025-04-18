@@ -23,7 +23,6 @@ export default function UserDropdown({data}: PropsDropdown) {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log(data);
   const toggleDropdown = () => setIsOpen((prev) => !prev);
   const closeDropdown = () => setIsOpen(false);
 

@@ -8,10 +8,10 @@ import { toast } from "react-toastify";
 import React from "react";
 
 function EditEmpleadoModal() {
-    const { modals, closeModal } = useModalContext();
+    const { modals, closeModal, selectedData} = useModalContext();
     const isOpen = modals["editEmpleado"];
     const queryClient = useQueryClient();
-    const data = queryClient.getQueryData<Empleado>(["empleado"]);
+    const data = selectedData;
 
 
     const { mutate, isPending } = useMutation({

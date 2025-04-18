@@ -104,6 +104,7 @@ const othersItems: NavItem[] = [
       { name: "Buttons", path: "/buttons", pro: false },
       { name: "Images", path: "/images", pro: false },
       { name: "Videos", path: "/videos", pro: false },
+      { name: "Icons", path: "/icons", pro: false },
     ],
   },
   {

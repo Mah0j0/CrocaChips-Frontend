@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 interface ButtonProps {
-  children: ReactNode;
+  children?: ReactNode;
   size?:  "xs" | "sm" | "md";
   variant?: "primary" | "outline";
   startIcon?: ReactNode;
