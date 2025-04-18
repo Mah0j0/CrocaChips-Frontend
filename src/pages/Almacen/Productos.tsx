@@ -4,7 +4,9 @@ import PageMeta from "../../components/common/PageMeta";
 //Producto
 import { useProducts } from "../../hooks/useProducto.ts";
 //Para tablas
-import { SearchIcon, PlusIcon, MoreDotIcon} from "../../icons";
+import CreateProductoModal from "../../components/productos/CreateProductoModal.tsx";
+import { useModalContext } from "../../context/ModalContext.tsx";
+import { SearchIcon, PlusIcon, MinusIcon, MoreDotIcon} from "../../icons";
 import { useState } from "react";
 import {TableCell} from "../../components/ui/table";
 import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne.tsx";
@@ -135,8 +137,7 @@ export default function Productos() {
                       <Button
                             size="xs"
                             variant="outline"
-                            className="text-gray-800 dark:text-gray-400"
-                            startIcon={<PlusIcon className="size-5"/>}
+                            startIcon={<MinusIcon className="size-5"/>}
                             onClick={() => alert("Reducir stock")}
                             children={undefined}
                         />
@@ -150,7 +151,6 @@ export default function Productos() {
                         <Button
                             size="xs"
                             variant="outline"
-                            className="text-gray-400"
                             startIcon={<PlusIcon className="size-5"/>}
                             onClick={() => alert("Aumentar stock")}
                             children={undefined}
