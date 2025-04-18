@@ -25,3 +25,8 @@ export type EmpleadoPasUser =  {
     usuario_generado: string;
     clave_generada: string;
 }
+
+export type EmpladoDeleteResponse = {
+    message: string;
+    empleado: Empleado;
+}

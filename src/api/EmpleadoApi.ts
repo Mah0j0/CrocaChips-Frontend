@@ -1,6 +1,6 @@
 import { isAxiosError } from "axios";
 import api from "../config/axios";
-import {LoginForm, Empleado, LoginResponse, EmpleadoPasUser} from "../types/empleados";
+import {LoginForm, Empleado, LoginResponse, EmpleadoPasUser, EmpladoDeleteResponse} from "../types/empleados";
 
 export async function loginUser(formData: LoginForm): Promise<LoginResponse> {
     try {
@@ -76,5 +76,21 @@ export async function createUser(empleado: Empleado): Promise<EmpleadoPasUser> {
         }
 
         throw new Error("Error inesperado al registrar el empleado.");
+    }
+}
+
+export async function deleteUser(empleado: Empleado): Promise<EmpladoDeleteResponse> {
+    try {
+        const { data } = await api.delete<EmpladoDeleteResponse>("/empleados/deshabilitar/", {
+            data: empleado, // Enviar los datos en la configuración
+        });
+        return data;
+    } catch (error) {
+        if (isAxiosError(error) && error.response) {
+            const message = (error.response.data as { error?: string }).error;
+            throw new Error(message || "Error al deshabilitar el empleado.");
+        }
+
+        throw new Error("Error inesperado al deshabilitar el empleado.");
     }
 }

@@ -2,25 +2,37 @@ import PageBreadcrumb from "../../components/common/PageBreadCrumb";
 import PageMeta from "../../components/common/PageMeta";
 import ComponentCard from "../../components/common/ComponentCard.tsx";
 import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne.tsx";
-import {useEmpleados} from "../../hooks/useEmpleado.ts";
-import {TableCell} from "../../components/ui/table";
+import { useEmpleados } from "../../hooks/useEmpleado.ts";
+import { TableCell } from "../../components/ui/table";
 import Badge from "../../components/ui/badge/Badge.tsx";
 import Alert from "../../components/ui/alert/Alert.tsx";
 import { useState } from "react";
 import Input from "../../components/form/input/InputField.tsx";
-import {GroupIcon, MoreDotIcon, SearchIcon} from "../../icons";
+import { GroupIcon, MoreDotIcon, SearchIcon } from "../../icons";
 import Button from "../../components/ui/button/Button.tsx";
 import CreateEmpleadoModal from "../../components/empleados/CreateEmpleadoModal.tsx";
-import {useModalContext} from "../../context/ModalContext.tsx";
+import { useModalContext } from "../../context/ModalContext.tsx";
 import EditEmpleadoModal from "../../components/empleados/EditEmpleadoModal.tsx";
+import Label from "../../components/form/Label.tsx";
+import Select from "../../components/form/Select.tsx";
+import { estados, roles } from "../../data";
 
 export default function Usuarios() {
-
     const { openModal } = useModalContext();
     const { data, isLoading, error } = useEmpleados();
     const [filtro, setFiltro] = useState("");
+    const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true");
+    const [rolSeleccionado, setRolSeleccionado] = useState<string>("Almacen");
 
-    const headers = ["Nombre", "Carnet", "Rol", "Telefono", "Estado",""];
+    const headers = ["Nombre", "Carnet", "Rol", "Telefono", "Estado", ""];
+
+    const handleSelectChange = (value: string, type: "estado" | "rol") => {
+        if (type === "estado") {
+            setEstadoSeleccionado(value);
+        } else {
+            setRolSeleccionado(value);
+        }
+    };
 
     if (isLoading) {
         return (
@@ -48,11 +60,18 @@ export default function Usuarios() {
         );
     }
 
-    const empleadosFiltrados = (data ?? []).filter((empleado) =>
-        `${empleado.nombre} ${empleado.apellido} ${empleado.usuario}`
-            .toLowerCase()
-            .includes(filtro.toLowerCase())
-    );
+    const empleadosFiltrados = (data ?? [])
+        .filter((empleado) =>
+            `${empleado.nombre} ${empleado.apellido} ${empleado.usuario}`
+                .toLowerCase()
+                .includes(filtro.toLowerCase())
+        )
+        .filter((empleado) =>
+            estadoSeleccionado ? empleado.habilitado.toString() === estadoSeleccionado : true
+        )
+        .filter((empleado) =>
+            rolSeleccionado ? empleado.rol === rolSeleccionado : true
+        );
 
     return (
         <div>
@@ -77,6 +96,34 @@ export default function Usuarios() {
                                 <SearchIcon className="size-6" />
                             </span>
                         </div>
+
+                        <div className="flex flex-row gap-3 items-center justify-between">
+                            <Label>Estado</Label>
+                            <Select
+                                options={estados.map((estado) => ({
+                                    value: estado.value.toString(),
+                                    label: estado.label,
+                                }))}
+                                defaultValue={estados[0].value.toString()}
+                                placeholder="Seleccionar Estado"
+                                onChange={(value) => handleSelectChange(value, "estado")}
+                                className="dark:bg-dark-900"
+                            />
+                        </div>
+                        <div className="flex flex-row gap-3 items-center justify-between">
+                            <Label>Rol</Label>
+                            <Select
+                                options={roles.map((rol) => ({
+                                    value: rol.value.toString(),
+                                    label: rol.label,
+                                }))}
+                                defaultValue={roles[0].value.toString()}
+                                placeholder="Seleccionar Rol"
+                                onChange={(value) => handleSelectChange(value, "rol")}
+                                className="dark:bg-dark-900"
+                            />
+                        </div>
+
                         <Button
                             size="md"
                             variant="primary"
@@ -85,7 +132,7 @@ export default function Usuarios() {
                         >
                             Nuevo Usuario
                         </Button>
-                        <CreateEmpleadoModal/>
+                        <CreateEmpleadoModal />
                     </div>
                     {/* Tabla */}
                     {empleadosFiltrados.length === 0 ? (
@@ -119,12 +166,12 @@ export default function Usuarios() {
                                                 />
                                             </div>
                                             <div>
-                                            <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
-                                                {empleado.nombre} {empleado.apellido}
-                                            </span>
+                                                <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
+                                                    {empleado.nombre} {empleado.apellido}
+                                                </span>
                                                 <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
-                                                {empleado.usuario}
-                                            </span>
+                                                    {empleado.usuario}
+                                                </span>
                                             </div>
                                         </div>
                                     </TableCell>
