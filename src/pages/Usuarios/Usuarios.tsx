@@ -7,7 +7,7 @@ import { TableCell } from "../../components/ui/table";
 import Badge from "../../components/ui/badge/Badge.tsx";
 import Alert from "../../components/ui/alert/Alert.tsx";
 import Input from "../../components/form/input/InputField.tsx";
-import {ArrowRightIcon, ChevronLeftIcon, GroupIcon, MoreDotIcon, SearchIcon} from "../../icons";
+import {ChevronLeftIcon, GroupIcon, MoreDotIcon, SearchIcon} from "../../icons";
 import Button from "../../components/ui/button/Button.tsx";
 import CreateEmpleadoModal from "../../components/empleados/CreateEmpleadoModal.tsx";
 import { useModalContext } from "../../context/ModalContext.tsx";
