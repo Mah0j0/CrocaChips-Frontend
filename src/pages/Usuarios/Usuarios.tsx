@@ -8,11 +8,11 @@ import Badge from "../../components/ui/badge/Badge.tsx";
 import Alert from "../../components/ui/alert/Alert.tsx";
 import { useState } from "react";
 import Input from "../../components/form/input/InputField.tsx";
-import { GroupIcon, SearchIcon} from "../../icons";
+import {GroupIcon, MoreDotIcon, SearchIcon} from "../../icons";
 import Button from "../../components/ui/button/Button.tsx";
 import CreateEmpleadoModal from "../../components/empleados/CreateEmpleadoModal.tsx";
 import {useModalContext} from "../../context/ModalContext.tsx";
-import {InfoIcon} from "../../icons";
+import EditEmpleadoModal from "../../components/empleados/EditEmpleadoModal.tsx";
 
 export default function Usuarios() {
 
@@ -128,7 +128,6 @@ export default function Usuarios() {
                                             </div>
                                         </div>
                                     </TableCell>
-
                                     <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                                         {empleado.carnet}
                                     </TableCell>
@@ -153,26 +152,12 @@ export default function Usuarios() {
                                         </Badge>
                                     </TableCell>
                                     <TableCell>
-                                        <div className="flex items-center gap-3">
-                                            <Button
-                                                endIcon={<InfoIcon/>}
-                                                variant="primary"
-                                                size="sm"
-                                                onClick={() =>
-                                                    openModal("editEmpleado")
-                                                }
-                                            >
-                                                Editar
-                                            </Button>
-                                            <Button
-                                                size="sm"
-                                                onClick={() =>
-                                                    openModal("deleteEmpleado")
-                                                }
-                                            >
-                                                Eliminar
-                                            </Button>
-                                        </div>
+                                        <Button
+                                            endIcon={<MoreDotIcon className="size-5" />}
+                                            size="md"
+                                            variant="outline"
+                                            onClick={() => openModal("editEmpleado", empleado)} // Pasar datos del empleado
+                                        />
                                     </TableCell>
                                 </>
                             )}
@@ -180,6 +165,7 @@ export default function Usuarios() {
                     )}
                 </ComponentCard>
             </div>
+            <EditEmpleadoModal />
         </div>
     );
 }
