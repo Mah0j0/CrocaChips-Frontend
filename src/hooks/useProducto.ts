@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { getProduct, getProducts } from "../api/ProductosApi.ts";
+import { getProducto, getProducts } from "../api/ProductosApi.ts";
 import { Producto } from "../types/productos.ts";
 
 export function useProduct() {
     return useQuery<Producto>({
         queryKey: ["producto"],
-        queryFn: getProduct,
+        queryFn: getProducto,
         retry: 1,
         //para no volver a cargar los datos si no han pasado 5 minutos
         refetchOnWindowFocus: false,

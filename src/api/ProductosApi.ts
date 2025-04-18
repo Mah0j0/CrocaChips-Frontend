@@ -18,7 +18,7 @@ export async function getProducts(): Promise<Producto[]> {
   }
 
 // Función para obtener un producto individual
-export async function getProduct(): Promise<Producto> { 
+export async function getProducto(): Promise<Producto> { 
   try {
     const { data } = await api.get<Producto>("/productos/");
     return data;
@@ -32,7 +32,7 @@ export async function getProduct(): Promise<Producto> {
 }
 
 //Editar producto
-export async function editProduct(producto: Producto): Promise<Producto> {
+export async function editProducto(producto: Producto): Promise<Producto> {
   try {
       const { data } = await api.put<Producto>("/productos/actualizar/", producto);
       return data;
@@ -47,7 +47,7 @@ export async function editProduct(producto: Producto): Promise<Producto> {
 }
 
 //Crear producto
-export async function createProduct(producto: Producto): Promise<Producto> {
+export async function createProducto(producto: Producto): Promise<Producto> {
   try {
       const { data } = await api.post<Producto>("/productos/crear/", producto);
       return data;
@@ -62,7 +62,7 @@ export async function createProduct(producto: Producto): Promise<Producto> {
 }
 //Eliminar producto
 //Cambiar el atributo habilitado a false
-export async function deleteProduct(producto: Producto): Promise<Producto> {
+export async function deleteProducto(producto: Producto): Promise<Producto> {
   try {
       const { data } = await api.delete<Producto>(`/productos/${producto._id}/eliminar/`);
       return data;

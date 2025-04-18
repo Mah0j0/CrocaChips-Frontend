@@ -1,15 +1,16 @@
+//Inicio de pagina
 import PageBreadcrumb from "../../components/common/PageBreadCrumb";
-//PageBreadcrumb es un componente que se utiliza para mostrar la ruta de navegación en la parte superior de la página.
 import PageMeta from "../../components/common/PageMeta";
-// PageMeta es un componente que se utiliza para establecer los metadatos de la página, como el título y la descripción.
+//Producto
 import { useProducts } from "../../hooks/useProducto.ts";
+//Para tablas
+import { SearchIcon, PlusIcon, MoreDotIcon} from "../../icons";
+import { useState } from "react";
+import {TableCell} from "../../components/ui/table";
 import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne.tsx";
 import Badge from "../../components/ui/badge/Badge.tsx";
 import Alert from "../../components/ui/alert/Alert.tsx";
-import { useState } from "react";
-import {TableCell} from "../../components/ui/table";
 import Input from "../../components/form/input/InputField.tsx";
-import { SearchIcon, PlusIcon, MoreDotIcon} from "../../icons";
 import ComponentCard from "../../components/common/ComponentCard.tsx";
 import Button from "../../components/ui/button/Button.tsx";
 
@@ -18,42 +19,6 @@ export default function Productos() {
   const { data, isLoading, isError } = useProducts();
   //para filtrar los productos, 
   const [filtro, setFiltro] = useState(""); 
-  //para abrir el modal de agregar producto
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  //para el formulario
-  const [form, setForm] = useState({
-    nombre: "",
-    descripcion: "",
-    tiempo_vida: "",
-    precio_unitario: "",
-    stock: "",
-  });   
-  //handle submit
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Evita el refresco de la página
-  
-    // Validación básica
-    const { nombre, descripcion, tiempo_vida, precio_unitario, stock } = form;
-    if (!nombre || !descripcion || !tiempo_vida || !precio_unitario || !stock) {
-      alert("Por favor, completa todos los campos.");
-      return;
-    }
-  
-    // Aquí podrías hacer una petición POST al backend
-    console.log("Producto creado:", form);
-  
-    // Limpiar el formulario (opcional)
-    setForm({
-      nombre: "",
-      descripcion: "",
-      tiempo_vida: "",
-      precio_unitario: "",
-      stock: "",
-    });
-  
-    // Cerrar el modal
-    setIsModalOpen(false);
-  };
   
   if (isLoading) {
     return (
@@ -129,7 +94,7 @@ export default function Productos() {
                   size="md"
                   variant="primary"
                   startIcon={<PlusIcon className="size-5"/>}
-                  onClick={() => setIsModalOpen(true)} 
+                  onClick={() => alert("Agregar Producto")} 
                 > 
                   Agregar Producto
                 </Button>
@@ -234,42 +199,7 @@ export default function Productos() {
                   />
                 ) }
         </ComponentCard>
-          {/* Modal para crear producto */}
-{isModalOpen && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-    <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg">
-      <h2 className="text-2xl font-semibold mb-4">Añadir nuevo producto</h2>
-      
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-1">Nombre del producto</label>
-          <input
-            type="text"
-            className="w-full border border-gray-300 rounded px-3 py-2"
-            value={form.nombre}
-            onChange={(e) => setForm({ ...form, nombre: e.target.value })}
-            required
-          />
-        </div>
-        <div className="flex justify-end gap-2">
-          <button
-            type="button"
-            className="px-4 py-2 text-gray-600 hover:text-black"
-            onClick={() => setIsModalOpen(false)}
-          >
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          >
-            Guardar
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-)}
+                
       </div>
     </div>
   );
