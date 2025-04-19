@@ -2,6 +2,7 @@ import { Producto } from "../../types/productos.ts";
 import { createProducto } from "../../api/ProductosApi.ts";
 import ProductoForm from "./ProductoForm.tsx";
 import { Modal } from "../ui/modal";
+import { BoxIcon } from "../../icons/index.ts";
 import { useModalContext } from "../../context/ModalContext.tsx";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
@@ -19,7 +20,7 @@ function CreateProductoModal() {
             toast.success("Producto creado correctamente");
             setTimeout(() => {
                 closeModal("createProducto");
-            }, 1000); // Cambié 10000 ms (10s) a 1000 ms (1s) por usabilidad
+            }, 1000);
         },
         onError: (error: Error) => {
             toast.error(error.message);
@@ -27,15 +28,23 @@ function CreateProductoModal() {
     });
 
     const handleProductoCreate = (formData: Producto) => {
-        mutate(formData);
+        const productoData = {
+            ...formData, 
+            //precio_unitario: String(formData.precio_unitario), // Convertir a string
+            habilitado: true  // Asegura que este campo se envíe
+        };
+        mutate(productoData);
     };
 
     return (
         <Modal isOpen={isOpen} onClose={() => closeModal("createProducto")} className="max-w-[700px] m-4">
             <div className="no-scrollbar w-full max-w-[700px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
-                <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
-                    Crear Nuevo Producto
-                </h4>
+                <div className="mb-2 flex items-center">
+                    <h4 className="text-2xl font-semibold text-gray-800 dark:text-white/90">
+                        Crear Nuevo Producto
+                    </h4>
+                    <BoxIcon className="size-7 text-gray-800 dark:text-white/90 ml-2" />
+                </div>
                 <p className="mb-6 text-sm text-gray-500 dark:text-gray-400">
                     Completa la información para registrar un nuevo producto
                 </p>

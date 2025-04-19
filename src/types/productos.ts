@@ -1,9 +1,13 @@
 export type Producto = {
-    _id: number;
+    id_producto: number; 
     nombre: string;
     descripcion: string;
     tiempo_vida: number;
-    precio_unitario: number;
+    precio_unitario: number; 
     stock: number;
-    habilitado: boolean;
+    habilitado?: boolean;
+};
+
+export type ProductosDeleteResponse = {
+    message: string;
 };

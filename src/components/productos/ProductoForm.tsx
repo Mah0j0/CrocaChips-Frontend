@@ -62,23 +62,27 @@ const {
 });
 
 const handleDelete = () => {
-   if (!defaultValues?._id) {
+   if (!defaultValues?.id_producto) {
        console.error("No se puede desactivar: falta el ID del producto.");
        return;
    }
    desactivarProducto(defaultValues as Producto);
 };
-
-const onValidSubmit = (data: Producto) => {
-    if (!data.tiempo_vida || data.tiempo_vida <= 0) {
-        toast.error("Selecciona un tiempo de vida válido para el producto");
-        return;
-    }
-    onSubmit(data);
-};
 //FORMULARIO DE PRODUCTO
+const handleFormSubmit = (data: Producto) => {
+    const payload: Producto = {
+        id_producto: defaultValues?.id_producto || 0, // Valor predeterminado si no existe
+        nombre: data.nombre,
+        descripcion: data.descripcion,
+        stock: data.stock,
+        tiempo_vida: data.tiempo_vida || 1, // Valor predeterminado si no existe
+        precio_unitario: data.precio_unitario,
+        habilitado: defaultValues?.habilitado ?? true, // Mantener el estado habilitado si existe
+    };
+    onSubmit(payload);
+};
 return (
-    <form onSubmit={handleSubmit(onValidSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <FormField
                 label="Nombre"
@@ -99,6 +103,11 @@ return (
                     maxLength: {
                         value: 50,
                         message: "El Nombre no puede exceder los 50 caracteres",
+                    },
+                    //validacion para evitar caracteres especiales y letras con tildes
+                    pattern: {
+                        value: /^[a-zA-Z0-9\s.,áéíóúÁÉÍÓÚñÑüÜ\-]+$/,
+                        message: "El Nombre solo puede contener letras, números, comas y puntos",
                     },
                 }}
                 placeholder="Ej. Galletas Crocantes"
@@ -123,6 +132,11 @@ return (
                         value: 150,
                         message: "Escribe una descripción de menos de 150 caracteres",
                     },
+                    //validacion para evitar caracteres especiales
+                    pattern: {
+                        value: /^[a-zA-Z0-9\s.,áéíóúÁÉÍÓÚñÑüÜ\-]+$/,
+                        message: "La descripción solo puede contener letras, números, comas y puntos",
+                    },
                 }}
                 placeholder="Describe el producto..."
             />
@@ -142,6 +156,11 @@ return (
                         value: 0,
                         message: "El Stock debe ser mayor o igual a 0",
                     },
+                    //validacion para evitar caracteres especiales
+                    pattern: {
+                        value: /^[0-9]+$/,
+                        message: "El Stock solo puede contener números",
+                    },
                 }}
                 placeholder="100"
             />
@@ -155,8 +174,8 @@ return (
                     { value: "6", label: "6 Meses" },
                     { value: "12", label: "1 Año" },
                     ]}
-                    defaultValue={String(defaultValues?.tiempo_vida || "")}
-                    onChange={(value) => setValue("tiempo_vida", parseInt(value))}
+                    defaultValue={String(defaultValues?.tiempo_vida || "1")}
+                    onChange={(value) => setValue("tiempo_vida", Number(value))}
                     className="dark:bg-dark-900"
                 />
             </div>
@@ -164,7 +183,7 @@ return (
             <FormField
                 label="Precio (Bs./Unidad)" 
                 name="precio_unitario"
-                type="number"
+                type="step"
                 register={register}
                 errors={errors}
                 disabled={isDisabled("precio_unitario")}
@@ -173,10 +192,16 @@ return (
                         value: true,
                         message: "Escribe el precio del producto",
                     },
+                    //validación para que el número sea mayor a 0 pero acepte decimales para el precio
                     min: {
-                        value: 0,
-                        message: "El Precio debe ser mayor o igual a 0",
+                        value: 0.01,
+                        message: "El Precio debe ser mayor a 0",
                     },
+                    //validación para evitar caracteres especiales
+                    pattern: {
+                        value: /^[0-9]+(\.[0-9]{1,2})?$/,
+                        message: "El Precio solo puede contener números y hasta 2 decimales",
+                    }
                 }}
                 placeholder="Ej. 10.50"               
             />
@@ -220,7 +245,8 @@ const FormField = ({ label, name, type, register, errors, disabled = false, vali
 <div>
     <Label>{label}</Label>
     <Input
-        type={type}
+        type={type} 
+        //step={type === "number" ? 1 : 0.01}
         {...register(name, {
             ...validation,
         })}

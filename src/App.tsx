@@ -19,7 +19,7 @@ import AppLayout from "./layout/AppLayout";
 import Home from "./pages/Dashboard/Home";
 import Usuarios from "./pages/Usuarios/Usuarios";
 import { ScrollToTop } from "./components/common/ScrollToTop";
-import Productos from "./pages/Almacen/Productos";
+import Productos from "./pages/Almacen/ProductosPage.tsx";
 import {ToastContainer} from "react-toastify";
 import IconsList from "./pages/UiElements/IconsList.tsx";
 import ClientesPage from "./pages/Clientes/ClientesPage.tsx";

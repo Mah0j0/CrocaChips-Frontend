@@ -1,14 +1,16 @@
 //Inicio de pagina
-import PageBreadcrumb from "../../components/common/PageBreadCrumb";
-import PageMeta from "../../components/common/PageMeta";
+import PageBreadcrumb from "../../components/common/PageBreadCrumb.tsx";
+import PageMeta from "../../components/common/PageMeta.tsx";
 //Producto
 import { useProducts } from "../../hooks/useProducto.ts";
-//Para tablas
-import CreateProductoModal from "../../components/productos/CreateProductoModal.tsx";
+//Modals
 import { useModalContext } from "../../context/ModalContext.tsx";
-import { SearchIcon, PlusIcon, MinusIcon, MoreDotIcon} from "../../icons";
+import CreateProductoModal from "../../components/productos/CreateProductoModal.tsx";
+import EditProductoModal from "../../components/productos/EditProductoModal.tsx";
+//Para tablas
+import { SearchIcon, PlusIcon, HorizontaLDots} from "../../icons/index.ts";
 import { useState } from "react";
-import {TableCell} from "../../components/ui/table";
+import {TableCell} from "../../components/ui/table/index.tsx";
 import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne.tsx";
 import Badge from "../../components/ui/badge/Badge.tsx";
 import Alert from "../../components/ui/alert/Alert.tsx";
@@ -16,11 +18,11 @@ import Input from "../../components/form/input/InputField.tsx";
 import ComponentCard from "../../components/common/ComponentCard.tsx";
 import Button from "../../components/ui/button/Button.tsx";
 
-//Traer los productos de la API
+
 export default function Productos() {
-  const { data, isLoading, isError } = useProducts();
-  //para filtrar los productos, 
-  const [filtro, setFiltro] = useState(""); 
+  const { openModal } = useModalContext(); //abrir el modal
+  const { data, isLoading, isError } = useProducts(); //Traer los productos de la API 
+  const [filtro, setFiltro] = useState(""); //filtrar los productos,
   
   if (isLoading) {
     return (
@@ -51,10 +53,10 @@ export default function Productos() {
   //Cabeceras de tablas
   const headers = [
     "Nombre del producto",
-    "Descripción",
     "Tiempo de vida",
     "Precio (Bs.)",
     "Stock",
+    "Descripción",
     "Disponibilidad",
     "Estado",
     "Acciones",
@@ -96,10 +98,11 @@ export default function Productos() {
                   size="md"
                   variant="primary"
                   startIcon={<PlusIcon className="size-5"/>}
-                  onClick={() => alert("Agregar Producto")} 
+                  onClick={() => openModal("createProducto")} 
                 > 
                   Agregar Producto
                 </Button>
+                <CreateProductoModal />
           </div>
           {/* Tabla */}
           {productosFiltrados.length === 0 ? (
@@ -115,7 +118,7 @@ export default function Productos() {
               <BasicTableOne
                   headers={headers}
                   data={productosFiltrados}
-                  getKey={(producto) => producto._id}
+                  getKey={(producto) => producto.id_producto}
                   renderRow={(producto) => (
                     <>
                       <TableCell className="p-4 py-5 sm:px-6 text-start">
@@ -123,24 +126,13 @@ export default function Productos() {
                         {producto.nombre}
                         </p>
                       </TableCell>
-                      <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400"> 
-                          {producto.descripcion}
-                      </TableCell>
-                      <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
-                        {producto.tiempo_vida} Meses
-                      </TableCell>
-                      <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                      <TableCell className="px-6 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                        {producto.tiempo_vida === 1 ? "1 Mes" : `${producto.tiempo_vida} Meses`}
+                        </TableCell>
+                      <TableCell className="px-6 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                         Bs. {producto.precio_unitario}
                       </TableCell>
-                      <TableCell className="px-4 py-3 text-green-500 text-theme-sm">
-                      <div className="flex space-x-2 align-middle">
-                      <Button
-                            size="xs"
-                            variant="outline"
-                            startIcon={<MinusIcon className="size-5"/>}
-                            onClick={() => alert("Reducir stock")}
-                            children={undefined}
-                        />
+                      <TableCell className="px-6 py-3 text-green-500 text-theme-sm">
                         <p className={` ${
                           producto.stock < 5 ? "text-red-700 dark:text-red-600" :
                           producto.stock < 50 ? "text-orange-700 dark:text-orange-600" :
@@ -148,18 +140,13 @@ export default function Productos() {
                         }`}>
                           {producto.stock}
                         </p>
-                        <Button
-                            size="xs"
-                            variant="outline"
-                            startIcon={<PlusIcon className="size-5"/>}
-                            onClick={() => alert("Aumentar stock")}
-                            children={undefined}
-                        />
-                        </div>
+                      </TableCell>
+                      <TableCell className="px-5 py-3 text-gray-500 text-theme-sm dark:text-gray-400"> 
+                          {producto.descripcion}
                       </TableCell>
                       <TableCell className="px-4 py-3 text-start">
                         <Badge
-                          size="sm"
+                          size="md"
                           color={
                             producto.stock
                                   ? "success"
@@ -173,7 +160,7 @@ export default function Productos() {
                       </TableCell>
                       <TableCell className="p-4 py-5 text-start">
                       <Badge
-                          size="sm"
+                          size="md"
                           color={
                             producto.habilitado
                                   ? "success"
@@ -185,22 +172,22 @@ export default function Productos() {
                           {producto.habilitado ? "Activo" : "Inactivo"}
                         </Badge>    
                       </TableCell>
-                      <TableCell className="p-4 py-5 text-start">
+                      <TableCell className="p-4 py-5 text-center">
                           <button
-                          onClick={() => alert("Más opciones")}
+                          onClick={() => openModal("editProducto", producto)}
                           className="text-gray-400"
                           title="Más opciones"
                           >
-                          <MoreDotIcon className="w-7 h-7" />
+                          <HorizontaLDots className="w-7 h-7" />
                           </button>
                       </TableCell>
                     </>
                   )}
                   />
                 ) }
-        </ComponentCard>
-                
+        </ComponentCard>            
       </div>
+      <EditProductoModal/>
     </div>
   );
 

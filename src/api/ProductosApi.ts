@@ -1,7 +1,6 @@
 import { isAxiosError } from "axios";
 import api from "../config/axios";
-
-import { Producto } from "../types/productos";
+import { Producto, ProductosDeleteResponse } from "../types/productos";
 
 // Función para obtener los productos de la API
 export async function getProducts(): Promise<Producto[]> { 
@@ -49,11 +48,12 @@ export async function editProducto(producto: Producto): Promise<Producto> {
 //Crear producto
 export async function createProducto(producto: Producto): Promise<Producto> {
   try {
-      const { data } = await api.post<Producto>("/productos/crear/", producto);
+      const { data } = await api.post<Producto>("productos/registrar/", producto);
       return data;
   } catch (error) {
       if (isAxiosError(error) && error.response) {
-          const message = (error.response.data as { error?: string }).error;
+        console.error('Error detallado:', error.response.data); // Para depuración  
+        const message = (error.response.data as { error?: string }).error;
           throw new Error(message || "Error al crear el producto.");
       }
 
@@ -61,17 +61,43 @@ export async function createProducto(producto: Producto): Promise<Producto> {
   }
 }
 //Eliminar producto
-//Cambiar el atributo habilitado a false
-export async function deleteProducto(producto: Producto): Promise<Producto> {
+export async function deleteProducto(producto: Producto): Promise<ProductosDeleteResponse> {
   try {
-      const { data } = await api.delete<Producto>(`/productos/${producto._id}/eliminar/`);
+      const { data } = await api.delete<ProductosDeleteResponse>("productos/eliminar/", {
+          data: producto,
+      });
       return data;
   } catch (error) {
       if (isAxiosError(error) && error.response) {
           const message = (error.response.data as { error?: string }).error;
-          throw new Error(message || "Error al deshabilitar el producto.");
+          throw new Error(message || "Error al desactivar el producto.");
       }
 
-      throw new Error("Error inesperado al deshabilitar el producto.");
+      throw new Error("Error inesperado al desactivar el cliente.");
+  }
+}
+// Aumentar stock
+export async function increaseProductStock({ id, cantidad }: { id: number; cantidad: number }): Promise<Producto> {
+  try {
+    const { data } = await api.patch<Producto>(`productos/${id}/aumentar-stock/`, { cantidad });
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error || "Error al aumentar el stock");
+    }
+    throw new Error("Error inesperado al aumentar el stock");
+  }
+}
+
+// Reducir stock
+export async function decreaseProductStock({ id, cantidad }: { id: number; cantidad: number }): Promise<Producto> {
+  try {
+    const { data } = await api.patch<Producto>(`productos/${id}/reducir-stock/`, { cantidad });
+    return data;
+  } catch (error) {
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error || "Error al reducir el stock");
+    }
+    throw new Error("Error inesperado al reducir el stock");
   }
 }
