@@ -31,7 +31,7 @@ function EditProductoModal() {
     const handleProductoEdit = (formData: Producto) => {
         const productoData = {
             ...formData, 
-            habilitado: true
+            habilitado: true  // Asegura que este campo se envíe
         };
         mutate(productoData);
     };

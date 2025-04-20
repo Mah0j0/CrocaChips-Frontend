@@ -19,7 +19,7 @@ import AppLayout from "./layout/AppLayout";
 import Home from "./pages/Dashboard/Home";
 import Usuarios from "./pages/Usuarios/Usuarios";
 import { ScrollToTop } from "./components/common/ScrollToTop";
-import Productos from "./pages/Almacen/ProductosPage.tsx";
+import ProductosPage from "./pages/Almacen/ProductosPage.tsx";
 import {ToastContainer} from "react-toastify";
 import IconsList from "./pages/UiElements/IconsList.tsx";
 import ClientesPage from "./pages/Clientes/ClientesPage.tsx";
@@ -36,7 +36,7 @@ export default function App() {
           {/* Dashboard Layout with nested routes */}
           <Route element={<AppLayout />}>
             <Route path="/" element={<Home />} />
-            <Route path="/almacen" element={<Productos/>} />
+            <Route path="/almacen" element={<ProductosPage/>} />
 
             <Route path="/profile" element={<UserProfiles />} />
             <Route path="/usuarios" element={<Usuarios/>}/>

@@ -10,7 +10,7 @@ import EditProductoModal from "../../components/productos/EditProductoModal.tsx"
 import IncreaseStockModal from "../../components/productos/IncreaseStockModal.tsx";
 import DecreaseSrockModal from "../../components/productos/DecreaseStockModal.tsx";
 //Para tablas
-import { SearchIcon, PlusIcon, MinusIcon, HorizontaLDots} from "../../icons/index.ts";
+import { SearchIcon, PlusIcon, MinusIcon, HorizontaLDots, ChevronLeftIcon} from "../../icons/index.ts";
 import { useState } from "react";
 import {TableCell} from "../../components/ui/table/index.tsx";
 import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne.tsx";
@@ -21,10 +21,31 @@ import ComponentCard from "../../components/common/ComponentCard.tsx";
 import Button from "../../components/ui/button/Button.tsx";
 
 
-export default function Productos() {
+export default function ProductosPage() {
   const { openModal } = useModalContext(); //abrir el modal
   const { data, isLoading, isError } = useProducts(); //Traer los productos de la API 
   const [filtro, setFiltro] = useState(""); //filtrar los productos,
+  const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true");
+  const [paginaActual, setPaginaActual] = useState(1);
+  const elementosPorPagina = 10;
+  
+  //Cabeceras de tablas
+  const headers = [
+    "Nombre del producto",
+    "Tiempo de vida",
+    "Precio (Bs.)",
+    "Stock",
+    "Descripción",
+    "Disponibilidad",
+    "Estado",
+    "Acciones",
+  ];
+  
+  const handleSelectChange = (value: string, type: "estado") => {
+    if (type === "estado") {
+        setEstadoSeleccionado(value);
+    }
+  };
   
   if (isLoading) {
     return (
@@ -52,25 +73,22 @@ export default function Productos() {
     );
   }
 
-  //Cabeceras de tablas
-  const headers = [
-    "Nombre del producto",
-    "Tiempo de vida",
-    "Precio (Bs.)",
-    "Stock",
-    "Descripción",
-    "Disponibilidad",
-    "Estado",
-    "Acciones",
-  ];
+  //Filtrar Productos
+  const productosFiltrados = (data ?? [])
+  .filter((producto) =>
+      `${producto.nombre}`
+          .toLowerCase()
+          .includes(filtro.toLowerCase())
+  )
+  .filter((producto) =>
+      estadoSeleccionado ? producto.habilitado?.toString() === estadoSeleccionado : true
+  )
+  //Paginación
+  const indiceInicio = (paginaActual - 1) * elementosPorPagina;
+  const indiceFin = indiceInicio + elementosPorPagina;
+  const productosPaginados = productosFiltrados.slice(indiceInicio, indiceFin);
+  const totalPaginas = Math.ceil(productosFiltrados.length / elementosPorPagina);
 
-  //Productos
-  const productosFiltrados = (data ?? []).filter((producto) =>
-    `${producto.nombre} ${producto.descripcion}`
-      .toLowerCase()
-      .includes(filtro.toLowerCase())
-  );
-  
   //Renderizar la tabla
   return(
     <div>
@@ -119,7 +137,7 @@ export default function Productos() {
           ) : (
               <BasicTableOne
                   headers={headers}
-                  data={productosFiltrados}
+                  data={productosPaginados}
                   getKey={(producto) => producto.id_producto}
                   renderRow={(producto) => (
                     <>
@@ -204,7 +222,31 @@ export default function Productos() {
                     </>
                   )}
                   />
-                ) }
+                )}
+                {/* Controles de paginación */}
+                <div className="flex justify-between items-center mt-4">
+                    <Button
+                        size="sm"
+                        variant="outline"
+                        startIcon={<ChevronLeftIcon className="size-6"/>}
+                        disabled={paginaActual === 1}
+                        onClick={() => setPaginaActual(paginaActual - 1)}
+                    >
+                        Anterior
+                    </Button>
+                    <span className="text-gray-400 dark:text-gray-500">
+                        Página {paginaActual} de {totalPaginas}
+                    </span>
+                    <Button
+                        size="sm"
+                        variant="outline"
+                        endIcon={<ChevronLeftIcon className="rotate-180 size-6"/>}
+                        disabled={paginaActual === totalPaginas}
+                        onClick={() => setPaginaActual(paginaActual + 1)}
+                    >
+                        Siguiente
+                    </Button>
+                  </div>
         </ComponentCard>            
       </div>
       <EditProductoModal/>
