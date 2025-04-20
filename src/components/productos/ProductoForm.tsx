@@ -17,7 +17,7 @@ type Props = {
     onCancel?: () => void;
     disabledFields?: (keyof Producto)[]; // Campos que estarán deshabilitados en el formulario
 };
-
+//Funcion que recibe las propiedades y devuelve el formulario
 export default function ProductoForm({
     onSubmit,
     defaultValues = {},

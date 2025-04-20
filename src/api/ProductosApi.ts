@@ -77,9 +77,18 @@ export async function deleteProducto(producto: Producto): Promise<ProductosDelet
   }
 }
 // Aumentar stock
-export async function increaseProductStock({ id, cantidad }: { id: number; cantidad: number }): Promise<Producto> {
+export async function increaseStock({
+  id,
+  cantidad,
+}: {
+  id: number;
+  cantidad: number;
+}): Promise<Producto> {
   try {
-    const { data } = await api.patch<Producto>(`productos/${id}/aumentar-stock/`, { cantidad });
+    const { data } = await api.patch(`productos/aumentar_stock/`, {
+      id_producto: id,
+      cantidad,
+    });
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
@@ -90,14 +99,23 @@ export async function increaseProductStock({ id, cantidad }: { id: number; canti
 }
 
 // Reducir stock
-export async function decreaseProductStock({ id, cantidad }: { id: number; cantidad: number }): Promise<Producto> {
+export async function decreaseStock({
+  id,
+  cantidad,
+}: {
+  id: number;
+  cantidad: number;
+}): Promise<Producto> {
   try {
-    const { data } = await api.patch<Producto>(`productos/${id}/reducir-stock/`, { cantidad });
+    const { data } = await api.patch(`productos/disminuir_stock/`, {
+      id_producto: id,
+      cantidad,
+    });
     return data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.error || "Error al reducir el stock");
+      throw new Error(error.response.data.error || "Error al disminuir el stock");
     }
-    throw new Error("Error inesperado al reducir el stock");
+    throw new Error("Error inesperado al disminuir el stock");
   }
 }

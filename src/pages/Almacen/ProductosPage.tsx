@@ -7,8 +7,10 @@ import { useProducts } from "../../hooks/useProducto.ts";
 import { useModalContext } from "../../context/ModalContext.tsx";
 import CreateProductoModal from "../../components/productos/CreateProductoModal.tsx";
 import EditProductoModal from "../../components/productos/EditProductoModal.tsx";
+import IncreaseStockModal from "../../components/productos/IncreaseStockModal.tsx";
+import DecreaseSrockModal from "../../components/productos/DecreaseStockModal.tsx";
 //Para tablas
-import { SearchIcon, PlusIcon, HorizontaLDots} from "../../icons/index.ts";
+import { SearchIcon, PlusIcon, MinusIcon, HorizontaLDots} from "../../icons/index.ts";
 import { useState } from "react";
 import {TableCell} from "../../components/ui/table/index.tsx";
 import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne.tsx";
@@ -132,14 +134,32 @@ export default function Productos() {
                       <TableCell className="px-6 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                         Bs. {producto.precio_unitario}
                       </TableCell>
-                      <TableCell className="px-6 py-3 text-green-500 text-theme-sm">
+                      <TableCell className="px-4 py-3 text-theme-sm ">
+                        <div className="flex space-x-2 align-middle">
+                        <Button
+                          size="xs"
+                          variant="outline"
+                          startIcon={<MinusIcon className="size-5"/>}
+                          onClick={() => openModal("decreaseStock", producto)}
+                          disabled={producto.stock === 0}
+                          children={undefined}
+                        />
                         <p className={` ${
-                          producto.stock < 5 ? "text-red-700 dark:text-red-600" :
-                          producto.stock < 50 ? "text-orange-700 dark:text-orange-600" :
-                          "text-green-700 dark:text-green-600"
+                          producto.stock < 5 ? "text-red-700 py-1" :
+                          producto.stock < 50 ? "text-orange-600 dark:text-orange-300 py-1" :
+                          "text-green-700 dark:text-green-600 py-1"
                         }`}>
                           {producto.stock}
                         </p>
+                        <Button
+                          size="xs"
+                          variant="outline"
+                          startIcon={<PlusIcon className="size-5"/>}
+                          onClick={() => openModal("increaseStock", producto)}
+                          children={undefined}
+                        />
+                        </div>
+                        
                       </TableCell>
                       <TableCell className="px-5 py-3 text-gray-500 text-theme-sm dark:text-gray-400"> 
                           {producto.descripcion}
@@ -188,6 +208,8 @@ export default function Productos() {
         </ComponentCard>            
       </div>
       <EditProductoModal/>
+      <IncreaseStockModal/>
+      <DecreaseSrockModal/>
     </div>
   );
 
