@@ -56,7 +56,7 @@ export default function ProductosPage() {
       <Alert
           variant="info"
           title="Cargando"
-          message="Cargando Empleados..."
+          message="Cargando Productos..."
           showLink={false}
       />
   </ComponentCard>
@@ -69,20 +69,21 @@ export default function ProductosPage() {
         <Alert
             variant="error"
             title="Mensaje de Error"
-            message="Ocurrió un error al cargar los empleados."
+            message="Ocurrió un error al cargar los productos."
             showLink={false}
         />
       </ComponentCard>
     );
   }
 
-  //Filtrar Productos
+  //Filtro de barra de búsqueda
   const productosFiltrados = (data ?? [])
   .filter((producto) =>
       `${producto.nombre}`
           .toLowerCase()
           .includes(filtro.toLowerCase())
   )
+  //Filtro de estado
   .filter((producto) =>
       estadoSeleccionado ? producto.habilitado?.toString() === estadoSeleccionado : true
   )
@@ -160,17 +161,21 @@ export default function ProductosPage() {
                   getKey={(producto) => producto.id_producto}
                   renderRow={(producto) => (
                     <>
+                      {/* Nombre */}
                       <TableCell className="p-4 py-5 sm:px-6 text-start">
                         <p className="font-medium text-theme-sm text-gray-800 dark:text-white/90">
                         {producto.nombre}
                         </p>
                       </TableCell>
+                      {/* Tiempo de vida */}
                       <TableCell className="px-6 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                         {producto.tiempo_vida === 1 ? "1 Mes" : `${producto.tiempo_vida} Meses`}
                         </TableCell>
+                      {/* Precio */}
                       <TableCell className="px-6 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                         Bs. {producto.precio_unitario}
                       </TableCell>
+                      {/* Stock */}
                       <TableCell className="px-4 py-3 text-theme-sm ">
                         <div className="flex space-x-2 align-middle">
                         <Button
@@ -198,9 +203,11 @@ export default function ProductosPage() {
                         </div>
                         
                       </TableCell>
+                      {/* Descripcion */}
                       <TableCell className="px-5 py-3 text-gray-500 text-theme-sm dark:text-gray-400"> 
                           {producto.descripcion}
                       </TableCell>
+                      {/* Disponibilidad */}
                       <TableCell className="px-4 py-3 text-start">
                         <Badge
                           size="md"
@@ -215,6 +222,7 @@ export default function ProductosPage() {
                           {producto.stock === 0 ? "Agotado" : "Disponible"}
                         </Badge>                       
                       </TableCell>
+                      {/* Estado */}
                       <TableCell className="p-4 py-5 text-start">
                       <Badge
                           size="md"
@@ -229,6 +237,7 @@ export default function ProductosPage() {
                           {producto.habilitado ? "Activo" : "Inactivo"}
                         </Badge>    
                       </TableCell>
+                      {/* Acciones */}
                       <TableCell className="p-4 py-5 text-center">
                           <button
                           onClick={() => openModal("editProducto", producto)}
