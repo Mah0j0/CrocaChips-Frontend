@@ -55,6 +55,7 @@ import { ReactComponent as AlertHexaIcon } from "./alert-hexa.svg?react";
 import { ReactComponent as ErrorHexaIcon } from "./info-hexa.svg?react";
 import { ReactComponent as SearchIcon } from "./search.svg?react";
 import { ReactComponent as InfoBAsicIcon } from "./infoBasic.svg?react";
+import {ReactComponent as FilterIcon} from "./filter.svg?react";
 
 export {
   InfoBAsicIcon,
@@ -114,4 +115,5 @@ export {
   HorizontaLDots,
   ChevronUpIcon,
   ChatIcon,
+  FilterIcon,
 };

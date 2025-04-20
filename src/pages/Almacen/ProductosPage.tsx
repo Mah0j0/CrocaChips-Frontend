@@ -9,8 +9,11 @@ import CreateProductoModal from "../../components/productos/CreateProductoModal.
 import EditProductoModal from "../../components/productos/EditProductoModal.tsx";
 import IncreaseStockModal from "../../components/productos/IncreaseStockModal.tsx";
 import DecreaseSrockModal from "../../components/productos/DecreaseStockModal.tsx";
+//Para filtros
+import { estados } from "../../data";
+import Select from "../../components/form/Select.tsx";
 //Para tablas
-import { SearchIcon, PlusIcon, MinusIcon, HorizontaLDots, ChevronLeftIcon} from "../../icons/index.ts";
+import { SearchIcon, PlusIcon, MinusIcon, HorizontaLDots, ChevronLeftIcon, FilterIcon} from "../../icons/index.ts";
 import { useState } from "react";
 import {TableCell} from "../../components/ui/table/index.tsx";
 import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne.tsx";
@@ -25,7 +28,7 @@ export default function ProductosPage() {
   const { openModal } = useModalContext(); //abrir el modal
   const { data, isLoading, isError } = useProducts(); //Traer los productos de la API 
   const [filtro, setFiltro] = useState(""); //filtrar los productos,
-  const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true");
+  const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true"); 
   const [paginaActual, setPaginaActual] = useState(1);
   const elementosPorPagina = 10;
   
@@ -101,28 +104,44 @@ export default function ProductosPage() {
         <ComponentCard title="">
           <div className="flex flex-row gap-10 items-center justify-between mb-5">
               {/* Barra de búsqueda */} 
-              <div className="relative">
+              <div className="relative"> 
                   <Input
-                      placeholder="Nombre, descripcion..."
+                      placeholder="Nombre, descripcion ..."
                       type="text"
                       value={filtro}
                       onChange={(e) => setFiltro(e.target.value)}
-                      className="pl-[62px]"
+                      className="pl-[62px]" 
                   />
                   <span className="absolute left-0 top-1/2 -translate-y-1/2 border-r border-gray-200 px-3.5 py-3 text-gray-500 dark:border-gray-800 dark:text-gray-400">
                   <SearchIcon className="size-6" />
                   </span>
               </div>
-              {/* Botón para agregar producto */} 
-                <Button
-                  size="md"
-                  variant="primary"
-                  startIcon={<PlusIcon className="size-5"/>}
-                  onClick={() => openModal("createProducto")} 
-                > 
-                  Agregar Producto
-                </Button>
-                <CreateProductoModal />
+              <div className="flex flex-row-reer gap-3 items-center justify-end">
+                {/* Filtros */} 
+                <div className="flex flex-row-reer gap-3 items-center justify-end">
+                  <FilterIcon className="size-8 text-gray-500 dark:border-gray-800 dark:text-gray-400" />
+                  <Select
+                    options={estados.map((estado) => ({ 
+                      value: estado.value.toString(),
+                      label: estado.label,
+                    }))}
+                    defaultValue={estados[0].value.toString()}
+                    onChange={(value) => handleSelectChange(value, "estado")}
+                    className="dark:bg-dark-900"
+                    placeholder="Estado"
+                  />
+                </div>
+                {/* Botón para agregar producto */} 
+                  <Button
+                    size="md"
+                    variant="primary"
+                    startIcon={<PlusIcon className="size-5"/>}
+                    onClick={() => openModal("createProducto")} 
+                  > 
+                    Agregar Producto
+                  </Button>
+                  <CreateProductoModal />
+              </div>
           </div>
           {/* Tabla */}
           {productosFiltrados.length === 0 ? (
