@@ -55,7 +55,7 @@ export default function LotesPage() {
     //Filtro de barra de búsqueda
     const lotesFiltrados = (data ?? [])
     .filter((lote) =>
-        `${lote.producto.nombre}`
+        `${lote.producto_nombre}`
             .toLowerCase()
             .includes(filtro.toLowerCase())
     )
@@ -91,6 +91,7 @@ export default function LotesPage() {
                   </div>
               </div>
               {/* Tabla */}
+              {lotesFiltrados.length === 0 ? (
                   <ComponentCard title="">
                       <Alert
                           variant="warning"
@@ -99,6 +100,7 @@ export default function LotesPage() {
                           showLink={false}
                       />
                   </ComponentCard>
+                  ) : (
                   <BasicTableOne
                       headers={headers}
                       data={lotesPaginados}
@@ -108,28 +110,27 @@ export default function LotesPage() {
                           {/* Nombre */}
                           <TableCell className="p-4 py-5 sm:px-6 text-start">
                             <p className="font-medium text-theme-sm text-gray-800 dark:text-white/90">
-                            {lote.producto.nombre}
+                            {lote.producto_nombre}
                             </p>
                           </TableCell>
                           {/* Cantidad */}
                           <TableCell className="px-4 py-3 text-theme-sm ">
                             <div className="flex space-x-2 align-middle">
-                            <p className={` ${
-                              lote.cantidad < 5 ? "text-red-700 py-1" :
-                              lote.cantidad < 50 ? "text-orange-600 dark:text-orange-300 py-1" :
-                              "text-green-700 dark:text-green-600 py-1"
-                            }`}>
+                            <p className="px-4">
                               {lote.cantidad}
                             </p>
                             </div>                         
                           </TableCell>
                           {/* Fecha de elaboración */}
                           <TableCell className="px-5 py-3 text-gray-500 text-theme-sm dark:text-gray-400"> 
+                          <p className="px-4">
                               {lote.fecha_elaboracion}
+                            </p>
                           </TableCell>
                         </>
                       )}
                       />
+                    )}
                     {/* Controles de paginación */}
                     <div className="flex justify-between items-center mt-4">
                         <Button

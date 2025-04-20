@@ -1,8 +1,7 @@
-import {Producto} from "./productos";
-
 export type LoteProduccion = {
     id_lote: number; 
-    producto: Producto;
+    producto: number;
+    producto_nombre: string;
     cantidad: number;
     fecha_elaboracion: string;
 };
