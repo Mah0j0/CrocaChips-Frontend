@@ -9,3 +9,7 @@ export type Movimiento = {
     cantidad_volatil: number;
     fecha: string;
 }
+
+export type MovimientosDeleteResponse = {
+    message: string;
+}
