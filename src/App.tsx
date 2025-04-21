@@ -19,10 +19,14 @@ import AppLayout from "./layout/AppLayout";
 import Home from "./pages/Dashboard/Home";
 import Usuarios from "./pages/Usuarios/Usuarios";
 import { ScrollToTop } from "./components/common/ScrollToTop";
-import ProductosPage from "./pages/Almacen/ProductosPage.tsx";
 import {ToastContainer} from "react-toastify";
 import IconsList from "./pages/UiElements/IconsList.tsx";
 import ClientesPage from "./pages/Clientes/ClientesPage.tsx";
+//Inventario
+import ProductosPage from "./pages/Almacen/ProductosPage.tsx";
+import LotesPage from "./pages/Almacen/LotesPage.tsx";
+import DespachosPage from "./pages/Almacen/DespachosPage.tsx";
+import RecepcionesPage from "./pages/Almacen/RecepcionesPage.tsx";
 
 export default function App() {
   return (
@@ -37,6 +41,9 @@ export default function App() {
           <Route element={<AppLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/almacen" element={<ProductosPage/>} />
+            <Route path="/lotes" element={<LotesPage/>} />
+            <Route path="/despachos" element={<DespachosPage/>} />
+            <Route path="/recepciones" element={<RecepcionesPage/>} />
 
             <Route path="/profile" element={<UserProfiles />} />
             <Route path="/usuarios" element={<Usuarios/>}/>

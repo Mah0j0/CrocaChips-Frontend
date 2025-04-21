@@ -31,7 +31,7 @@ const navItems: NavItem[] = [
     subItems: [
       { name: "Ventas", path: "/dash-ventas", pro: false },
       { name: "Empleados", path: "/dash-empleados", pro: false },
-      { name: "Almacén", path: "/dash-devolucions", pro: false }
+      { name: "Almacén", path: "/dash-recepciones", pro: false }
     ],
   },
   {
@@ -41,7 +41,7 @@ const navItems: NavItem[] = [
       { name: "Almacén", path: "/almacen", pro: false },
       { name: "Producción", path: "/lotes", pro: false },
       { name: "Despachos", path: "/despachos", pro: false },
-      { name: "Devoluciones", path: "/devoluciones", pro: false },
+      { name: "Recepciones", path: "/recepciones", pro: false },
     
       
     ],

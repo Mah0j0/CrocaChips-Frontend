@@ -1,6 +1,7 @@
 import { isAxiosError } from "axios";
 import api from "../config/axios";
 import { Producto, ProductosDeleteResponse } from "../types/productos";
+import { LoteProduccion } from "../types/lotes_producción";
 
 // Función para obtener los productos de la API
 export async function getProducts(): Promise<Producto[]> { 
@@ -76,6 +77,7 @@ export async function deleteProducto(producto: Producto): Promise<ProductosDelet
       throw new Error("Error inesperado al desactivar el cliente.");
   }
 }
+
 // Aumentar stock
 export async function increaseStock({
   id,
@@ -117,5 +119,19 @@ export async function decreaseStock({
       throw new Error(error.response.data.error || "Error al disminuir el stock");
     }
     throw new Error("Error inesperado al disminuir el stock");
+  }
+}
+
+//Obtener lotes en produccion
+export async function getLotesEnProduccion(): Promise<LoteProduccion[]> {
+  try {
+    const { data } = await api.get<LoteProduccion[]>("productos/lotes/");
+    return data;
+  } catch (error) {
+    console.error("Error al obtener lotes en produccion:", error);
+    if (isAxiosError(error) && error.response) {
+      throw new Error(error.response.data.error || "Error al cargar lotes en produccion.");
+    }
+    throw new Error("Ocurrió un error inesperado al cargar lotes en produccion.");
   }
 }
