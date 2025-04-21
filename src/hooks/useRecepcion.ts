@@ -1,12 +1,12 @@
 import {useQuery} from "@tanstack/react-query";
-import {getDespachos} from "../api/DespachosApi.ts";
+import { getRecepciones } from "../api/RecepcionesApi";
 import {Movimiento} from "../types/movimientos.ts";
 
 //DESPACHOS
-export function useDespachos() {
+export function useRecepciones() {
     return useQuery<Movimiento[]>({
-        queryKey: ["despachos"],
-        queryFn: getDespachos,
+        queryKey: ["recepciones"],
+        queryFn: getRecepciones,
         staleTime: 1000 * 60 * 5,
     });
 }

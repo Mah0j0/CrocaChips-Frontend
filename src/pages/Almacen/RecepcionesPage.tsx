@@ -1,12 +1,12 @@
 //Inicio de pagina
 import PageBreadcrumb from "../../components/common/PageBreadCrumb.tsx";
 import PageMeta from "../../components/common/PageMeta.tsx";
-//Despachos
-import { useDespachos } from "../../hooks/useDespacho.ts";
+//Recepciones
+import { useRecepciones } from "../../hooks/useRecepcion.ts";
 //Modals
 //import { useModalContext } from "../../context/ModalContext.tsx";
-//crear despacho modal
-//editar despacho modal
+//crear recepcion modal
+//editar recepcion modal
 
 //Para filtros
 //import { estados } from "../../data";
@@ -22,9 +22,9 @@ import ComponentCard from "../../components/common/ComponentCard.tsx";
 import Button from "../../components/ui/button/Button.tsx";
 
 
-export default function DespachosPage() {
+export default function RecepcionesPage() {
     //const { openModal } = useModalContext(); //abrir el modal
-    const { data, isLoading, isError } = useDespachos(); //Traer los despachos de la API 
+    const { data, isLoading, isError } = useRecepciones(); //Traer los recepciones de la API 
     const [filtro, setFiltro] = useState(""); //filtrar los productos,
     //const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true"); 
     const [paginaActual, setPaginaActual] = useState(1);
@@ -36,7 +36,7 @@ export default function DespachosPage() {
         "Producto",
         "Cantidad",
         "Cantidad Volatil",
-        "Fecha de despacho",
+        "Fecha de recepción",
     ];
 
     //Manejo de errores
@@ -46,7 +46,7 @@ export default function DespachosPage() {
           <Alert
               variant="info"
               title="Cargando"
-              message="Cargando Despachos..."
+              message="Cargando Recepciones..."
               showLink={false}
           />
       </ComponentCard>
@@ -59,7 +59,7 @@ export default function DespachosPage() {
             <Alert
                 variant="error"
                 title="Mensaje de Error"
-                message="Ocurrió un error al cargar los despachos."
+                message="Ocurrió un error al cargar las recepciones."
                 showLink={false}
             />
           </ComponentCard>
@@ -67,9 +67,9 @@ export default function DespachosPage() {
     }
 
     //Filtro de barra de búsqueda
-    const despachosFiltrados = (data ?? [])
-    .filter((despacho) =>
-        `${despacho.vendedor_nombre} ${despacho.producto_nombre} ${despacho.tipo_movimiento}`
+    const recepcionesFiltradas = (data ?? [])
+    .filter((recepcion) =>
+        `${recepcion.vendedor_nombre} ${recepcion.producto_nombre} ${recepcion.tipo_movimiento}`
             .toLowerCase()
             .includes(filtro.toLowerCase())
     )
@@ -77,8 +77,8 @@ export default function DespachosPage() {
     //Paginación
     const indiceInicio = (paginaActual - 1) * elementosPorPagina;
     const indiceFin = indiceInicio + elementosPorPagina;
-    const despachosPaginados = despachosFiltrados.slice(indiceInicio, indiceFin);
-    const totalPaginas = Math.ceil(despachosFiltrados.length / elementosPorPagina);
+    const recepcionesPaginadas = recepcionesFiltradas.slice(indiceInicio, indiceFin);
+    const totalPaginas = Math.ceil(recepcionesFiltradas.length / elementosPorPagina);
 
     //Renderizar la tabla
     return(
@@ -110,64 +110,64 @@ export default function DespachosPage() {
                         size="md"
                         variant="primary"
                         startIcon={<PlusIcon className="size-5"/>}
-                        onClick={() => alert("Agregar Despacho")}
+                        onClick={() => alert("Agregar Recepcion")}
                       > 
-                        Agregar Despacho
+                        Agregar Recepción
                       </Button>
                       {/* Modal de agregar producto */} 
                   </div>
               </div>
               {/* Tabla */}
-              {despachosFiltrados.length === 0 ? (
+              {recepcionesFiltradas.length === 0 ? (
                   <ComponentCard title="">
                       <Alert
                           variant="warning"
                           title="No se encontraron resultados"
-                          message={`No se encontraron despachos con el nombre "${filtro}".`}
+                          message={`No se encontraron recepciones con el nombre "${filtro}".`}
                           showLink={false}
                       />
                   </ComponentCard>
               ) : (
                   <BasicTableOne
                       headers={headers}
-                      data={despachosPaginados}
-                      getKey={(despacho) => despacho.id_movimiento}
-                      renderRow={(despacho) => (
+                      data={recepcionesPaginadas}
+                      getKey={(recepcion) => recepcion.id_movimiento}
+                      renderRow={(recepcion) => (
                         <>
                           {/* Vendedor */}
                           <TableCell className="p-4 py-5 sm:px-6">
                             <p className="font-medium text-theme-sm text-gray-800 dark:text-white/90">
-                            {despacho.vendedor_nombre}
+                            {recepcion.vendedor_nombre}
                             </p>
                           </TableCell>
                           {/* Producto */}
                           <TableCell className="p-4 py-5 sm:px-6">
                             <p className="font-medium text-theme-sm text-gray-800 dark:text-white/90">
-                            {despacho.producto_nombre}
+                            {recepcion.producto_nombre}
                             </p>
                           </TableCell>                         
                           {/* Cantidad */}
                           <TableCell className="p-4 py-5 sm:px-6">
                             <p className="font-medium text-theme-sm text-gray-800 dark:text-white/90 px-2">
-                            {despacho.cantidad}
+                            {recepcion.cantidad}
                             </p>
                           </TableCell> 
                           {/* Cantidad Volatil */}
                           <TableCell className="p-4 py-5 sm:px-6">
                             <p className="font-medium text-theme-sm text-gray-800 dark:text-white/90 px-7">
-                            {despacho.cantidad_volatil}
+                            {recepcion.cantidad_volatil}
                             </p>
                           </TableCell> 
                           {/* Fecha */}
                           <TableCell className="p-4 py-5 sm:px-6">
                             <p className="font-medium text-theme-sm text-gray-800 dark:text-white/90">
-                            {despacho.fecha}
+                            {recepcion.fecha}
                             </p>
                           </TableCell>                           
                           {/* Acciones */}
                           <TableCell className="py-5">
                               <button
-                              onClick={() => alert("Editar Despacho")}
+                              onClick={() => alert("Editar Recepcion")}
                               className="text-gray-400"
                               title="Más opciones"
                               >

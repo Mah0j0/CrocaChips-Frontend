@@ -9,11 +9,11 @@ export async function getDespachos(): Promise<Movimiento[]> {
         const { data } = await api.get<Movimiento[]>("/movimientos/despachos/");
         return data;
     } catch (error) {
-        console.error("Error al obtener movimientos:", error);
+        console.error("Error al obtener despachos:", error);
         if (isAxiosError(error) && error.response) {
-            throw new Error(error.response.data.error || "Error al cargar movimientos.");
+            throw new Error(error.response.data.error || "Error al cargar despachos.");
         }
-        throw new Error("Ocurrió un error inesperado al cargar movimientos.");
+        throw new Error("Ocurrió un error inesperado al cargar despachos.");
     }
 }
 //Crear despacho
