@@ -48,7 +48,7 @@ export default function SignInForm() {
         <div className="flex flex-1 flex-col justify-center w-full max-w-md mx-auto">
           <header className="mb-5 sm:mb-8">
             <h1 className="text-title-sm sm:text-title-md font-semibold text-gray-800 dark:text-white/90 mb-2">
-              Inicio de Sesión
+              Bienvenido de vuelta!
             </h1>
             <p className="text-sm text-gray-500 dark:text-gray-400">
               Ingresa tus credenciales
