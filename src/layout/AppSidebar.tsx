@@ -4,16 +4,17 @@ import { Link, useLocation } from "react-router";
 // Assume these icons are imported from an icon library
 import {
   BoxCubeIcon,
-  CalenderIcon,
   ChevronDownIcon,
-  GridIcon, GroupIcon,
+  GroupIcon,
   HorizontaLDots,
-  ListIcon,
+  ListIcon,/*
+  GridIcon,
+  CalenderIcon,
   PageIcon,
   PieChartIcon,
   PlugInIcon,
   TableIcon,
-  UserCircleIcon,
+  UserCircleIcon,*/
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
 
@@ -25,7 +26,7 @@ type NavItem = {
 };
 
 const navItems: NavItem[] = [
-  {
+  /*{
     icon: <GridIcon />,
     name: "Dashboard",
     subItems: [
@@ -33,7 +34,7 @@ const navItems: NavItem[] = [
       { name: "Empleados", path: "/dash-empleados", pro: false },
       { name: "Almacén", path: "/dash-recepciones", pro: false }
     ],
-  },
+  },*/
   {
     icon: <BoxCubeIcon />,
     name: "Inventario",
@@ -50,15 +51,15 @@ const navItems: NavItem[] = [
     name: "Comercial",
     icon: <ListIcon />,
     subItems: [
-      { name: "Ventas", path: "/vender", pro: false },
+      /*{ name: "Ventas", path: "/vender", pro: false },*/
       { name: "Clientes", path: "/clientes", pro: false }
     ],
-  },
+  },/*
   {
     icon: <CalenderIcon />,
     name: "Calendario",
     path: "/calendar",
-  },
+  },*/
   {
     icon: <GroupIcon />,
     name: "Usuarios",
@@ -66,7 +67,7 @@ const navItems: NavItem[] = [
   },
   
 ];
-
+/*
 const othersItems: NavItem[] = [
   {
     icon: <UserCircleIcon />,
@@ -116,8 +117,8 @@ const othersItems: NavItem[] = [
     ],
   },
 ];
-
-const AppSidebar: React.FC = () => {
+*/
+  const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const location = useLocation();
 
@@ -139,7 +140,8 @@ const AppSidebar: React.FC = () => {
   useEffect(() => {
     let submenuMatched = false;
     ["main", "others"].forEach((menuType) => {
-      const items = menuType === "main" ? navItems : othersItems;
+      //const items = menuType === "main" ? navItems : othersItems;
+      const items =  navItems ;
       items.forEach((nav, index) => {
         if (nav.subItems) {
           nav.subItems.forEach((subItem) => {
@@ -375,22 +377,24 @@ const AppSidebar: React.FC = () => {
               </h2>
               {renderMenuItems(navItems, "main")}
             </div>
-            <div className="">
-              <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
-                  !isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "justify-start"
-                }`}
-              >
-                {isExpanded || isHovered || isMobileOpen ? (
-                  "Others"
-                ) : (
-                  <HorizontaLDots />
-                )}
-              </h2>
-              {renderMenuItems(othersItems, "others")}
+            {/*
+              <div className="">
+                <h2
+                  className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                    !isExpanded && !isHovered
+                      ? "lg:justify-center"
+                      : "justify-start"
+                  }`}
+                >
+                  {isExpanded || isHovered || isMobileOpen ? (
+                    "Others"
+                  ) : (
+                    <HorizontaLDots />
+                  )}
+                </h2>
+                {renderMenuItems(othersItems, "others")}
             </div>
+          */}
           </div>
         </nav>
       </div>
