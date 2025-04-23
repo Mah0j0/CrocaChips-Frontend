@@ -3,7 +3,7 @@ import { ApexOptions } from "apexcharts";
 
 export default function MonthlySalesChart() {
   const options: ApexOptions = {
-    colors: ["#465fff"],
+    colors: ["#e27410"],
     chart: {
       fontFamily: "Outfit, sans-serif",
       type: "bar",
