@@ -62,7 +62,7 @@ const navItems: NavItem[] = [
   },*/
   {
     icon: <GroupIcon />,
-    name: "Usuarios",
+    name: "Empleados",
     path: "/usuarios",
   },
   

@@ -37,10 +37,10 @@ function CreateEmpleadoModal() {
         <Modal isOpen={isOpen} onClose={() => closeModal("createEmpleado")} className="max-w-[700px] m-4">
             <div className="no-scrollbar w-full max-w-[700px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
                 <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
-                    Crear Nuevo Usuario
+                    Crear Nuevo Empleado
                 </h4>
                 <p className="mb-6 text-sm text-gray-500 dark:text-gray-400">
-                    Completa la información para registrar un nuevo usuario
+                    Completa la información para registrar un nuevo empleado
                 </p>
 
 

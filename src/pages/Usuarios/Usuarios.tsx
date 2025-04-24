@@ -81,9 +81,9 @@ export default function Usuarios() {
         <div>
             <PageMeta
                 title="React.js Blank Dashboard | TailAdmin"
-                description="Lista de usuarios"
+                description="Lista de Empleados"
             />
-            <PageBreadcrumb pageTitle="Lista de Usuarios" />
+            <PageBreadcrumb pageTitle="Lista de empleados" />
 
             <div className="space-y-6">
                 <ComponentCard title="">
