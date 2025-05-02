@@ -1,3 +1,5 @@
+// Interfaces para el módulo de ventas
+
 export interface Venta {
     id_venta?: number;
     vendedor?: number;
@@ -30,3 +32,7 @@ export interface NuevaVenta {
 export interface ConfirmarVenta {
     id_venta: number;
 }
+
+export type VentaResponse = {
+    message: string;
+};
