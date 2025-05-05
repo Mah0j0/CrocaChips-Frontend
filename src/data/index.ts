@@ -1,51 +1,54 @@
 export type rol = {
-    value: string|boolean|number;
-    label: string;
+  value: string | boolean | number;
+  label: string;
 }
 export type ruta = {
-    path: string;
-    name: string;
+  path: string;
+  name: string;
 }
 
 export type NavItem = {
-    name: string;
-    icon: React.ReactNode;
-    path?: string;
-    subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
+  name: string;
+  icon: React.ReactNode;
+  path?: string;
+  subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
 };
 
 export const roles: rol[] = [
-    { value: "Almacen", label: "Almacen" },
-    { value: "Vendedor", label: "Vendedor" },
-    { value: "Administrador", label: "Administrador" },
+  { value: "Almacen", label: "Almacen" },
+  { value: "Vendedor", label: "Vendedor" },
+  { value: "Administrador", label: "Administrador" },
 ];
 
 export const estados: rol[] = [
-    { value: true, label: "Activo" },
-    { value: false, label: "Inactivo" },
+  { value: true, label: "Activo" },
+  { value: false, label: "Inactivo" },
 ];
 
 export const rutas: ruta[] = [
-    { path: "/", name: "Inicio" },
-    { path: "/almacen", name: "Almacén" },
-    { path: "/lotes", name: "Lotes" },
-    { path: "/despachos", name: "Despachos" },
-    { path: "/recepciones", name: "Recepciones" },
-    { path: "/profile", name: "Perfil de Usuario" },
-    { path: "/usuarios", name: "Usuarios" },
-    { path: "/clientes", name: "Clientes" },/*
-    { path: "/calendar", name: "Calendario" },
-    { path: "/icons", name: "Íconos" },
-    { path: "/form-elements", name: "Elementos de Formulario" },
-    { path: "/basic-tables", name: "Tablas Básicas" },
-    { path: "/alerts", name: "Alertas" },
-    { path: "/avatars", name: "Avatares" },
-    { path: "/badge", name: "Insignias" },
-    { path: "/buttons", name: "Botones" },
-    { path: "/images", name: "Imágenes" },
-    { path: "/videos", name: "Videos" },
-    { path: "/line-chart", name: "Gráfico de Líneas" },
-    { path: "/bar-chart", name: "Gráfico de Barras" },*/
+  { path: "/", name: "Inicio" },
+  { path: "/almacen", name: "Almacén" },
+  { path: "/lotes", name: "Lotes" },
+  { path: "/despachos", name: "Despachos" },
+  { path: "/recepciones", name: "Recepciones" },
+  { path: "/profile", name: "Perfil de Usuario" },
+  { path: "/usuarios", name: "Usuarios" },
+  { path: "/clientes", name: "Clientes" },
+  { path: "/ventas", name: "Ventas" },
+  /*
+  
+  { path: "/calendar", name: "Calendario" },
+  { path: "/icons", name: "Íconos" },
+  { path: "/form-elements", name: "Elementos de Formulario" },
+  { path: "/basic-tables", name: "Tablas Básicas" },
+  { path: "/alerts", name: "Alertas" },
+  { path: "/avatars", name: "Avatares" },
+  { path: "/badge", name: "Insignias" },
+  { path: "/buttons", name: "Botones" },
+  { path: "/images", name: "Imágenes" },
+  { path: "/videos", name: "Videos" },
+  { path: "/line-chart", name: "Gráfico de Líneas" },
+  { path: "/bar-chart", name: "Gráfico de Barras" },*/
 ];
 
 /*
