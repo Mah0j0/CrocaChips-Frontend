@@ -29,7 +29,7 @@ import { SearchIcon, PlusIcon, ChevronLeftIcon, EyeIcon } from "../../icons/inde
 
 // Componente principal de ventas
 export default function VentasPage() {
-    const { data, isLoading, error } = useVentas(); // Datos de ventas
+    const { data, isLoading, error } = useVentas(); // Datos
     const { openModal } = useModalContext(); // Abrir modales
     const [filtro, setFiltro] = useState(""); // Filtrar ventas
     const [paginaActual, setPaginaActual] = useState(1); //Paginación

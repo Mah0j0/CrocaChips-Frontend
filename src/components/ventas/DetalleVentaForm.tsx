@@ -221,8 +221,8 @@ export default function DetalleVentaForm({
                         <Select
                             disabled={isLoadingProductos}
                             options={productos?.map((producto) => ({
-                                value: String((producto as unknown as Producto).id_producto),
-                                label: `${(producto as unknown as Producto).nombre} - ${(producto as unknown as Producto).stock} disponibles`,
+                                value: String(producto),
+                                label: `${producto.producto_nombre} - ${producto.cantidad_volatil} disponibles`,
                             })) || []}
                             defaultValue={productoSeleccionado}
                             onChange={(value) => setProductoSeleccionado(value)}
