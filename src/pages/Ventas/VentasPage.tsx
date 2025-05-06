@@ -1,0 +1,224 @@
+// Componentes para el layout de la página
+import PageBreadcrumb from "../../components/common/PageBreadCrumb.tsx";
+import PageMeta from "../../components/common/PageMeta.tsx";
+
+// React y Hooks
+import { useState } from "react"; // Hook de estado de React
+import { useVentas } from "../../hooks/useVentas"; // Hook para datos de ventas
+import { useModalContext } from "../../context/ModalContext"; // Contexto de modales
+
+// Modales
+import CreateVentaModal from '../../components/ventas/CreateVentaModal';
+import DetalleVentaModal from '../../components/ventas/DetalleVentaModal';
+
+// Componentes UI 
+import Alert from "../../components/ui/alert/Alert.tsx"; // Componente de alerta
+import Button from "../../components/ui/button/Button.tsx"; // Botón personalizado
+import Badge from "../../components/ui/badge/Badge.tsx"; // Badge para estados
+import Input from "../../components/form/input/InputField.tsx"; // Campo de entrada de texto
+import ComponentCard from "../../components/common/ComponentCard.tsx"; // Contenedor de componentes
+import { TableCell } from "../../components/ui/table/index.tsx"; // Celda de tabla personalizada
+
+// Tablas y carga
+import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne.tsx"; // Componente de tabla
+import { LoadData } from "../OtherPage/LoadData.tsx"; // Carga de datos
+
+// Iconos
+import { SearchIcon, PlusIcon, ChevronLeftIcon, EyeIcon } from "../../icons/index.ts"; // Iconos SVG
+
+
+// Componente principal de ventas
+export default function VentasPage() {
+    const { data, isLoading, error } = useVentas(); // Datos
+    const { openModal } = useModalContext(); // Abrir modales
+    const [filtro, setFiltro] = useState(""); // Filtrar ventas
+    const [paginaActual, setPaginaActual] = useState(1); //Paginación
+    const elementosPorPagina = 10; // Items por página
+
+    //Cabeceras de la tabla
+    const headers = [
+        "Cliente",
+        "Vendedor",
+        "Fecha",
+        "Total",
+        "Estado",
+        "Acciones"
+    ];
+
+    // Estados de carga
+    if (isLoading) {
+        return (<LoadData message={"Ventas"} />)
+    }
+    // Manejo de errores
+    if (error) {
+        return (
+            <ComponentCard title="Error Alert">
+                <Alert
+                    variant="error"
+                    title="Mensaje de Error"
+                    message="Ocurrió un error al cargar las ventas."
+                    showLink={false}
+                />
+            </ComponentCard>
+        );
+    }
+
+    // Filtro de barra de búsqueda
+    const ventasFiltradas = (data ?? [])
+        .filter((venta) =>
+            `${venta.cliente_nombre || ''} ${venta.vendedor_nombre || ''}`
+                .toLowerCase()
+                .includes(filtro.toLowerCase())
+        );
+
+    // Paginación
+    const indiceInicio = (paginaActual - 1) * elementosPorPagina;
+    const indiceFin = indiceInicio + elementosPorPagina;
+    const ventasPaginadas = ventasFiltradas.slice(indiceInicio, indiceFin);
+    const totalPaginas = Math.ceil(ventasFiltradas.length / elementosPorPagina);
+
+    // Renderizado principal
+    return (
+        <div>
+            {/* Metadatos y ruta de navegación */}
+            <PageMeta
+                title="React.js Blank Dashboard | TailAdmin"
+                description="Lista de ventas"
+            />
+
+            {/* Contenedor principal */}
+            <PageBreadcrumb pageTitle="Lista de ventas" />
+            <div className="space-y-6">
+                <ComponentCard title="">
+
+                    {/* Barra de búsqueda y botón de agregar venta */}
+                    <div className="flex flex-row gap-10 items-center justify-between mb-5">
+
+                        {/* Barra de búsqueda */}
+                        <div className="relative">
+                            <Input
+                                placeholder="Buscar por cliente, vendedor..."
+                                type="text"
+                                value={filtro}
+                                onChange={(e) => setFiltro(e.target.value)} // Actualiza estado al escribir
+                                className="pl-[62px]"
+                            />
+                            <span className="absolute left-0 top-1/2 -translate-y-1/2 border-r border-gray-200 px-3.5 py-3 text-gray-500 dark:border-gray-800 dark:text-gray-400">
+                                <SearchIcon className="size-6" />
+                            </span>
+                        </div>
+
+                        {/* Botón para agregar venta */}
+                        <div className="flex flex-row-reer gap-3 items-center justify-end">
+                            <Button
+                                size="md"
+                                variant="primary"
+                                startIcon={<PlusIcon className="size-5" />}
+                                onClick={() => openModal("createVenta")} // Abre modal de creación
+                            >
+                                Nueva Venta
+                            </Button>
+                        </div>
+                    </div>
+
+                    {/* Tabla de ventas*/}
+                    {ventasFiltradas.length === 0 ? (
+                        // Mensaje si no hay resultados
+                        <ComponentCard title="">
+                            <Alert
+                                variant="warning"
+                                title="No se encontraron resultados"
+                                message={`No se encontraron ventas con el término "${filtro}".`}
+                                showLink={false}
+                            />
+                        </ComponentCard>
+                    ) : (
+
+                        // Tabla con datos paginados
+                        <BasicTableOne
+                            headers={headers} // Cabeceras
+                            data={ventasPaginadas} // Datos paginados
+                            getKey={(venta) => venta.id_venta} // Key para cada fila
+                            renderRow={(venta) => ( // Renderizado por fila
+                                <>
+                                    {/* Cliente */}
+                                    <TableCell className="p-4 py-5 sm:px-6">
+                                        <p className="font-medium text-theme-sm text-gray-800 dark:text-white/90">
+                                            {venta.cliente_nombre}
+                                        </p>
+                                    </TableCell>
+                                    {/* Vendedor */}
+                                    <TableCell className="p-4 py-5 sm:px-6">
+                                        <p className="font-medium text-theme-sm text-gray-800 dark:text-white/90">
+                                            {venta.vendedor_nombre}
+                                        </p>
+                                    </TableCell>
+                                    {/* Fecha */}
+                                    <TableCell className="p-4 py-5 sm:px-6">
+                                        <p className="font-medium text-theme-sm text-gray-800 dark:text-white/90">
+                                            {venta.fecha}
+                                        </p>
+                                    </TableCell>
+                                    {/* Total */}
+                                    <TableCell className="p-4 py-5 sm:px-6">
+                                        <p className="font-medium text-theme-sm text-gray-800 dark:text-white/90">
+                                            {venta.precio_total}
+                                        </p>
+                                    </TableCell>
+                                    {/* Estado */}
+                                    <TableCell className="p-4 py-5 sm:px-6">
+                                        <Badge
+                                            size="md"
+                                            color={venta.estado ? "success" : "warning"}
+                                        >
+                                            {venta.estado ? "Confirmada" : "Pendiente"}
+                                        </Badge>
+                                    </TableCell>
+                                    {/* Acciones */}
+                                    <TableCell>
+                                        <Button
+                                            size="md"
+                                            variant="outline"
+                                            startIcon={<EyeIcon className="size-5" />}
+                                            onClick={() => openModal("detalleVenta", { venta })}
+                                        >
+                                            Ver detalles
+                                        </Button>
+                                    </TableCell>
+
+                                </>
+                            )}
+                        />
+                    )}
+                    {/* Controles de paginación */}
+                    <div className="flex justify-between items-center mt-4">
+                        <Button
+                            size="sm"
+                            variant="outline"
+                            startIcon={<ChevronLeftIcon className="size-6" />}
+                            disabled={paginaActual === 1}
+                            onClick={() => setPaginaActual(paginaActual - 1)}
+                        >
+                            Anterior
+                        </Button>
+                        <span className="text-gray-400 dark:text-gray-500">
+                            Página {paginaActual} de {totalPaginas}
+                        </span>
+                        <Button
+                            size="sm"
+                            variant="outline"
+                            endIcon={<ChevronLeftIcon className="rotate-180 size-6" />}
+                            disabled={paginaActual === totalPaginas}
+                            onClick={() => setPaginaActual(paginaActual + 1)}
+                        >
+                            Siguiente
+                        </Button>
+                    </div>
+                </ComponentCard>
+            </div>
+            {/* Modales */}
+            <CreateVentaModal />
+            <DetalleVentaModal />
+        </div>
+    );
+}

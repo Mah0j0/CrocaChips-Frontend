@@ -27,6 +27,7 @@ import ProductosPage from "./pages/Almacen/ProductosPage.tsx";
 import LotesPage from "./pages/Almacen/LotesPage.tsx";
 import DespachosPage from "./pages/Almacen/DespachosPage.tsx";
 import RecepcionesPage from "./pages/Almacen/RecepcionesPage.tsx";
+import VentasPage from "./pages/Ventas/VentasPage.tsx";
 
 export default function App() {
   return (
@@ -44,6 +45,7 @@ export default function App() {
             <Route path="/lotes" element={<LotesPage/>} />
             <Route path="/despachos" element={<DespachosPage/>} />
             <Route path="/recepciones" element={<RecepcionesPage/>} />
+            <Route path="/ventas" element={<VentasPage/>} />
 
             <Route path="/profile" element={<UserProfiles />} />
             <Route path="/usuarios" element={<Usuarios/>}/>
