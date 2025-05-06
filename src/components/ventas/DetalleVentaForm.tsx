@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import Button from "../ui/button/Button";
 import Input from "../form/input/InputField";
 import Label from "../form/Label";
+import Select from "../form/Select";
 // Iconos y React Query
 import { TrashBinIcon, PlusIcon } from "../../icons";
 // Tipos
@@ -14,15 +15,15 @@ import { useForm } from "react-hook-form";
 import { useProductosVendedor } from "../../hooks/useDespacho.ts";
 import { useClientes } from "../../hooks/useCliente.ts";
 import { useDetallesVenta } from "../../hooks/useVentas.ts";
-import Select from "../form/Select";
 
-// Definición de props del componente
+// Props del componente
 type VentaFormProps = {
     onSubmit: (data: Venta) => void;
     defaultValues?: Partial<Venta>;
     isSubmitting?: boolean;
     onCancel?: () => void;
 };
+
 //Funcion que recibe las propiedades y devuelve el formulario
 export default function DetalleVentaForm({
     onSubmit,
@@ -44,14 +45,14 @@ export default function DetalleVentaForm({
     }, [defaultValues, reset]);
 
     // Estados del componente
-    const [clienteSeleccionado, setClienteSeleccionado] = useState<string>("");
-    const [detalles, setDetalles] = useState<DetalleVenta[]>([]);
+    const [clienteSeleccionado, setClienteSeleccionado] = useState<string>(""); // Clientes
+    const [detalles, setDetalles] = useState<DetalleVenta[]>([]); // Detalles de venta
+    const [mostrarValidacion, setMostrarValidacion] = useState<boolean>(false); // Controlar la validación
     const [, setError] = useState<string | null>(null);
 
     // Estados para producto y cantidad
     const [productoSeleccionado, setProductoSeleccionado] = useState<string>("0");
     const [cantidadSeleccionada, setCantidadSeleccionada] = useState<string>("0");
-
 
     // Hooks
     const { data: productos, isLoading: isLoadingProductos } = useProductosVendedor();
@@ -60,6 +61,12 @@ export default function DetalleVentaForm({
         defaultValues?.id_venta || 0
     );
 
+    // Establecer cliente seleccionado cuando se cargan los valores por defecto
+    useEffect(() => {
+        if (defaultValues?.cliente) {
+            setClienteSeleccionado(String(defaultValues.cliente));
+        }
+    }, [defaultValues?.cliente]);
 
     // Cargar detalles de venta existente cuando estén disponibles
     useEffect(() => {
@@ -68,58 +75,38 @@ export default function DetalleVentaForm({
         }
     }, [detallesVenta, defaultValues?.id_venta]);
 
-    // Establecer cliente seleccionado cuando se cargan los valores por defecto
-    useEffect(() => {
-        if (defaultValues?.cliente) {
-            setClienteSeleccionado(String(defaultValues.cliente));
-        }
-    }, [defaultValues?.cliente]);
-
-    // Formulario para detalles
+    // FORMULARIO PARA AGREGAR DETALLES DE VENTA
     const {
         reset: resetDetalle,
     } = useForm<{ producto: string, cantidad: string }>();
 
-    // Agregar un nuevo estado para controlar la validación
-    const [mostrarValidacion, setMostrarValidacion] = useState<boolean>(false);
-
+    // AGREGAR UN DETALLE DE VENTA
     const handleAgregarDetalle = useCallback((data: any) => {
         // Activar la validación
         setMostrarValidacion(true);
-
+        // Convertir id y cantidad
         const productoId = Number(data.producto);
         const cantidadProducto = Number(data.cantidad);
-
         // Buscar el producto seleccionado
         const productoEncontrado = productos?.find(
             (producto) => (producto as unknown as Producto).id_producto === productoId
         ) as unknown as Producto;
-
-        if (!productoEncontrado) {
-            setError("Producto no encontrado");
-            return;
-        }
-
         // Verificar que la cantidad no exceda el stock disponible
         if (cantidadProducto > productoEncontrado.stock) {
             setError(`No hay suficiente stock disponible. Stock actual: ${productoEncontrado.stock}`);
             return;
         }
-
         // Verificar si el producto ya está en la lista
         const productoExistente = detalles.find(
             (detalle) => detalle.producto === productoId
         );
-
         if (productoExistente) {
             // Verificar que la cantidad total no exceda el stock
             const nuevaCantidadTotal = productoExistente.cantidad + cantidadProducto;
-
             if (nuevaCantidadTotal > productoEncontrado.stock) {
                 setError(`La cantidad total (${nuevaCantidadTotal}) excede el stock disponible (${productoEncontrado.stock})`);
                 return;
             }
-
             // Si existe, actualizar la cantidad
             const nuevosDetalles = detalles.map((detalle) => {
                 if (detalle.producto === productoId) {
@@ -145,7 +132,6 @@ export default function DetalleVentaForm({
             };
             setDetalles([...detalles, nuevoDetalle]);
         }
-
         // Resetear valores y validación después de agregar exitosamente
         resetDetalle({ producto: "0", cantidad: "0" });
         setProductoSeleccionado("0");
@@ -154,28 +140,25 @@ export default function DetalleVentaForm({
         setMostrarValidacion(false);
     }, [productos, detalles]);
 
-    // Función para eliminar un detalle
+    // ELIMINAR UN DETALLE DE VENTA
     const handleEliminarDetalle = useCallback((index: number) => {
         const nuevosDetalles = [...detalles];
         nuevosDetalles.splice(index, 1);
         setDetalles(nuevosDetalles);
     }, [detalles]);
 
-    // Función para enviar el formulario completo
+    // ENVIAR EL FORMULARIO DE VENTA COMPLETO
     const handleFormSubmit = useCallback(() => {
-
-
         // Calcular el precio total
         const precioTotal = detalles.reduce((total, detalle) => total + detalle.subtotal, 0);
-
         // Preparar los datos
         const ventaData: Venta = {
             id_venta: defaultValues?.id_venta || 0,
-            cliente: Number(clienteSeleccionado), // Convert string to number
+            cliente: Number(clienteSeleccionado), // Convertir a número
             cliente_nombre: clientes?.find(c => c.id_cliente === Number(clienteSeleccionado))?.nombre || "",
-            vendedor: typeof window !== 'undefined' ? Number(localStorage.getItem("USER_ID")) || 0 : 0, // Convert string to number
-            vendedor_nombre: typeof window !== 'undefined' ? localStorage.getItem("USER_NAME") || "" : "",
-            estado: Boolean(0), // Convert number to boolean (will be false)
+            vendedor: typeof window !== 'undefined' ? Number(localStorage.getItem("USER_ID")) || 0 : 0, // Convertir a número
+            vendedor_nombre: typeof window !== 'undefined' ? localStorage.getItem("USER_NAME") || "" : "", // Temporal
+            estado: Boolean(0), // Convertir a booleano
             fecha: new Date().toISOString().split('T')[0],
             precio_total: precioTotal,
             detalles: detalles
@@ -187,6 +170,8 @@ export default function DetalleVentaForm({
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+
+                {/* Formulario para agregar productos */}
                 <div>
                     <Label>Cliente</Label>
                     <Select
@@ -206,7 +191,6 @@ export default function DetalleVentaForm({
                         <p className="mt-1 text-sm text-red-600">Debes seleccionar un cliente</p>
                     )}
                 </div>
-
             </div>
 
             {/* Formulario para agregar productos */}
@@ -232,7 +216,6 @@ export default function DetalleVentaForm({
                             <p className="mt-1 text-sm text-red-600">Debes seleccionar un producto</p>
                         )}
                     </div>
-
                     <div>
                         <Label>Cantidad</Label>
                         <Input
@@ -245,7 +228,6 @@ export default function DetalleVentaForm({
                             hint={mostrarValidacion && Number(cantidadSeleccionada) <= 0 ? "La cantidad debe ser mayor a 0" : ""}
                         />
                     </div>
-
                     <div className="lg:col-span-2 flex justify-end">
                         <Button
                             type="button"
