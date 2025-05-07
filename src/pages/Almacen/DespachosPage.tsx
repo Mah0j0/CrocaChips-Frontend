@@ -4,7 +4,7 @@ import PageMeta from "../../components/common/PageMeta.tsx";
 //Despachos
 import { useDespachos } from "../../hooks/useDespacho.ts";
 //Modals
-//import { useModalContext } from "../../context/ModalContext.tsx";
+import { useModalContext } from "../../context/ModalContext.tsx";
 //crear despacho modal
 //editar despacho modal
 
@@ -23,10 +23,10 @@ import Button from "../../components/ui/button/Button.tsx";
 
 
 export default function DespachosPage() {
-    //const { openModal } = useModalContext(); //abrir el modal
+    const { openModal } = useModalContext(); //abrir el modal
     const { data, isLoading, isError } = useDespachos(); //Traer los despachos de la API 
     const [filtro, setFiltro] = useState(""); //filtrar los productos,
-    //const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true"); 
+    const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true"); 
     const [paginaActual, setPaginaActual] = useState(1);
     const elementosPorPagina = 10;
     
