@@ -1,7 +1,9 @@
 // Componentes para el layout de la página
 import PageBreadcrumb from "../../components/common/PageBreadCrumb.tsx";
 import PageMeta from "../../components/common/PageMeta.tsx";
-
+import Label from "../../components/form/Label.tsx";
+import Select from "../../components/form/Select.tsx";
+import { estadosVenta } from "../../data";
 // React y Hooks
 import { useState } from "react"; // Hook de estado de React
 import { useVentas } from "../../hooks/useVentas"; // Hook para datos de ventas
@@ -32,6 +34,7 @@ export default function VentasPage() {
     const { data, isLoading, error } = useVentas(); // Datos
     const { openModal } = useModalContext(); // Abrir modales
     const [filtro, setFiltro] = useState(""); // Filtrar ventas
+    const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true");
     const [paginaActual, setPaginaActual] = useState(1); //Paginación
     const elementosPorPagina = 10; // Items por página
 
@@ -44,6 +47,12 @@ export default function VentasPage() {
         "Estado",
         "Acciones"
     ];
+
+    const handleSelectChange = (value: string, type: "estado") => {
+        if (type === "estado") {
+            setEstadoSeleccionado(value);
+        }
+    }
 
     // Estados de carga
     if (isLoading) {
@@ -63,12 +72,17 @@ export default function VentasPage() {
         );
     }
 
-    // Filtro de barra de búsqueda
+    // Filtro de barra de búsqueda y estado
     const ventasFiltradas = (data ?? [])
         .filter((venta) =>
             `${venta.cliente_nombre || ''} ${venta.vendedor_nombre || ''}`
                 .toLowerCase()
                 .includes(filtro.toLowerCase())
+        )
+        .filter((venta) =>
+            estadoSeleccionado === ""
+                ? true
+                : venta.estado?.toString() === estadoSeleccionado
         );
 
     // Paginación
@@ -106,6 +120,19 @@ export default function VentasPage() {
                             <span className="absolute left-0 top-1/2 -translate-y-1/2 border-r border-gray-200 px-3.5 py-3 text-gray-500 dark:border-gray-800 dark:text-gray-400">
                                 <SearchIcon className="size-6" />
                             </span>
+                        </div>
+                         <div className="flex flex-row gap-3 items-center justify-between">
+                            <Label>Estado</Label>
+                            <Select
+                                options={estadosVenta.map((estado) => ({
+                                    value: estado.value.toString(),
+                                    label: estado.label,
+                                }))}
+                                defaultValue={estadosVenta[0].value.toString()}
+                                placeholder="Seleccionar Estado"
+                                onChange={(value) => handleSelectChange(value, "estado")}
+                                className="dark:bg-dark-900"
+                            />
                         </div>
 
                         {/* Botón para agregar venta */}

@@ -25,6 +25,11 @@ export const estados: rol[] = [
   { value: false, label: "Inactivo" },
 ];
 
+export const estadosVenta: rol[] = [
+  { value: true, label: "Confirmada" },
+  { value: false, label: "Pendiente" },
+];
+
 export const rutas: ruta[] = [
   { path: "/", name: "Inicio" },
   { path: "/almacen", name: "Almacén" },
