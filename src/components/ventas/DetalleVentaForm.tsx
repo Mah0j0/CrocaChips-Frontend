@@ -129,9 +129,9 @@ export default function DetalleVentaForm({
             setDetalles([...detalles, nuevoDetalle]);
         }
 
-        setProductoSeleccionado("0"); // o null, según tu validación
+        setProductoSeleccionado("0");
         setCantidadSeleccionada("");
-        setSelectKey(prev => prev + 1); // fuerza que se reinicie el Select
+        setSelectKey(prev => prev + 1);
 
         setError(null);
         setMostrarValidacion(false);
@@ -158,6 +158,8 @@ export default function DetalleVentaForm({
         };
 
         onSubmit(ventaData);
+        // volver a cargar los productos
+        useProductosVendedor();
     }, [clienteSeleccionado, detalles, clientes, defaultValues?.id_venta, onSubmit]);
 
     return (
