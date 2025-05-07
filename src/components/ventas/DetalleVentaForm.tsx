@@ -52,7 +52,7 @@ export default function DetalleVentaForm({
 
     // Estados para producto y cantidad
     const [productoSeleccionado, setProductoSeleccionado] = useState<string>("0");
-    const [cantidadSeleccionada, setCantidadSeleccionada] = useState<string>("0");
+    const [cantidadSeleccionada, setCantidadSeleccionada] = useState<string>("");
 
     // Hooks
     const { data: productos, isLoading: isLoadingProductos } = useProductosVendedor();
@@ -91,7 +91,7 @@ export default function DetalleVentaForm({
         const productoEncontrado = productos?.find(
             (producto) => (producto as unknown as Producto).id_producto === productoId
         ) as unknown as Producto;
-        // Verificar que la cantidad no exceda el stock disponible
+        // Verificar que la cantidad no exceda el ck disponible
         if (cantidadProducto > productoEncontrado.stock) {
             setError(`No hay suficiente stock disponible. Stock actual: ${productoEncontrado.stock}`);
             return;
@@ -120,6 +120,7 @@ export default function DetalleVentaForm({
             });
             setDetalles(nuevosDetalles);
         } else {
+            console.log("producto",productoEncontrado)
             // Si no existe, crear nuevo detalle
             const nuevoDetalle: DetalleVenta = {
                 id_detalle: 0, // Temporal
@@ -130,12 +131,13 @@ export default function DetalleVentaForm({
                 precio_unitario: productoEncontrado.precio_unitario,
                 subtotal: productoEncontrado.precio_unitario * cantidadProducto
             };
+            console.log(nuevoDetalle);
             setDetalles([...detalles, nuevoDetalle]);
         }
         // Resetear valores y validación después de agregar exitosamente
-        resetDetalle({ producto: "0", cantidad: "0" });
+        resetDetalle({ producto: "0", cantidad: "" });
         setProductoSeleccionado("0");
-        setCantidadSeleccionada("0");
+        setCantidadSeleccionada("");
         setError(null);
         setMostrarValidacion(false);
     }, [productos, detalles]);
@@ -205,10 +207,9 @@ export default function DetalleVentaForm({
                         <Select
                             disabled={isLoadingProductos}
                             options={productos?.map((producto) => ({
-                                value: String(producto),
+                                value: String(producto.id_producto),
                                 label: `${producto.producto_nombre} - ${producto.cantidad_volatil} disponibles`,
                             })) || []}
-                            defaultValue={productoSeleccionado}
                             onChange={(value) => setProductoSeleccionado(value)}
                             className="dark:bg-dark-900"
                         />
@@ -223,10 +224,13 @@ export default function DetalleVentaForm({
                             value={cantidadSeleccionada}
                             onChange={(e) => setCantidadSeleccionada(e.target.value)}
                             min="0"
-                            placeholder="0"
-                            error={mostrarValidacion && Number(cantidadSeleccionada) <= 0}
-                            hint={mostrarValidacion && Number(cantidadSeleccionada) <= 0 ? "La cantidad debe ser mayor a 0" : ""}
+                            placeholder="Introduca la cantidad"
+                            error={mostrarValidacion && Number(cantidadSeleccionada) < 0}
+                            
                         />
+                        {mostrarValidacion && Number(cantidadSeleccionada) < 1 && (
+                            <p className="mt-1 text-sm text-red-600">Debes introducir una cantidad válida</p>
+                        )}
                     </div>
                     <div className="lg:col-span-2 flex justify-end">
                         <Button
@@ -249,10 +253,10 @@ export default function DetalleVentaForm({
                 <div className="mt-4">
                     <h4 className="font-semibold mb-2">Productos agregados:</h4>
                     <ul className="list-disc pl-6">
-                        {detalles.map((detalle, index) => (
+                        {detalles.map((detalle, index) => (     
                             <li key={index} className="flex justify-between items-center mb-2">
                                 <span>
-                                    {detalle.producto_nombre}: {detalle.cantidad} unidades - ${detalle.subtotal}
+                                    {detalle.producto_nombre}: {detalle.cantidad} unidades - ${detalle.precio_unitario} c/u - Subtotal: ${detalle.subtotal}
                                 </span>
                                 <Button
                                     type="button"
