@@ -28,6 +28,10 @@ import { LoadData } from "../OtherPage/LoadData.tsx"; // Carga de datos
 // Iconos
 import { SearchIcon, PlusIcon, ChevronLeftIcon, EyeIcon } from "../../icons/index.ts"; // Iconos SVG
 
+// Librerias
+import DatePicker from "react-datepicker"; // Selector de fecha
+import "react-datepicker/dist/react-datepicker.css"
+
 
 // Componente principal de ventas
 export default function VentasPage() {
@@ -35,6 +39,8 @@ export default function VentasPage() {
     const { openModal } = useModalContext(); // Abrir modales
     const [filtro, setFiltro] = useState(""); // Filtrar ventas
     const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true");
+    const [fechaInicio, setFechaInicio] = useState<Date | null>(null); // Fecha de inicio
+    const [fechaFin, setFechaFin] = useState<Date | null>(null); // Fecha de fin
     const [paginaActual, setPaginaActual] = useState(1); //Paginación
     const elementosPorPagina = 10; // Items por página
 
@@ -83,6 +89,9 @@ export default function VentasPage() {
             estadoSeleccionado === ""
                 ? true
                 : venta.estado?.toString() === estadoSeleccionado
+        )
+        .filter((venta) =>
+            (fechaInicio && fechaFin) ? new Date(venta.fecha) >= fechaInicio && new Date(venta.fecha) <= fechaFin : true
         );
 
     // Paginación
@@ -121,7 +130,7 @@ export default function VentasPage() {
                                 <SearchIcon className="size-6" />
                             </span>
                         </div>
-                         <div className="flex flex-row gap-3 items-center justify-between">
+                        <div className="flex flex-row gap-3 items-center justify-between">
                             <Label>Estado</Label>
                             <Select
                                 options={estadosVenta.map((estado) => ({
@@ -133,6 +142,29 @@ export default function VentasPage() {
                                 onChange={(value) => handleSelectChange(value, "estado")}
                                 className="dark:bg-dark-900"
                             />
+                        </div>
+
+                        {/* Filtros de fecha */}
+                        <div className="flex flex-row gap-3 items-center justify-between">
+                            <div className="flex flex-col">
+                                <div className="flex items-center gap-2">
+                                    <Label>Rango de Fechas</Label>
+                                    <DatePicker
+                                        selected={fechaInicio}
+                                        onChange={(dates) => {
+                                            const [start, end] = dates as [Date | null, Date | null];
+                                            setFechaInicio(start);
+                                            setFechaFin(end);
+                                        }}
+                                        startDate={fechaInicio}
+                                        endDate={fechaFin}
+                                        selectsRange
+                                        dateFormat="yyyy-MM-dd"
+                                        placeholderText="Selecciona un rango de fechas"
+                                        className="px-3 py-2 border border-gray-300 rounded-md dark:bg-dark-900 dark:text-white"
+                                    />
+                                </div>
+                            </div>
                         </div>
 
                         {/* Botón para agregar venta */}
