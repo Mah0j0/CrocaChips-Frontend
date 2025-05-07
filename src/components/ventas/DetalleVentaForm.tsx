@@ -37,77 +37,74 @@ export default function DetalleVentaForm({
         setValue,
     } = useForm<Venta>();
 
-    // Resetear el formulario cuando se reciben nuevos valores
     useEffect(() => {
         if (defaultValues) {
             reset(defaultValues);
         }
     }, [defaultValues, reset]);
 
-    // Estados del componente
-    const [clienteSeleccionado, setClienteSeleccionado] = useState<string>(""); // Clientes
-    const [detalles, setDetalles] = useState<DetalleVenta[]>([]); // Detalles de venta
-    const [mostrarValidacion, setMostrarValidacion] = useState<boolean>(false); // Controlar la validación
-    const [, setError] = useState<string | null>(null);
+    const [clienteSeleccionado, setClienteSeleccionado] = useState<string>("");
+    const [detalles, setDetalles] = useState<DetalleVenta[]>([]);
+    const [mostrarValidacion, setMostrarValidacion] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
 
-    // Estados para producto y cantidad
     const [productoSeleccionado, setProductoSeleccionado] = useState<string>("0");
     const [cantidadSeleccionada, setCantidadSeleccionada] = useState<string>("");
+    const [selectKey, setSelectKey] = useState(0);
 
-    // Hooks
+
     const { data: productos, isLoading: isLoadingProductos } = useProductosVendedor();
     const { data: clientes, isLoading } = useClientes();
-    const { data: detallesVenta } = useDetallesVenta(
-        defaultValues?.id_venta || 0
-    );
+    const { data: detallesVenta } = useDetallesVenta(defaultValues?.id_venta || 0);
 
-    // Establecer cliente seleccionado cuando se cargan los valores por defecto
     useEffect(() => {
         if (defaultValues?.cliente) {
             setClienteSeleccionado(String(defaultValues.cliente));
         }
     }, [defaultValues?.cliente]);
 
-    // Cargar detalles de venta existente cuando estén disponibles
     useEffect(() => {
         if (detallesVenta && detallesVenta.length > 0 && defaultValues?.id_venta) {
             setDetalles(detallesVenta);
         }
     }, [detallesVenta, defaultValues?.id_venta]);
 
-    // FORMULARIO PARA AGREGAR DETALLES DE VENTA
-    const {
-        reset: resetDetalle,
-    } = useForm<{ producto: string, cantidad: string }>();
-
-    // AGREGAR UN DETALLE DE VENTA
     const handleAgregarDetalle = useCallback((data: any) => {
-        // Activar la validación
         setMostrarValidacion(true);
-        // Convertir id y cantidad
+
         const productoId = Number(data.producto);
         const cantidadProducto = Number(data.cantidad);
-        // Buscar el producto seleccionado
+
+        if (isNaN(cantidadProducto) || cantidadProducto <= 0) {
+            setError("La cantidad debe ser mayor a 0.");
+            return;
+        }
+
         const productoEncontrado = productos?.find(
             (producto) => (producto as unknown as Producto).id_producto === productoId
         ) as unknown as Producto;
-        // Verificar que la cantidad no exceda el ck disponible
-        if (cantidadProducto > productoEncontrado.stock) {
-            setError(`No hay suficiente stock disponible. Stock actual: ${productoEncontrado.stock}`);
+
+        if (!productoEncontrado) {
+            setError("Producto no encontrado.");
             return;
         }
-        // Verificar si el producto ya está en la lista
+
+        if (cantidadProducto > productoEncontrado.cantidad_volatil) {
+            setError(`No hay suficiente stock disponible. Stock actual: ${productoEncontrado.cantidad_volatil}`);
+            return;
+        }
+
         const productoExistente = detalles.find(
             (detalle) => detalle.producto === productoId
         );
+
         if (productoExistente) {
-            // Verificar que la cantidad total no exceda el stock
             const nuevaCantidadTotal = productoExistente.cantidad + cantidadProducto;
-            if (nuevaCantidadTotal > productoEncontrado.stock) {
-                setError(`La cantidad total (${nuevaCantidadTotal}) excede el stock disponible (${productoEncontrado.stock})`);
+            if (nuevaCantidadTotal > productoEncontrado.cantidad_volatil) {
+                setError(`La cantidad total (${nuevaCantidadTotal}) excede el stock disponible (${productoEncontrado.cantidad_volatil})`);
                 return;
             }
-            // Si existe, actualizar la cantidad
+
             const nuevosDetalles = detalles.map((detalle) => {
                 if (detalle.producto === productoId) {
                     return {
@@ -120,47 +117,41 @@ export default function DetalleVentaForm({
             });
             setDetalles(nuevosDetalles);
         } else {
-            console.log("producto",productoEncontrado)
-            // Si no existe, crear nuevo detalle
             const nuevoDetalle: DetalleVenta = {
-                id_detalle: 0, // Temporal
-                id_venta: 0, // Temporal
+                id_detalle: 0,
+                id_venta: 0,
                 producto: productoId,
-                producto_nombre: productoEncontrado.nombre,
+                producto_nombre: productoEncontrado.producto_nombre,
                 cantidad: cantidadProducto,
                 precio_unitario: productoEncontrado.precio_unitario,
                 subtotal: productoEncontrado.precio_unitario * cantidadProducto
             };
-            console.log(nuevoDetalle);
             setDetalles([...detalles, nuevoDetalle]);
         }
-        // Resetear valores y validación después de agregar exitosamente
-        resetDetalle({ producto: "0", cantidad: "" });
-        setProductoSeleccionado("0");
+
+        setProductoSeleccionado("0"); // o null, según tu validación
         setCantidadSeleccionada("");
+        setSelectKey(prev => prev + 1); // fuerza que se reinicie el Select
+
         setError(null);
         setMostrarValidacion(false);
     }, [productos, detalles]);
 
-    // ELIMINAR UN DETALLE DE VENTA
     const handleEliminarDetalle = useCallback((index: number) => {
         const nuevosDetalles = [...detalles];
         nuevosDetalles.splice(index, 1);
         setDetalles(nuevosDetalles);
     }, [detalles]);
 
-    // ENVIAR EL FORMULARIO DE VENTA COMPLETO
     const handleFormSubmit = useCallback(() => {
-        // Calcular el precio total
         const precioTotal = detalles.reduce((total, detalle) => total + detalle.subtotal, 0);
-        // Preparar los datos
         const ventaData: Venta = {
             id_venta: defaultValues?.id_venta || 0,
-            cliente: Number(clienteSeleccionado), // Convertir a número
+            cliente: Number(clienteSeleccionado),
             cliente_nombre: clientes?.find(c => c.id_cliente === Number(clienteSeleccionado))?.nombre || "",
-            vendedor: typeof window !== 'undefined' ? Number(localStorage.getItem("USER_ID")) || 0 : 0, // Convertir a número
-            vendedor_nombre: typeof window !== 'undefined' ? localStorage.getItem("USER_NAME") || "" : "", // Temporal
-            estado: Boolean(0), // Convertir a booleano
+            vendedor: typeof window !== 'undefined' ? Number(localStorage.getItem("USER_ID")) || 0 : 0,
+            vendedor_nombre: typeof window !== 'undefined' ? localStorage.getItem("USER_NAME") || "" : "",
+            estado: Boolean(0),
             fecha: new Date().toISOString().split('T')[0],
             precio_total: precioTotal,
             detalles: detalles
@@ -172,8 +163,6 @@ export default function DetalleVentaForm({
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-
-                {/* Formulario para agregar productos */}
                 <div>
                     <Label>Cliente</Label>
                     <Select
@@ -195,7 +184,6 @@ export default function DetalleVentaForm({
                 </div>
             </div>
 
-            {/* Formulario para agregar productos */}
             <div className="space-y-4">
                 <h4 className="text-lg font-medium text-gray-800 dark:text-white/90">
                     Detalles de la Venta
@@ -205,6 +193,7 @@ export default function DetalleVentaForm({
                     <div>
                         <Label>Producto</Label>
                         <Select
+                            key={selectKey}
                             disabled={isLoadingProductos}
                             options={productos?.map((producto) => ({
                                 value: String(producto.id_producto),
@@ -213,6 +202,7 @@ export default function DetalleVentaForm({
                             onChange={(value) => setProductoSeleccionado(value)}
                             className="dark:bg-dark-900"
                         />
+
                         {mostrarValidacion && productoSeleccionado === "0" && (
                             <p className="mt-1 text-sm text-red-600">Debes seleccionar un producto</p>
                         )}
@@ -224,9 +214,8 @@ export default function DetalleVentaForm({
                             value={cantidadSeleccionada}
                             onChange={(e) => setCantidadSeleccionada(e.target.value)}
                             min="0"
-                            placeholder="Introduca la cantidad"
-                            error={mostrarValidacion && Number(cantidadSeleccionada) < 0}
-                            
+                            placeholder="Introduzca la cantidad"
+                            error={mostrarValidacion && Number(cantidadSeleccionada) < 1}
                         />
                         {mostrarValidacion && Number(cantidadSeleccionada) < 1 && (
                             <p className="mt-1 text-sm text-red-600">Debes introducir una cantidad válida</p>
@@ -245,15 +234,19 @@ export default function DetalleVentaForm({
                             Agregar
                         </Button>
                     </div>
+                    {error && (
+                        <div className="lg:col-span-2 text-red-600 font-medium">
+                            {error}
+                        </div>
+                    )}
                 </div>
             </div>
 
-            {/* Lista de detalles agregados */}
             {detalles.length > 0 && (
                 <div className="mt-4">
                     <h4 className="font-semibold mb-2">Productos agregados:</h4>
                     <ul className="list-disc pl-6">
-                        {detalles.map((detalle, index) => (     
+                        {detalles.map((detalle, index) => (
                             <li key={index} className="flex justify-between items-center mb-2">
                                 <span>
                                     {detalle.producto_nombre}: {detalle.cantidad} unidades - ${detalle.precio_unitario} c/u - Subtotal: ${detalle.subtotal}
@@ -276,7 +269,6 @@ export default function DetalleVentaForm({
                 </div>
             )}
 
-            {/* Botones de acción */}
             <div className="flex items-center gap-3 justify-end mt-6">
                 {onCancel && (
                     <Button type="button" variant="outline" size="sm" onClick={onCancel}>
