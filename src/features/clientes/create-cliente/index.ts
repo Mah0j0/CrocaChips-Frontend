@@ -1,1 +1,1 @@
-export {default as ClienteModaCreatel} from "./ui/CreateClienteModal.tsx";
+export {default as ProductoModaCreate} from "./ui/CreateClienteModal";

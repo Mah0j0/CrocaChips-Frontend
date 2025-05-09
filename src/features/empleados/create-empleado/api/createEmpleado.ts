@@ -2,7 +2,7 @@ import {Empleado, EmpleadoPasUser} from "../../../../entities/empleados";
 import api from "../../../../shared/lib/axios.ts";
 import {isAxiosError} from "axios";
 
-export async function createEmplado(empleado: Empleado): Promise<EmpleadoPasUser> {
+export async function createEmpleado(empleado: Empleado): Promise<EmpleadoPasUser> {
     try {
         const { data } = await api.post<EmpleadoPasUser>("/empleados/registrar/", empleado);
         return data;

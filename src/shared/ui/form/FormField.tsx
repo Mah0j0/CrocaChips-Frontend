@@ -3,6 +3,7 @@ import Input from "../../../shared/ui/form/input/InputField";
 import Label from "../../../shared/ui/form/Label";
 
 type PropsFormField<T extends FieldValues> = {
+     type?: "text" | "number" | "email" | "password" | "date" | "time" | string;
      label: string;
      name: Path<T>;
      register: UseFormRegister<T>;
@@ -12,6 +13,7 @@ type PropsFormField<T extends FieldValues> = {
 };
 
 export function FormField<T extends FieldValues>({
+     type = "text",
      label,
      name,
      register,
@@ -24,6 +26,7 @@ export function FormField<T extends FieldValues>({
              <Label htmlFor={String(name)}>{label}</Label>
              <Input
                  id={String(name)}
+                 type={type}
                  {...register(name, validation)}
                  disabled={disabled}
                  error={!!errors[name]}

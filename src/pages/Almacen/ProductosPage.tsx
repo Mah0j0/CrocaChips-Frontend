@@ -8,7 +8,7 @@ import { useModalContext } from "../../shared/context/ModalContext.tsx";
 import CreateProductoModal from "../../components/productos/CreateProductoModal.tsx";
 import EditProductoModal from "../../components/productos/EditProductoModal.tsx";
 import IncreaseStockModal from "../../components/productos/IncreaseStockModal.tsx";
-import DecreaseSrockModal from "../../components/productos/DecreaseStockModal.tsx";
+import DecreaseSrockModal from "../../features/productos/decrease-stock/ui/DecreaseStockModal.tsx";
 //Para filtros
 import { estados } from "../../shared/data";
 import Select from "../../shared/ui/form/Select.tsx";

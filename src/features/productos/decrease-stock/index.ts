@@ -1,0 +1,1 @@
+export {default as decreaseeStaockModal} from './ui/DecreaseStockModal.tsx'

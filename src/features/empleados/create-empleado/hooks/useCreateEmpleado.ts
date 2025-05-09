@@ -1,7 +1,7 @@
 // hooks/useCreateCliente.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from "react-toastify";
-import { createEmplado } from "../api/createEmpleado";
+import { createEmpleado } from "../api/createEmpleado";
 import { EmpleadoPasUser } from "../../../../entities/empleados";
 
 export const useCreateEmpleado = (
@@ -10,7 +10,7 @@ export const useCreateEmpleado = (
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: createEmplado,
+        mutationFn: createEmpleado,
         onSuccess: async (data: EmpleadoPasUser) => {
             await queryClient.invalidateQueries({ queryKey: ["empleados"] });
             toast.success("Empleado creado correctamente");

@@ -1,6 +1,6 @@
 import { isAxiosError } from "axios";
 import api from "../../../shared/lib/axios.ts";
-import { Producto, ProductosDeleteResponse } from "../model/type.ts";
+import { Producto } from "../model/type.ts";
 import { LoteProduccion } from "../../../types/lotes_producción.ts";
 
 // Función para obtener los productos de la API
@@ -28,97 +28,6 @@ export async function getProducto(): Promise<Producto> {
       throw new Error(error.response.data.error || "Error al cargar productos.");
     }
     throw new Error("Ocurrió un error inesperado al cargar productos.");
-  }
-}
-
-//Editar producto
-export async function editProducto(producto: Producto): Promise<Producto> {
-  try {
-      const { data } = await api.put<Producto>("/productos/actualizar/", producto);
-      return data;
-  } catch (error) {
-      if (isAxiosError(error) && error.response) {
-          const message = (error.response.data as { error?: string }).error;
-          throw new Error(message || "Error al editar el producto.");
-      }
-
-      throw new Error("Error inesperado al editar el producto.");
-  }
-}
-
-//Crear producto
-export async function createProducto(producto: Producto): Promise<Producto> {
-  try {
-      const { data } = await api.post<Producto>("productos/registrar/", producto);
-      return data;
-  } catch (error) {
-      if (isAxiosError(error) && error.response) {
-        console.error('Error detallado:', error.response.data); // Para depuración  
-        const message = (error.response.data as { error?: string }).error;
-          throw new Error(message || "Error al crear el producto.");
-      }
-
-      throw new Error("Error inesperado al crear el producto.");
-  }
-}
-//Eliminar producto
-export async function deleteProducto(producto: Producto): Promise<ProductosDeleteResponse> {
-  try {
-      const { data } = await api.delete<ProductosDeleteResponse>("productos/eliminar/", {
-          data: producto,
-      });
-      return data;
-  } catch (error) {
-      if (isAxiosError(error) && error.response) {
-          const message = (error.response.data as { error?: string }).error;
-          throw new Error(message || "Error al desactivar el producto.");
-      }
-
-      throw new Error("Error inesperado al desactivar el cliente.");
-  }
-}
-
-// Aumentar stock
-export async function increaseStock({
-  id,
-  cantidad,
-}: {
-  id: number;
-  cantidad: number;
-}): Promise<Producto> {
-  try {
-    const { data } = await api.patch(`productos/aumentar_stock/`, {
-      id_producto: id,
-      cantidad,
-    });
-    return data;
-  } catch (error) {
-    if (isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.error || "Error al aumentar el stock");
-    }
-    throw new Error("Error inesperado al aumentar el stock");
-  }
-}
-
-// Reducir stock
-export async function decreaseStock({
-  id,
-  cantidad,
-}: {
-  id: number;
-  cantidad: number;
-}): Promise<Producto> {
-  try {
-    const { data } = await api.patch(`productos/disminuir_stock/`, {
-      id_producto: id,
-      cantidad,
-    });
-    return data;
-  } catch (error) {
-    if (isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.error || "Error al disminuir el stock");
-    }
-    throw new Error("Error inesperado al disminuir el stock");
   }
 }
 
