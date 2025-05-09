@@ -12,7 +12,9 @@ function EditEmpleadoModal() {
     const isOpen = modals["editEmpleado"];
     const data = selectedData;
 
-    const { mutate, isPending } = useEditEmpleado();
+    const { mutate, isPending } = useEditEmpleado(() => {
+        closeModal("editEmpleado");
+    });
 
     const handleEmpleadoEdit = (formData: Empleado) => {
         mutate(formData);
@@ -43,10 +45,11 @@ function EditEmpleadoModal() {
                     ]}
                     children={
                         <DeleteEmpleadoButton
-                        empleado={data}
-                        onSuccess={()=>{
-                            closeModal("editEmpleado");
-                        }}/>
+                            empleado={data}
+                            onSuccess={()=>{
+                                closeModal("editEmpleado");
+                            }}
+                        />
                     }
                 />
             </div>

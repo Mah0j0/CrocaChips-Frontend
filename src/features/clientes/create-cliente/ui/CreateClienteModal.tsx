@@ -1,30 +1,20 @@
-import { Modal } from "../../shared/ui/modal";
-import ClienteForm from "./ClienteForm.tsx";
-import { useModalContext } from "../../shared/context/ModalContext.tsx";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createCliente } from "../../entities/clientes/api/ClienteApi.ts";
-import { toast } from "react-toastify";
-import { Cliente } from "../../entities/clientes/model/type.ts";
 import React from "react";
+import { Modal } from "../../../../shared/ui/modal";
+import { useModalContext } from "../../../../shared/context/ModalContext.tsx";
+import {useCreateCliente} from "../hooks/useCreateCliente.ts";
+import {Cliente} from "../../../../entities/clientes";
+import ClienteForm from "../../../../entities/clientes/ui/ClienteForm.tsx";
+import {clienteCreateSchema} from "../model/schema.ts";
 
 function CreateClienteModal() {
     const { modals, closeModal } = useModalContext();
     const isOpen = modals["createCliente"];
-    const queryClient = useQueryClient();
 
-    const { mutate, isPending } = useMutation({
-        mutationFn: createCliente,
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ["clientes"] });
-            toast.success("Cliente creado correctamente");
-            closeModal("createCliente");
-        },
-        onError: (error: Error) => {
-            toast.error(error.message);
-        },
+    const { mutate, isPending } = useCreateCliente(() => {
+        setTimeout(() => closeModal("createEmpleado"), 10000);
     });
 
-    const handleEmpleadoCreate = (formData: Cliente) => {
+    const handleClienteCreate = (formData: Cliente) => {
         mutate(formData);
     };
 
@@ -39,7 +29,8 @@ function CreateClienteModal() {
                 </p>
 
                 <ClienteForm
-                    onSubmit={handleEmpleadoCreate}
+                    schema={clienteCreateSchema}
+                    onSubmit={handleClienteCreate}
                     defaultValues={{}}
                     isSubmitting={isPending}
                     onCancel={() => closeModal("createCliente")}

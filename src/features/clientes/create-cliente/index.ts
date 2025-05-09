@@ -1,0 +1,1 @@
+export {default as ClienteModaCreatel} from "./ui/CreateClienteModal.tsx";

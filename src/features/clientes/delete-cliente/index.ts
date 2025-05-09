@@ -1,0 +1,1 @@
+export { default as DeleteEmpleadoButton } from "./ui/DeleteClienteButton.tsx";

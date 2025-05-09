@@ -1,6 +1,6 @@
 import { isAxiosError } from "axios";
-import api from "../../../shared/lib/axios.ts";
 import {Empleado } from "../../../../entities/empleados";
+import api from "../../../../shared/lib/axios.ts";
 
 export async function editEmpleado(empleado: Empleado): Promise<Empleado> {
     try {

@@ -1,4 +1,4 @@
-// hooks/useCreateEmpleado.ts
+// hooks/useCreateCliente.ts
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from "react-toastify";
 import { createEmplado } from "../api/createEmpleado";

@@ -1,0 +1,1 @@
+export {default as EditCliente} from "./ui/EditClienteModal.tsx";

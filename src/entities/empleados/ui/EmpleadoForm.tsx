@@ -1,6 +1,5 @@
 import { Empleado } from "../model/types.ts";
-import {useForm, UseFormRegister, FieldErrors, RegisterOptions} from "react-hook-form";
-import Input from "../../../shared/ui/form/input/InputField.tsx";
+import {useForm} from "react-hook-form";
 import Label from "../../../shared/ui/form/Label.tsx";
 import Select from "../../../shared/ui/form/Select.tsx";
 import Button from "../../../shared/ui/button/Button.tsx";
@@ -8,6 +7,7 @@ import { roles } from "../../../shared/data";
 import { useEffect } from "react";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
+import {FormField} from "../../../shared/ui/form/FormField.tsx";
 
 type Props = {
     onSubmit: (data: Empleado) => void;
@@ -21,14 +21,14 @@ type Props = {
 
 
 export default function EmpleadoForm({
-         onSubmit,
-         defaultValues = {},
-         isSubmitting = false,
-         onCancel,
-         disabledFields = [],
-         schema,
-        children,
-     }: Props) {
+     onSubmit,
+     defaultValues = {},
+     isSubmitting = false,
+     onCancel,
+     disabledFields = [],
+     schema,
+     children,
+}: Props) {
     const {
         register,
         handleSubmit,
@@ -119,27 +119,3 @@ export default function EmpleadoForm({
         </form>
     );
 }
-
-type PropsFormField = {
-    label: string;
-    name: keyof Empleado;
-    register: UseFormRegister<Empleado>;
-    errors: FieldErrors<Empleado>;
-    disabled?: boolean;
-    validation?: RegisterOptions<Empleado>;
-};
-
-const FormField = ({ label, name, register, errors, disabled = false, validation = {} }: PropsFormField) => (
-    <div>
-        <Label>{label}</Label>
-        <Input
-            type="text"
-            {...register(name, {
-                ...validation,
-            })}
-            disabled={disabled}
-            error={!!errors[name]}
-            hint={errors[name]?.message}
-        />
-    </div>
-);

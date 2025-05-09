@@ -1,21 +1,21 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { editEmpleado } from '../api/editEmpleado';
 import { toast } from "react-toastify";
+import {createCliente} from "../api/createCliente";
 
-export const useEditEmpleado = (
+export const useCreateCliente = (
     onSuccessCallback: () => void
 ) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: editEmpleado,
+        mutationFn: createCliente,
         onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ["empleado"] });
-            toast.success("Perfil actualizado correctamente");
+            await queryClient.invalidateQueries({ queryKey: ["clientes"] });
+            toast.success("Cliente creado correctamente");
             onSuccessCallback();
         },
         onError: (error: Error) => {
-            toast.error(error.message || "Error al actualizar el empleado");
+            toast.error(error.message || "Error al crear el Cliente");
         },
     });
 };
