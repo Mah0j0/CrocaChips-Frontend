@@ -1,0 +1,7 @@
+export * from './model/type'
+export * from './api/ProductosApi'
+export * from './hooks/useProducto'
+export * from './lib/formatProducto.ts'
+export * from './ui/ProductoCard.tsx'
+//export * from './hooks/useEmpleados'
+//export * from './ui/EmployeeAvatar'

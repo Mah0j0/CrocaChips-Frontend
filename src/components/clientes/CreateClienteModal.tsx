@@ -1,10 +1,10 @@
-import { Modal } from "../ui/modal";
+import { Modal } from "../../shared/ui/modal";
 import ClienteForm from "./ClienteForm.tsx";
-import { useModalContext } from "../../context/ModalContext.tsx";
+import { useModalContext } from "../../shared/context/ModalContext.tsx";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createCliente } from "../../api/ClienteAapi.ts";
+import { createCliente } from "../../entities/clientes/api/ClienteApi.ts";
 import { toast } from "react-toastify";
-import { Cliente } from "../../types/clientes.ts";
+import { Cliente } from "../../entities/clientes/model/type.ts";
 import React from "react";
 
 function CreateClienteModal() {

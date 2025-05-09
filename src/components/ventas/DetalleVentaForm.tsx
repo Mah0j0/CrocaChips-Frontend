@@ -1,20 +1,20 @@
 // React
 import { useEffect, useState, useCallback } from "react";
 // Componentes UI 
-import Button from "../ui/button/Button";
-import Input from "../form/input/InputField";
-import Label from "../form/Label";
-import Select from "../form/Select";
+import Button from "../../shared/ui/button/Button";
+import Input from "../../shared/ui/form/input/InputField";
+import Label from "../../shared/ui/form/Label";
+import Select from "../../shared/ui/form/Select";
 // Iconos y React Query
-import { TrashBinIcon, PlusIcon } from "../../icons";
+import { TrashBinIcon, PlusIcon } from "../../shared/icons";
 // Tipos
-import { Producto } from "../../types/productos";
-import { DetalleVenta, Venta } from "../../types/ventas";
+import { Producto } from "../../entities/productos/model/type.ts";
+import { DetalleVenta, Venta } from "../../entities/ventas/model/type.ts";
 import { useForm } from "react-hook-form";
 // Importar los hooks 
 import { useProductosVendedor } from "../../hooks/useDespacho.ts";
-import { useClientes } from "../../hooks/useCliente.ts";
-import { useDetallesVenta } from "../../hooks/useVentas.ts";
+import { useClientes } from "../../entities/clientes/hooks/useClientes.ts";
+import { useDetallesVenta } from "../../entities/ventas/hooks/useVentas.ts";
 
 // Props del componente
 type VentaFormProps = {

@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
-import Input from "../form/input/InputField";
-import Label from "../form/Label";
-import Button from "../ui/button/Button";
+import Input from "../../shared/ui/form/input/InputField";
+import Label from "../../shared/ui/form/Label";
+import Button from "../../shared/ui/button/Button";
 
 //Propiedades que recibe el componente
 type StockFormValues = {

@@ -1,4 +1,4 @@
-import { useEmpleado } from "../../hooks/useEmpleado.ts";
+import { useEmpleado } from "../../entities/employee/hooks/useEmpleado.ts";
 import {LoadData} from "../../pages/OtherPage/LoadData.tsx";
 
 export default function UserMetaCard() {

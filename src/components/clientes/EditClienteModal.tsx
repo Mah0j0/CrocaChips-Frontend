@@ -1,9 +1,9 @@
-import { Modal } from "../ui/modal";
+import { Modal } from "../../shared/ui/modal";
 import ClienteForm from "./ClienteForm.tsx";
-import { useModalContext } from "../../context/ModalContext.tsx";
+import { useModalContext } from "../../shared/context/ModalContext.tsx";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import {editCliente} from "../../api/ClienteAapi.ts";
-import { Cliente } from "../../types/clientes";
+import {editCliente} from "../../entities/clientes/api/ClienteApi.ts";
+import { Cliente } from "../../entities/clientes/model/type.ts";
 import { toast } from "react-toastify";
 import React from "react";
 

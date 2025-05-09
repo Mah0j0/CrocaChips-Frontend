@@ -1,5 +1,5 @@
 import React from "react";
-import * as Icons from "../../icons";
+import * as Icons from "../../shared/icons";
 
 const IconsList: React.FC = () => {
     return (

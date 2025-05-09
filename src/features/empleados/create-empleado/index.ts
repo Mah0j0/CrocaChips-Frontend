@@ -1,0 +1,1 @@
+export {default as EmpleadoModaCreatel} from "./ui/CreateEmpleadoModal";

@@ -1,12 +1,12 @@
 import {useForm, UseFormRegister, FieldErrors, RegisterOptions} from "react-hook-form";
-import Input from "../form/input/InputField";
-import Label from "../form/Label";
-import Button from "../ui/button/Button";
+import Input from "../../shared/ui/form/input/InputField";
+import Label from "../../shared/ui/form/Label";
+import Button from "../../shared/ui/button/Button";
 import { useEffect } from "react";
 import {toast} from "react-toastify";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import {Cliente} from "../../types/clientes.ts";
-import {deleteCliente} from "../../api/ClienteAapi.ts";
+import {Cliente} from "../../entities/clientes/model/type.ts";
+import {deleteCliente} from "../../entities/clientes/api/ClienteApi.ts";
 
 type Props = {
     onSubmit: (data: Cliente) => void;

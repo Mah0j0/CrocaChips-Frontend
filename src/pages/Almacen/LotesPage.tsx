@@ -1,17 +1,17 @@
 //Inicio de pagina
-import PageBreadcrumb from "../../components/common/PageBreadCrumb.tsx";
-import PageMeta from "../../components/common/PageMeta.tsx";
+import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb.tsx";
+import PageMeta from "../../shared/ui/common/PageMeta.tsx";
 //Lotes
-import { useLotes } from "../../hooks/useProducto.ts";
+import { useLotes } from "../../entities/productos/hooks/useProducto.ts";
 //Para tablas
-import { SearchIcon, ChevronLeftIcon} from "../../icons/index.ts";
+import { SearchIcon, ChevronLeftIcon} from "../../shared/icons/index.ts";
 import { useState } from "react";
-import {TableCell} from "../../components/ui/table/index.tsx";
+import {TableCell} from "../../shared/ui/table/index.tsx";
 import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne.tsx";
-import Alert from "../../components/ui/alert/Alert.tsx";
-import Input from "../../components/form/input/InputField.tsx";
-import ComponentCard from "../../components/common/ComponentCard.tsx";
-import Button from "../../components/ui/button/Button.tsx";
+import Alert from "../../shared/ui/alert/Alert.tsx";
+import Input from "../../shared/ui/form/input/InputField.tsx";
+import ComponentCard from "../../shared/ui/common/ComponentCard.tsx";
+import Button from "../../shared/ui/button/Button.tsx";
 
 export default function LotesPage() {
     const {data, isLoading, isError} = useLotes(); //Traer los lotes

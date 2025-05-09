@@ -1,7 +1,7 @@
-import EcommerceMetrics from "../../components/ecommerce/EcommerceMetrics";
-import MonthlySalesChart from "../../components/ecommerce/MonthlySalesChart";
-import StatisticsChart from "../../components/ecommerce/StatisticsChart";
-import PageMeta from "../../components/common/PageMeta";
+import EcommerceMetrics from "../../shared/ui/ecommerce/EcommerceMetrics";
+import MonthlySalesChart from "../../shared/ui/ecommerce/MonthlySalesChart";
+import StatisticsChart from "../../shared/ui/ecommerce/StatisticsChart";
+import PageMeta from "../../shared/ui/common/PageMeta";
 
 export default function Home() {
   return (

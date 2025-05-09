@@ -1,5 +1,5 @@
 import { isAxiosError } from "axios";
-import api from "../config/axios";
+import api from "../shared/lib/axios";
 import { Movimiento, MovimientosDeleteResponse } from "../types/movimientos";
 
 //RECEPCIONES

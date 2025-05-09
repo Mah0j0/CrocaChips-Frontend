@@ -1,32 +1,32 @@
 // Componentes para el layout de la página
-import PageBreadcrumb from "../../components/common/PageBreadCrumb.tsx";
-import PageMeta from "../../components/common/PageMeta.tsx";
-import Label from "../../components/form/Label.tsx";
-import Select from "../../components/form/Select.tsx";
-import { estadosVenta } from "../../data";
+import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb.tsx";
+import PageMeta from "../../shared/ui/common/PageMeta.tsx";
+import Label from "../../shared/ui/form/Label.tsx";
+import Select from "../../shared/ui/form/Select.tsx";
+import { estadosVenta } from "../../shared/data";
 // React y Hooks
 import { useState } from "react"; // Hook de estado de React
-import { useVentas } from "../../hooks/useVentas"; // Hook para datos de ventas
-import { useModalContext } from "../../context/ModalContext"; // Contexto de modales
+import { useVentas } from "../../entities/ventas/hooks/useVentas.ts"; // Hook para datos de ventas
+import { useModalContext } from "../../shared/context/ModalContext"; // Contexto de modales
 
 // Modales
 import CreateVentaModal from '../../components/ventas/CreateVentaModal';
 import DetalleVentaModal from '../../components/ventas/DetalleVentaModal';
 
 // Componentes UI 
-import Alert from "../../components/ui/alert/Alert.tsx"; // Componente de alerta
-import Button from "../../components/ui/button/Button.tsx"; // Botón personalizado
-import Badge from "../../components/ui/badge/Badge.tsx"; // Badge para estados
-import Input from "../../components/form/input/InputField.tsx"; // Campo de entrada de texto
-import ComponentCard from "../../components/common/ComponentCard.tsx"; // Contenedor de componentes
-import { TableCell } from "../../components/ui/table/index.tsx"; // Celda de tabla personalizada
+import Alert from "../../shared/ui/alert/Alert.tsx"; // Componente de alerta
+import Button from "../../shared/ui/button/Button.tsx"; // Botón personalizado
+import Badge from "../../shared/ui/badge/Badge.tsx"; // Badge para estados
+import Input from "../../shared/ui/form/input/InputField.tsx"; // Campo de entrada de texto
+import ComponentCard from "../../shared/ui/common/ComponentCard.tsx"; // Contenedor de componentes
+import { TableCell } from "../../shared/ui/table/index.tsx"; // Celda de tabla personalizada
 
 // Tablas y carga
 import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne.tsx"; // Componente de tabla
 import { LoadData } from "../OtherPage/LoadData.tsx"; // Carga de datos
 
 // Iconos
-import { SearchIcon, PlusIcon, ChevronLeftIcon, EyeIcon } from "../../icons/index.ts"; // Iconos SVG
+import { SearchIcon, PlusIcon, ChevronLeftIcon, EyeIcon } from "../../shared/icons/index.ts"; // Iconos SVG
 
 // Librerias
 import DatePicker from "react-datepicker"; // Selector de fecha

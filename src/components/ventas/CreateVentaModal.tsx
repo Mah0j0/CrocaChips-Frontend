@@ -1,16 +1,16 @@
 // React 
 import React, { useState } from "react";
 // Componentes UI
-import { Modal } from "../ui/modal";
+import { Modal } from "../../shared/ui/modal";
 // Contextos y React Query
-import { useModalContext } from "../../context/ModalContext";
+import { useModalContext } from "../../shared/context/ModalContext";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 // Notificaciones
 import { toast } from "react-toastify";
 // Componentes internos 
 import DetalleVentaForm from "./DetalleVentaForm";
 // Funciones del API
-import { createVenta } from "../../api/VentasApi";
+import { createVenta } from "../../entities/ventas/api/VentasApi.ts";
 
 function CreateVentaModal() {
     // Contexto del modal y estado

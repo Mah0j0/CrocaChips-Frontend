@@ -1,9 +1,9 @@
-import { Producto } from "../../types/productos.ts";
-import { editProducto } from "../../api/ProductosApi.ts";
+import { Producto } from "../../entities/productos/model/type.ts";
+import { editProducto } from "../../entities/productos/api/ProductosApi.ts";
 import ProductoForm from "./ProductoForm.tsx";
-import { Modal } from "../ui/modal";
-import { BoxIcon } from "../../icons/index.ts";
-import { useModalContext } from "../../context/ModalContext.tsx";
+import { Modal } from "../../shared/ui/modal";
+import { BoxIcon } from "../../shared/icons/index.ts";
+import { useModalContext } from "../../shared/context/ModalContext.tsx";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import React from "react";

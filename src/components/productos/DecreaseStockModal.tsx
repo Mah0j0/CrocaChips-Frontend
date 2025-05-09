@@ -1,9 +1,9 @@
-import { Producto } from "../../types/productos.ts";
-import { decreaseStock } from "../../api/ProductosApi.ts";
-import { useModalContext } from "../../context/ModalContext.tsx";
+import { Producto } from "../../entities/productos/model/type.ts";
+import { decreaseStock } from "../../entities/productos/api/ProductosApi.ts";
+import { useModalContext } from "../../shared/context/ModalContext.tsx";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { Modal } from "../ui/modal";
+import { Modal } from "../../shared/ui/modal";
 import StockForm from "./StockForm.tsx";
 import React from "react";
 

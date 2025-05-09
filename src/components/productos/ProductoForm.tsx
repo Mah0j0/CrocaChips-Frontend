@@ -1,11 +1,11 @@
-import { Producto } from "../../types/productos";
+import { Producto } from "../../entities/productos/model/type.ts";
 import {useForm, UseFormRegister, FieldErrors, RegisterOptions} from "react-hook-form";
-import Input from "../form/input/InputField";
-import Label from "../form/Label";
-import Select from "../form/Select";
-import Button from "../ui/button/Button";
+import Input from "../../shared/ui/form/input/InputField";
+import Label from "../../shared/ui/form/Label";
+import Select from "../../shared/ui/form/Select";
+import Button from "../../shared/ui/button/Button";
 import { useEffect } from "react";
-import { deleteProducto } from "../../api/ProductosApi.ts";
+import { deleteProducto } from "../../entities/productos/api/ProductosApi.ts";
 import {toast} from "react-toastify";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 

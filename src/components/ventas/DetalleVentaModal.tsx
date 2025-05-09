@@ -1,18 +1,18 @@
 // React 
 import React, { useState } from "react";
 // Componentes UI
-import { Modal } from "../ui/modal";
-import Button from "../ui/button/Button";
-import Badge from "../ui/badge/Badge";
+import { Modal } from "../../shared/ui/modal";
+import Button from "../../shared/ui/button/Button";
+import Badge from "../../shared/ui/badge/Badge";
 // Contextos y React Query
-import { useModalContext } from "../../context/ModalContext";
+import { useModalContext } from "../../shared/context/ModalContext";
 import { useQuery } from "@tanstack/react-query";
 // Notificaciones
 import { toast } from "react-toastify";
 // Funciones del API
-import { getDetallesVenta } from "../../api/VentasApi";
+import { getDetallesVenta } from "../../entities/ventas/api/VentasApi.ts";
 // Añadir importación del tipo DetalleVenta
-import { DetalleVenta } from "../../types/ventas";
+import { DetalleVenta } from "../../entities/ventas/model/type.ts";
 
 function DetalleVentaModal() {
     // Contexto del modal y datos seleccionados
