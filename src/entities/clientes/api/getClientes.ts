@@ -15,8 +15,3 @@ export async function getClientes(): Promise<Cliente[]> {
         throw new Error("Error inesperado al obtener los clientes.");
     }
 }
-
-
-
-
-

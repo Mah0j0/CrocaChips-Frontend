@@ -1,5 +1,5 @@
 import {useQuery} from "@tanstack/react-query";
-import {getClientes} from "../api/ClienteApi.ts";
+import {getClientes} from "../api/getClientes.ts";
 import {Cliente} from "../model/type.ts";
 
 export function useClientes() {

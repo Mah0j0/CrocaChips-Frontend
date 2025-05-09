@@ -1,5 +1,5 @@
 export * from './model/type.ts'
-export * from './api/ClienteApi.ts'
+export * from './api/getClientes.ts'
 export * from './hooks/useClientes.ts'
 export * from './lib/formatClienteNombre.ts'
 export * from './ui/ClienteCard.tsx'
