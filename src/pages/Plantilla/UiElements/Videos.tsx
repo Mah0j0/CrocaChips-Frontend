@@ -1,10 +1,10 @@
-import ComponentCard from "../../shared/ui/common/ComponentCard";
-import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb";
-import PageMeta from "../../shared/ui/common/PageMeta";
-import FourIsToThree from "../../shared/ui/videos/FourIsToThree";
-import OneIsToOne from "../../shared/ui/videos/OneIsToOne";
-import SixteenIsToNine from "../../shared/ui/videos/SixteenIsToNine";
-import TwentyOneIsToNine from "../../shared/ui/videos/TwentyOneIsToNine";
+import ComponentCard from "../../../shared/ui/common/ComponentCard.tsx";
+import PageBreadcrumb from "../../../shared/ui/common/PageBreadCrumb.tsx";
+import PageMeta from "../../../shared/ui/common/PageMeta.tsx";
+import FourIsToThree from "../../../shared/ui/videos/FourIsToThree.tsx";
+import OneIsToOne from "../../../shared/ui/videos/OneIsToOne.tsx";
+import SixteenIsToNine from "../../../shared/ui/videos/SixteenIsToNine.tsx";
+import TwentyOneIsToNine from "../../../shared/ui/videos/TwentyOneIsToNine.tsx";
 
 export default function Videos() {
   return (

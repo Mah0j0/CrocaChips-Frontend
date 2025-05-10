@@ -1,7 +1,7 @@
-import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb";
-import ComponentCard from "../../shared/ui/common/ComponentCard";
-import Avatar from "../../shared/ui/avatar/Avatar";
-import PageMeta from "../../shared/ui/common/PageMeta";
+import PageBreadcrumb from "../../../shared/ui/common/PageBreadCrumb.tsx";
+import ComponentCard from "../../../shared/ui/common/ComponentCard.tsx";
+import Avatar from "../../../shared/ui/avatar/Avatar.tsx";
+import PageMeta from "../../../shared/ui/common/PageMeta.tsx";
 
 export default function Avatars() {
   return (

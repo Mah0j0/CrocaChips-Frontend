@@ -1,5 +1,5 @@
-import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb";
-import PageMeta from "../../shared/ui/common/PageMeta";
+import PageBreadcrumb from "../../../shared/ui/common/PageBreadCrumb.tsx";
+import PageMeta from "../../../shared/ui/common/PageMeta.tsx";
 
 export default function BasicTables() {
   return (

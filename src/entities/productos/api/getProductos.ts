@@ -2,9 +2,9 @@ import {Producto} from "../model/type.ts";
 import api from "../../../shared/lib/axios.ts";
 import {isAxiosError} from "axios";
 
-export async function getProducto(): Promise<Producto> {
+export async function getProducts(): Promise<Producto[]> {
     try {
-        const { data } = await api.get<Producto>("/productos/");
+        const { data } = await api.get<Producto[]>("/productos/");
         return data;
     } catch (error) {
         console.error("Error al obtener productos:", error);

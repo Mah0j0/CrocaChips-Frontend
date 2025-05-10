@@ -1,4 +1,4 @@
-import {useModalContext} from "../../../../shared/context/ModalContext.tsx";
+import {useModalContext} from "../../../../app/providers/ModalContext.tsx";
 import {Cliente} from "../../../../entities/clientes";
 import {Modal} from "../../../../shared/ui/modal";
 import ClienteForm from "../../../../entities/clientes/ui/ClienteForm.tsx";

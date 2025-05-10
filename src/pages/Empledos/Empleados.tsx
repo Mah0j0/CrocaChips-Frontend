@@ -10,15 +10,15 @@ import Input from "../../shared/ui/form/input/InputField.tsx";
 import {ChevronLeftIcon, GroupIcon, MoreDotIcon, SearchIcon} from "../../shared/icons";
 import Button from "../../shared/ui/button/Button.tsx";
 import CreateEmpleadoModal from "../../features/empleados/create-empleado/ui/CreateEmpleadoModal.tsx";
-import { useModalContext } from "../../shared/context/ModalContext.tsx";
+import { useModalContext } from "../../app/providers/ModalContext.tsx";
 import EditEmpleadoModal from "../../features/empleados/edit-empleado/ui/EditEmpleadoModal.tsx";
 import Label from "../../shared/ui/form/Label.tsx";
 import Select from "../../shared/ui/form/Select.tsx";
 import { estados, roles } from "../../shared/data";
 import {useState} from "react";
-import {LoadData} from "../OtherPage/LoadData.tsx";
+import {LoadData} from "../Plantilla/OtherPage/LoadData.tsx";
 
-export default function Usuarios() {
+export default function Empleados() {
     const { openModal } = useModalContext();
     const { data, isLoading, error } = useEmpleados();
     const [filtro, setFiltro] = useState("");

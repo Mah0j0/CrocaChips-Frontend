@@ -2,7 +2,7 @@
 import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb.tsx";
 import PageMeta from "../../shared/ui/common/PageMeta.tsx";
 //Recepciones
-import { useRecepciones } from "../../hooks/useRecepcion.ts";
+import { useRecepciones } from "../../entities/movimientos";
 //Modals
 //import { useModalContext } from "../../context/ModalContext.tsx";
 //crear recepcion modal

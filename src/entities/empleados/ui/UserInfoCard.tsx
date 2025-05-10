@@ -1,7 +1,7 @@
 import EditEmpleadoModal from "../../../features/empleados/edit-empleado/ui/EditEmpleadoModal.tsx";
 import { useQueryClient } from "@tanstack/react-query";
 import { Empleado } from "../model/types.ts";
-import { useModalContext } from "../../../shared/context/ModalContext.tsx";
+import { useModalContext } from "../../../app/providers/ModalContext.tsx";
 
 export default function UserInfoCard() {
     const { openModal } = useModalContext();

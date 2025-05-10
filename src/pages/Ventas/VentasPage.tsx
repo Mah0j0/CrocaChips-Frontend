@@ -7,7 +7,7 @@ import { estadosVenta } from "../../shared/data";
 // React y Hooks
 import { useState } from "react"; // Hook de estado de React
 import {useVentas, Venta} from "../../entities/ventas"; // Hook para datos de ventas
-import { useModalContext } from "../../shared/context/ModalContext"; // Contexto de modales
+import { useModalContext } from "../../app/providers/ModalContext.tsx"; // Contexto de modales
 
 // Modales
 import {DetalleVentaModal} from "../../entities/ventas";
@@ -23,7 +23,7 @@ import { TableCell } from "../../shared/ui/table"; // Celda de tabla personaliza
 
 // Tablas y carga
 import BasicTableOne from "../../shared/ui/table/BasicTableOne.tsx"; // Componente de tabla
-import { LoadData } from "../OtherPage/LoadData.tsx"; // Carga de datos
+import { LoadData } from "../Plantilla/OtherPage/LoadData.tsx"; // Carga de datos
 
 // Iconos
 import { SearchIcon, PlusIcon, ChevronLeftIcon, EyeIcon } from "../../shared/icons/index.ts"; // Iconos SVG

@@ -1,9 +1,9 @@
-import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb";
-import ResponsiveImage from "../../shared/ui/images/ResponsiveImage";
-import TwoColumnImageGrid from "../../shared/ui/images/TwoColumnImageGrid";
-import ThreeColumnImageGrid from "../../shared/ui/images/ThreeColumnImageGrid";
-import ComponentCard from "../../shared/ui/common/ComponentCard";
-import PageMeta from "../../shared/ui/common/PageMeta";
+import PageBreadcrumb from "../../../shared/ui/common/PageBreadCrumb.tsx";
+import ResponsiveImage from "../../../shared/ui/images/ResponsiveImage.tsx";
+import TwoColumnImageGrid from "../../../shared/ui/images/TwoColumnImageGrid.tsx";
+import ThreeColumnImageGrid from "../../../shared/ui/images/ThreeColumnImageGrid.tsx";
+import ComponentCard from "../../../shared/ui/common/ComponentCard.tsx";
+import PageMeta from "../../../shared/ui/common/PageMeta.tsx";
 
 export default function Images() {
   return (

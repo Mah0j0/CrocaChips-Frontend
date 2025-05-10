@@ -1,4 +1,4 @@
-import { useTheme } from "../../context/ThemeContext.tsx";
+import { useTheme } from "../../../app/providers/ThemeContext.tsx";
 
 export default function ThemeTogglerTwo() {
   const { toggleTheme } = useTheme();

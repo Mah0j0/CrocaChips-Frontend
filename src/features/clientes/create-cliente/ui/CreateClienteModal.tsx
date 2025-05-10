@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal } from "../../../../shared/ui/modal";
-import { useModalContext } from "../../../../shared/context/ModalContext.tsx";
+import { useModalContext } from "../../../../app/providers/ModalContext.tsx";
 import {useCreateCliente} from "../hooks/useCreateCliente.ts";
 import {Cliente} from "../../../../entities/clientes";
 import ClienteForm from "../../../../entities/clientes/ui/ClienteForm.tsx";

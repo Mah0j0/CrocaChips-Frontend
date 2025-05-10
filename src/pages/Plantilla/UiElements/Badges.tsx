@@ -1,8 +1,8 @@
-import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb";
-import Badge from "../../shared/ui/badge/Badge";
-import { PlusIcon } from "../../shared/icons";
-import PageMeta from "../../shared/ui/common/PageMeta";
-import ComponentCard from "../../shared/ui/common/ComponentCard";
+import PageBreadcrumb from "../../../shared/ui/common/PageBreadCrumb.tsx";
+import Badge from "../../../shared/ui/badge/Badge.tsx";
+import { PlusIcon } from "../../../shared/icons";
+import PageMeta from "../../../shared/ui/common/PageMeta.tsx";
+import ComponentCard from "../../../shared/ui/common/ComponentCard.tsx";
 
 export default function Badges() {
   return (

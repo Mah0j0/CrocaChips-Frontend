@@ -1,5 +1,5 @@
 import React from "react"; // Asegúrate de importar React
-import { SidebarProvider, useSidebar } from "../context/SidebarContext.tsx";
+import { SidebarProvider, useSidebar } from "../../app/providers/SidebarContext.tsx";
 import { Outlet, Navigate } from "react-router-dom"; // Agrupa imports de react-router-dom
 
 // Componentes de UI
@@ -59,7 +59,7 @@ export default function AppLayout() {
 
     // 2. Estado de Error
     if (isError) {
-        return  <Navigate to="/login" replace />; ;
+        return  <Navigate to="/login" replace />;
     }
 
     // 3. Estado Exitoso (userData está disponible)

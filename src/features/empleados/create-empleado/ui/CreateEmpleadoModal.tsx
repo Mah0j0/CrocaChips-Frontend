@@ -1,6 +1,6 @@
 import { Modal } from "../../../../shared/ui/modal";
 import EmpleadoForm from "../../../../entities/empleados/ui/EmpleadoForm.tsx";
-import { useModalContext } from "../../../../shared/context/ModalContext.tsx";
+import { useModalContext } from "../../../../app/providers/ModalContext.tsx";
 import { Empleado, EmpleadoPasUser } from "../../../../entities/empleados";
 import React, { useState } from "react";
 import CopyButton from "../../../../shared/ui/copy/CopyToClipboard.tsx";

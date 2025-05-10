@@ -4,7 +4,7 @@ import PageMeta from "../../shared/ui/common/PageMeta.tsx";
 //Producto
 import { useProducts } from "../../entities/productos";
 //Modals
-import { useModalContext } from "../../shared/context/ModalContext.tsx";
+import { useModalContext } from "../../app/providers/ModalContext.tsx";
 
 import {
     CreateProductoModal,

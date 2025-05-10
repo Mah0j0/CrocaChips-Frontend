@@ -16,7 +16,7 @@ import {
   TableIcon,
   UserCircleIcon,*/
 } from "../icons";
-import { useSidebar } from "../context/SidebarContext.tsx";
+import { useSidebar } from "../../app/providers/SidebarContext.tsx";
 
 type NavItem = {
   name: string;
@@ -217,7 +217,7 @@ const AppSidebar: React.FC = () => {
                 <ChevronDownIcon
                   className={`ml-auto w-5 h-5 transition-transform duration-200 ${openSubmenu?.type === menuType &&
                     openSubmenu?.index === index
-                    ? "rotate-180 text-brand-500"
+                    ? "rotate-180 text-orange-500"
                     : ""
                     }`}
                 />

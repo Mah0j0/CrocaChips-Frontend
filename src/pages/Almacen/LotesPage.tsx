@@ -2,11 +2,11 @@
 import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb.tsx";
 import PageMeta from "../../shared/ui/common/PageMeta.tsx";
 //Lotes
-import { useLotes } from "../../entities/productos/hooks/useProducto.ts";
+import { useLotes } from "../../entities/productos";
 //Para tablas
 import { SearchIcon, ChevronLeftIcon} from "../../shared/icons/index.ts";
 import { useState } from "react";
-import {TableCell} from "../../shared/ui/table/index.tsx";
+import {TableCell} from "../../shared/ui/table";
 import BasicTableOne from "../../shared/ui/table/BasicTableOne.tsx";
 import Alert from "../../shared/ui/alert/Alert.tsx";
 import Input from "../../shared/ui/form/input/InputField.tsx";

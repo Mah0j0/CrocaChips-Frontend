@@ -1,8 +1,8 @@
-import ComponentCard from "../../shared/ui/common/ComponentCard";
-import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb";
-import PageMeta from "../../shared/ui/common/PageMeta";
-import Button from "../../shared/ui/button/Button";
-import { BoxIcon } from "../../shared/icons";
+import ComponentCard from "../../../shared/ui/common/ComponentCard.tsx";
+import PageBreadcrumb from "../../../shared/ui/common/PageBreadCrumb.tsx";
+import PageMeta from "../../../shared/ui/common/PageMeta.tsx";
+import Button from "../../../shared/ui/button/Button.tsx";
+import { BoxIcon } from "../../../shared/icons";
 
 export default function Buttons() {
   return (

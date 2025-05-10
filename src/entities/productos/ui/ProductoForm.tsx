@@ -95,9 +95,9 @@ export default function ProductoForm({
             </div>
             <div className="flex items-center gap-3 justify-end">
                 {children && (
-                    <div className="mt-4 border-t pt-4">
+                    <>
                         {children}
-                    </div>
+                    </>
                 )}
                 {onCancel && (
                     <Button type="button" variant="outline" size="sm" onClick={onCancel}>

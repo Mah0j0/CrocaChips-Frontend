@@ -8,12 +8,12 @@ import Alert from "../../shared/ui/alert/Alert.tsx";
 import Input from "../../shared/ui/form/input/InputField.tsx";
 import {ChevronLeftIcon, GroupIcon, MoreDotIcon, SearchIcon} from "../../shared/icons";
 import Button from "../../shared/ui/button/Button.tsx";
-import { useModalContext } from "../../shared/context/ModalContext.tsx";
+import { useModalContext } from "../../app/providers/ModalContext.tsx";
 import Label from "../../shared/ui/form/Label.tsx";
 import Select from "../../shared/ui/form/Select.tsx";
 import { estados } from "../../shared/data";
 import {useState} from "react";
-import {LoadData} from "../OtherPage/LoadData.tsx";
+import {LoadData} from "../Plantilla/OtherPage/LoadData.tsx";
 import {useClientes} from "../../entities/clientes";
 import {CreateClienteModal, EditClienteModal} from "../../features/clientes";
 

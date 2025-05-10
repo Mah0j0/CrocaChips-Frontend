@@ -2,7 +2,7 @@
 import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb.tsx";
 import PageMeta from "../../shared/ui/common/PageMeta.tsx";
 //Despachos
-import { useDespachos } from "../../hooks/useDespacho.ts";
+import { useDespachos } from "../../entities/movimientos";
 //Modals
 //import { useModalContext } from "../../context/ModalContext.tsx";
 //crear despacho modal

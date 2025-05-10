@@ -1,5 +1,5 @@
 import { Modal } from "../../../shared/ui/modal";
-import { useModalContext } from "../../../shared/context/ModalContext";
+import { useModalContext } from "../../../app/providers/ModalContext.tsx";
 import VentaResumen from "./VentaResumen";
 import TablaDetallesVenta from "./TablaDetallesVenta";
 import { Venta } from "../model/type";

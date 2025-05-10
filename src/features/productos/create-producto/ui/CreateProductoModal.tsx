@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal } from "../../../../shared/ui/modal";
-import { useModalContext } from "../../../../shared/context/ModalContext.tsx";
+import { useModalContext } from "../../../../app/providers/ModalContext.tsx";
 import { useCreateProducto } from "../hooks/useCreateProducto.ts";
 import { Producto } from "../../../../entities/productos";
 import ProductoForm from "../../../../entities/productos/ui/ProductoForm.tsx";

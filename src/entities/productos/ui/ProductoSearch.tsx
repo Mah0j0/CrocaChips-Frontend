@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useProducts as productos } from "../hooks/useProducto.ts";
+import { useProducts as productos } from "../hooks/useProductos.ts";
 import { Producto } from "../model/type.ts";
 
 type Props = {

@@ -1,6 +1,6 @@
 import { Modal } from "../../../../shared/ui/modal";
 import EmpleadoForm from "../../../../entities/empleados/ui/EmpleadoForm.tsx";
-import { useModalContext } from "../../../../shared/context/ModalContext.tsx";
+import { useModalContext } from "../../../../app/providers/ModalContext.tsx";
 import { Empleado } from "../../../../entities/empleados";
 import {useEditEmpleado} from "../hooks/useEditEmpleado.ts";
 import {empleadoSchema} from "../model/schema.ts";

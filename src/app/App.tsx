@@ -1,26 +1,26 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignIn from "../pages/AuthPages/SignIn.tsx";
 import SignUp from "../pages/AuthPages/SignUp.tsx";
-import NotFound from "../pages/OtherPage/NotFound.tsx";
+import NotFound from "../pages/Plantilla/OtherPage/NotFound.tsx";
 import UserProfiles from "../pages/UserProfiles.tsx";
-import Videos from "../pages/UiElements/Videos.tsx";
-import Images from "../pages/UiElements/Images.tsx";
-import Alerts from "../pages/UiElements/Alerts.tsx";
-import Badges from "../pages/UiElements/Badges.tsx";
-import Avatars from "../pages/UiElements/Avatars.tsx";
-import Buttons from "../pages/UiElements/Buttons.tsx";
+import Videos from "../pages/Plantilla/UiElements/Videos.tsx";
+import Images from "../pages/Plantilla/UiElements/Images.tsx";
+import Alerts from "../pages/Plantilla/UiElements/Alerts.tsx";
+import Badges from "../pages/Plantilla/UiElements/Badges.tsx";
+import Avatars from "../pages/Plantilla/UiElements/Avatars.tsx";
+import Buttons from "../pages/Plantilla/UiElements/Buttons.tsx";
 import LineChart from "../shared/Charts/LineChart.tsx";
 import BarChart from "../shared/Charts/BarChart.tsx";
-import Calendar from "../pages/Calendar.tsx";
-import BasicTables from "../pages/Tables/BasicTables.tsx";
-import FormElements from "../pages/Forms/FormElements.tsx";
+import Calendar from "../pages/Plantilla/Calendar.tsx";
+import BasicTables from "../pages/Plantilla/Tables/BasicTables.tsx";
+import FormElements from "../pages/Plantilla/Forms/FormElements.tsx";
 import Blank from "../pages/Blank.tsx";
 import AppLayout from "../shared/layout/AppLayout.tsx";
 import Home from "../pages/Dashboard/Home.tsx";
-import Usuarios from "../pages/Usuarios/Usuarios.tsx";
+import Empleados from "../pages/Empledos/Empleados.tsx";
 import { ScrollToTop } from "../shared/ui/common/ScrollToTop.tsx";
 import {ToastContainer} from "react-toastify";
-import IconsList from "../pages/UiElements/IconsList.tsx";
+import IconsList from "../pages/Plantilla/UiElements/IconsList.tsx";
 import ClientesPage from "../pages/Clientes/ClientesPage.tsx";
 //Inventario
 import ProductosPage from "../pages/Almacen/ProductosPage.tsx";
@@ -48,7 +48,7 @@ export default function App() {
             <Route path="/ventas" element={<VentasPage/>} />
 
             <Route path="/profile" element={<UserProfiles />} />
-            <Route path="/usuarios" element={<Usuarios/>}/>
+            <Route path="/usuarios" element={<Empleados/>}/>
             <Route path="/clientes" element={<ClientesPage/>}/>
 
 

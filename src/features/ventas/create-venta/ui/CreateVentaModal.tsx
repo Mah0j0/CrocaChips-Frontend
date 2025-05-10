@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal } from "../../../../shared/ui/modal";
-import { useModalContext } from "../../../../shared/context/ModalContext.tsx";
+import { useModalContext } from "../../../../app/providers/ModalContext.tsx";
 import { useCreateVenta } from "../hooks/useCreateVenta.ts";
 import DetalleVentaForm from "../../../../entities/ventas/ui/DetalleVentaForm.tsx";
 import {NuevaVenta} from "../../../../entities/ventas";
