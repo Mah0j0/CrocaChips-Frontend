@@ -1,8 +1,8 @@
-import { useModal } from "../../shared/hooks/useModal.ts";
-import { Modal } from "../../shared/ui/modal";
-import Button from "../../shared/ui/button/Button";
-import Input from "../../shared/ui/form/input/InputField";
-import Label from "../../shared/ui/form/Label";
+import { useModal } from "../../../shared/hooks/useModal.ts";
+import { Modal } from "../../../shared/ui/modal";
+import Button from "../../../shared/ui/button/Button.tsx";
+import Input from "../../../shared/ui/form/input/InputField.tsx";
+import Label from "../../../shared/ui/form/Label.tsx";
 
 export default function UserAddressCard() {
   const { isOpen, openModal, closeModal } = useModal();

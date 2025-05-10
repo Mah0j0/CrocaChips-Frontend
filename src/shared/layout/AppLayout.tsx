@@ -7,10 +7,9 @@ import AppHeader from "./AppHeader.tsx";
 import Backdrop from "./Backdrop.tsx";
 import AppSidebar from "./AppSidebar.tsx";
 import LoadingSpinner from "./LoadingSpinner.tsx";
+import {EmpleadoInfo, useEmpleado} from "../../entities/empleados";
 
 // API y Tipos
-import { EmpleadoInfo } from "../entities/employee/model/types.ts";
-import {useEmpleado} from "../entities/employee/hooks/useEmpleado.ts";
 
 // --- Componente de Contenido del Layout ---
 type LayoutContentProps = {

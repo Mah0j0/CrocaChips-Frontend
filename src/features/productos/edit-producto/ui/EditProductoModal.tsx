@@ -3,7 +3,7 @@ import {useModalContext} from "../../../../shared/context/ModalContext.tsx";
 import { Producto, ProductoForm} from "../../../../entities/productos";
 import {Modal} from "../../../../shared/ui/modal";
 import { productoCreateSchema } from "../model/schema.ts";
-import {DeleteButton} from "../../delete-producto";
+import { default as DeleteButton} from "../../delete-producto";
 import {useEditProducto} from "../hooks/useEditProducto.ts";
 
 

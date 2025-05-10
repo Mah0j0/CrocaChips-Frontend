@@ -3,7 +3,7 @@ import { DropdownItem } from "../dropdown/DropdownItem.tsx";
 import { Dropdown } from "../dropdown/Dropdown.tsx";
 import {useNavigate} from "react-router";
 import { useAuth }  from "../../../features/auth/login/context/AuthContext.tsx";
-import {EmpleadoInfo} from "../../entities/employee/model/types.ts";
+import {EmpleadoInfo} from "../../../entities/empleados";
 import {useQueryClient} from "@tanstack/react-query";
 
 type PropsDropdown = {

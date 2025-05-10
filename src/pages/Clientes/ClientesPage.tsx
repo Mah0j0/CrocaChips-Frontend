@@ -1,7 +1,7 @@
 import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb";
 import PageMeta from "../../shared/ui/common/PageMeta";
 import ComponentCard from "../../shared/ui/common/ComponentCard.tsx";
-import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne.tsx";
+import BasicTableOne from "../../shared/ui/table/BasicTableOne.tsx";
 import { TableCell } from "../../shared/ui/table";
 import Badge from "../../shared/ui/badge/Badge.tsx";
 import Alert from "../../shared/ui/alert/Alert.tsx";
@@ -14,9 +14,8 @@ import Select from "../../shared/ui/form/Select.tsx";
 import { estados } from "../../shared/data";
 import {useState} from "react";
 import {LoadData} from "../OtherPage/LoadData.tsx";
-import {useClientes} from "../../entities/clientes/hooks/useClientes.ts";
-import CreateClienteModal from "../../components/clientes/CreateClienteModal.tsx";
-import EditClienteModal from "../../components/clientes/EditClienteModal.tsx";
+import {useClientes} from "../../entities/clientes";
+import {CreateClienteModal, EditClienteModal} from "../../features/clientes";
 
 
 export default function ClientesPage() {

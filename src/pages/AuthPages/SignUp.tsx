@@ -1,6 +1,6 @@
 import PageMeta from "../../shared/ui/common/PageMeta";
 import AuthLayout from "../../features/auth/login/ui/AuthPageLayout.tsx";
-import SignUpForm from "../../features/auth/login/ui/SignUpForm.tsx";
+import {LoginForm} from "../../features/auth/login/";
 
 export default function SignUp() {
   return (
@@ -10,7 +10,7 @@ export default function SignUp() {
         description="This is React.js SignUp Tables Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
       />
       <AuthLayout>
-        <SignUpForm />
+        <LoginForm />
       </AuthLayout>
     </>
   );

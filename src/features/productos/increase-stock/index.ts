@@ -1,1 +1,1 @@
-export {default as IncreaseStockModal} from './ui/IncreaseStockModal.tsx'
+export {default} from './ui/IncreaseStockModal.tsx'

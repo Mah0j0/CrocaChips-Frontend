@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 interface Option {
-  value: string;
+  value: string | number;
   label: string;
 }
 
@@ -10,7 +10,7 @@ interface SelectProps {
   placeholder?: string;
   onChange?: (value: string) => void;
   className?: string;
-  defaultValue?: string;
+  defaultValue?: string | number | null;
   disabled?: boolean;
 }
 
@@ -23,7 +23,7 @@ const Select: React.FC<SelectProps> = ({
   disabled = false,
 }) => {
   // Manage the selected value
-  const [selectedValue, setSelectedValue] = useState<string>(defaultValue);
+  const [selectedValue, setSelectedValue] = useState<string>(defaultValue ? String(defaultValue) : "");
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;

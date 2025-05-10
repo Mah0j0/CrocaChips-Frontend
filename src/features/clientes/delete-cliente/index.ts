@@ -1,1 +1,1 @@
-export { default as DeleteEmpleadoButton } from "./ui/DeleteClienteButton.tsx";
+export { default } from "./ui/DeleteClienteButton.tsx";

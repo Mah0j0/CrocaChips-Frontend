@@ -1,1 +1,1 @@
-export {default as EditCliente} from "./ui/EditClienteModal.tsx";
+export {default } from "./ui/EditClienteModal.tsx";

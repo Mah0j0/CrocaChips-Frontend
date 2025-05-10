@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getVentas, getDetallesVenta } from "../api/VentasApi.ts";
-import { Venta, DetalleVenta } from "../model/type.ts";
+import { Venta } from "../model/type.ts";
+import {getVentas} from "../api/getVentas.ts";
 
 // Hook para obtener todas las ventas
 export function useVentas() {
@@ -12,11 +12,3 @@ export function useVentas() {
 }
 
 // Hook para obtener detalles de una venta específica
-export function useDetallesVenta(id_venta: number) {
-    return useQuery<DetalleVenta[]>({  // Retorno como array de DetalleVenta
-        queryKey: ["detallesVenta", id_venta], // Clave compuesta que incluye el ID
-        queryFn: () => getDetallesVenta(id_venta),
-        staleTime: 1000 * 60 * 5,
-        enabled: !!id_venta, // Solo se ejecuta si hay un id_venta válido
-    });
-}

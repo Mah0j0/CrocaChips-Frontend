@@ -1,1 +1,1 @@
-export {default as EmpleadoModaCreatel} from "./ui/CreateProductoModal.tsx";
+export { default } from "./ui/CreateProductoModal.tsx";

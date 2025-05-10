@@ -12,10 +12,10 @@ import { useRecepciones } from "../../hooks/useRecepcion.ts";
 //import { estados } from "../../data";
 //import Select from "../../components/form/Select.tsx";
 //Para tablas
-import { SearchIcon, PlusIcon, HorizontaLDots, ChevronLeftIcon, FilterIcon} from "../../shared/icons/index.ts";
+import { SearchIcon, PlusIcon, HorizontaLDots, ChevronLeftIcon} from "../../shared/icons/index.ts";
 import { useState } from "react";
-import {TableCell} from "../../shared/ui/table/index.tsx";
-import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne.tsx";
+import {TableCell} from "../../shared/ui/table";
+import BasicTableOne from "../../shared/ui/table/BasicTableOne.tsx";
 import Alert from "../../shared/ui/alert/Alert.tsx";
 import Input from "../../shared/ui/form/input/InputField.tsx";
 import ComponentCard from "../../shared/ui/common/ComponentCard.tsx";

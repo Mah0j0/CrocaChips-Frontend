@@ -2,9 +2,9 @@ import {
   BoxIconLine,
   GroupIcon,
 } from "../../icons";
-import {useClientes} from "../../../entities/clientes/hooks/useClientes.ts";
-import {useProducts} from "../../../entities/productos/hooks/useProducto.ts";
-import {useEmpleados} from "../../entities/employee/hooks/useEmpleado.ts";
+import {useClientes} from "../../../entities/clientes";
+import {useProducts} from "../../../entities/productos";
+import {useEmpleados} from "../../../entities/empleados";
 
 export default function EcommerceMetrics() {
   const { data: clientes, isLoading: isLoadingClientes } = useClientes();

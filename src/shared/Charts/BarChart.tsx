@@ -1,7 +1,7 @@
-import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb";
-import ComponentCard from "../../shared/ui/common/ComponentCard";
-import BarChartOne from "../../components/charts/bar/BarChartOne";
-import PageMeta from "../../shared/ui/common/PageMeta";
+import PageBreadcrumb from "../ui/common/PageBreadCrumb.tsx";
+import ComponentCard from "../ui/common/ComponentCard.tsx";
+import PageMeta from "../ui/common/PageMeta.tsx";
+import BarChartOne from "../ui/charts/bar/BarChartOne.tsx";
 
 export default function BarChart() {
   return (

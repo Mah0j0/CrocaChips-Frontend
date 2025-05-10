@@ -2,7 +2,7 @@ import {Empleado} from "../model/types.ts";
 import api from "../../../shared/lib/axios.ts";
 import {isAxiosError} from "axios";
 
-export async function getEmplado(): Promise<Empleado> {
+export async function getEmpleado(): Promise<Empleado> {
     try {
         const { data } = await api.get<Empleado>("/mi-perfil/");
         return data;

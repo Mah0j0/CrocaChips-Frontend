@@ -5,8 +5,9 @@ import { useSidebar } from "../context/SidebarContext.tsx";
 import { ThemeToggleButton } from "../ui/common/ThemeToggleButton.tsx";
 //import NotificationDropdown from "../components/header/NotificationDropdown";
 import UserDropdown from "../ui/header/UserDropdown.tsx";
-import { EmpleadoInfo } from "../entities/employee/model/types.ts";
 import {ruta, rutas} from "../data";
+import {EmpleadoInfo} from "../../entities/empleados";
+
 type AppHeaderProps = {
   userData?: EmpleadoInfo;
 }

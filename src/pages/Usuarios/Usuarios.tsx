@@ -1,8 +1,8 @@
 import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb";
 import PageMeta from "../../shared/ui/common/PageMeta";
 import ComponentCard from "../../shared/ui/common/ComponentCard.tsx";
-import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne.tsx";
-import { useEmpleados } from "../../entities/employee/hooks/useEmpleado.ts";
+import BasicTableOne from "../../shared/ui/table/BasicTableOne.tsx";
+import { useEmpleados } from "../../entities/empleados";
 import { TableCell } from "../../shared/ui/table";
 import Badge from "../../shared/ui/badge/Badge.tsx";
 import Alert from "../../shared/ui/alert/Alert.tsx";

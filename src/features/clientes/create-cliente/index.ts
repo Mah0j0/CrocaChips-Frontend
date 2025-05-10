@@ -1,1 +1,1 @@
-export {default as ProductoModaCreate} from "./ui/CreateClienteModal";
+export {default} from "./ui/CreateClienteModal";

@@ -1,6 +1,6 @@
 import PageBreadcrumb from "../shared/ui/common/PageBreadCrumb";
-import UserMetaCard from "../components/UserProfile/UserMetaCard";
-import UserInfoCard from "../components/UserProfile/UserInfoCard";
+import UserMetaCard from "../entities/empleados/ui/UserMetaCard.tsx";
+import UserInfoCard from "../entities/empleados/ui/UserInfoCard.tsx";
 {/*import UserAddressCard from "../components/UserProfile/UserAddressCard";*/}
 import PageMeta from "../shared/ui/common/PageMeta";
 

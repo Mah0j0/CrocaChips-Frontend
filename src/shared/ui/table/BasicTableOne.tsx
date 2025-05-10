@@ -4,7 +4,7 @@ import {
     TableCell,
     TableHeader,
     TableRow,
-} from "../../../shared/ui/table";
+} from "./index.tsx";
 
 type ReusableTableProps<T> ={
     headers: string[];

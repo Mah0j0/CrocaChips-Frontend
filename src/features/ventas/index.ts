@@ -1,0 +1,1 @@
+export {default as CreateVentaModal} from "./create-venta"

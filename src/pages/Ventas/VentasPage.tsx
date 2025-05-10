@@ -6,12 +6,12 @@ import Select from "../../shared/ui/form/Select.tsx";
 import { estadosVenta } from "../../shared/data";
 // React y Hooks
 import { useState } from "react"; // Hook de estado de React
-import { useVentas } from "../../entities/ventas/hooks/useVentas.ts"; // Hook para datos de ventas
+import {useVentas, Venta} from "../../entities/ventas"; // Hook para datos de ventas
 import { useModalContext } from "../../shared/context/ModalContext"; // Contexto de modales
 
 // Modales
-import CreateVentaModal from '../../components/ventas/CreateVentaModal';
-import DetalleVentaModal from '../../components/ventas/DetalleVentaModal';
+import {DetalleVentaModal} from "../../entities/ventas";
+import {CreateVentaModal} from "../../features/ventas"
 
 // Componentes UI 
 import Alert from "../../shared/ui/alert/Alert.tsx"; // Componente de alerta
@@ -19,10 +19,10 @@ import Button from "../../shared/ui/button/Button.tsx"; // Botón personalizado
 import Badge from "../../shared/ui/badge/Badge.tsx"; // Badge para estados
 import Input from "../../shared/ui/form/input/InputField.tsx"; // Campo de entrada de texto
 import ComponentCard from "../../shared/ui/common/ComponentCard.tsx"; // Contenedor de componentes
-import { TableCell } from "../../shared/ui/table/index.tsx"; // Celda de tabla personalizada
+import { TableCell } from "../../shared/ui/table"; // Celda de tabla personalizada
 
 // Tablas y carga
-import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne.tsx"; // Componente de tabla
+import BasicTableOne from "../../shared/ui/table/BasicTableOne.tsx"; // Componente de tabla
 import { LoadData } from "../OtherPage/LoadData.tsx"; // Carga de datos
 
 // Iconos
@@ -37,6 +37,7 @@ import "react-datepicker/dist/react-datepicker.css"
 export default function VentasPage() {
     const { data, isLoading, error } = useVentas(); // Datos
     const { openModal } = useModalContext(); // Abrir modales
+    const [ventaSeleccionada, setVentaSeleccionada] = useState<Venta|null>(null);
     const [filtro, setFiltro] = useState(""); // Filtrar ventas
     const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true");
     const [fechaInicio, setFechaInicio] = useState<Date | null>(null); // Fecha de inicio
@@ -53,6 +54,11 @@ export default function VentasPage() {
         "Estado",
         "Acciones"
     ];
+
+    const handleVerDetalles = (venta: Venta) => {
+        setVentaSeleccionada(venta); // Guarda la venta seleccionada
+        openModal("detalleVenta"); // Abre el modal
+    };
 
     const handleSelectChange = (value: string, type: "estado") => {
         if (type === "estado") {
@@ -239,7 +245,8 @@ export default function VentasPage() {
                                             size="md"
                                             variant="outline"
                                             startIcon={<EyeIcon className="size-5" />}
-                                            onClick={() => openModal("detalleVenta", { venta })}
+                                            //onClick={() => openModal("detalleVenta", { venta })}
+                                            onClick={() => handleVerDetalles(venta)}
                                         >
                                             Ver detalles
                                         </Button>
@@ -277,7 +284,12 @@ export default function VentasPage() {
             </div>
             {/* Modales */}
             <CreateVentaModal />
-            <DetalleVentaModal />
+            {ventaSeleccionada && (
+                <DetalleVentaModal
+                    idVenta={ventaSeleccionada.id_venta}
+                    venta={ventaSeleccionada}
+                />
+            )}
         </div>
     );
 }
