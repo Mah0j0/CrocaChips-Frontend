@@ -8,7 +8,8 @@ import PageMeta from "../../shared/ui/common/PageMeta.tsx";
 import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb.tsx";
 import { EmpleadoFilters, EmpleadoTable, CreateEmpleadoModal,EditEmpleadoModal} from '../../features/empleados'
 import Button from "../../shared/ui/button/Button.tsx";
-import {ChevronLeftIcon, GroupIcon} from "../../shared/icons";
+import {GroupIcon} from "../../shared/icons";
+import {Pagination} from "../../shared/ui/table/Pagination.tsx";
 
 export default function EmpleadosPage() {
     const { openModal } = useModalContext();
@@ -20,7 +21,6 @@ export default function EmpleadosPage() {
     const [paginaActual, setPaginaActual] = useState(1);
     const elementosPorPagina = 10;
 
-    // Filtrar empleados
     const empleadosFiltrados = (data ?? [])
         .filter((empleado) =>
             `${empleado.nombre} ${empleado.apellido} ${empleado.usuario}`
@@ -91,33 +91,14 @@ export default function EmpleadosPage() {
                     )}
 
                     {/* Paginación */}
-                    <div className="flex justify-between items-center mt-4">
-                        <Button
-                            size="sm"
-                            variant="outline"
-                            startIcon={<ChevronLeftIcon className="size-6" />}
-                            disabled={paginaActual === 1}
-                            onClick={() => setPaginaActual((prev) => prev - 1)}
-                        >
-                            Anterior
-                        </Button>
-                        <span className="text-gray-400 dark:text-gray-500">
-              Página {paginaActual} de {totalPaginas}
-            </span>
-                        <Button
-                            size="sm"
-                            variant="outline"
-                            endIcon={<ChevronLeftIcon className="rotate-180 size-6" />}
-                            disabled={paginaActual === totalPaginas}
-                            onClick={() => setPaginaActual((prev) => prev + 1)}
-                        >
-                            Siguiente
-                        </Button>
-                    </div>
+                    <Pagination
+                        paginaActual={paginaActual}
+                        totalPaginas={totalPaginas}
+                        onPrev={() => setPaginaActual((prev) => prev - 1)}
+                        onNext={() => setPaginaActual((prev) => prev + 1)}
+                    />
                 </ComponentCard>
             </div>
-
-
 
             <CreateEmpleadoModal />
             <EditEmpleadoModal />

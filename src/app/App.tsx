@@ -17,7 +17,7 @@ import FormElements from "../pages/Plantilla/Forms/FormElements.tsx";
 import Blank from "../pages/Blank.tsx";
 import AppLayout from "../shared/layout/AppLayout.tsx";
 import Home from "../pages/Dashboard/Home.tsx";
-import Empleados from "../pages/Empledos/Empleados.tsx";
+import Empleados from "../pages/Empledos/EmpleadosPage.tsx";
 import { ScrollToTop } from "../shared/ui/common/ScrollToTop.tsx";
 import {ToastContainer} from "react-toastify";
 import IconsList from "../pages/Plantilla/UiElements/IconsList.tsx";
