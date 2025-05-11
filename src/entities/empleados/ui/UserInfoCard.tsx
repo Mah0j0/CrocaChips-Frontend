@@ -1,4 +1,4 @@
-import EditEmpleadoModal from "../../../features/empleados/edit-empleado/ui/EditEmpleadoModal.tsx";
+import {EditEmpleadoModal} from "../../../features/empleados";
 import { useQueryClient } from "@tanstack/react-query";
 import { Empleado } from "../model/types.ts";
 import { useModalContext } from "../../../app/providers/ModalContext.tsx";

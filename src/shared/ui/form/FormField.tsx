@@ -92,9 +92,7 @@ export function FormField<T extends FieldValues>({
                 />
             )}
 
-            {errorMessage && (
-                <p className="text-sm text-red-500 mt-1">{errorMessage}</p>
-            )}
+
         </div>
     );
 }

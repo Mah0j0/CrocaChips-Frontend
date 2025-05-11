@@ -2,7 +2,7 @@ import {useModalContext} from "../../../../app/providers/ModalContext.tsx";
 import {Cliente} from "../../../../entities/clientes";
 import {Modal} from "../../../../shared/ui/modal";
 import ClienteForm from "../../../../entities/clientes/ui/ClienteForm.tsx";
-import {empleadoSchema} from "../../../empleados/edit-empleado";
+import {clienteEditSchema} from "../model/schema.ts";
 import DeleteClienteButton from "../../delete-cliente/ui/DeleteClienteButton.tsx";
 import React from "react";
 import {useEditCliente} from "../hooks/useEditCliente.ts";
@@ -33,7 +33,7 @@ function EditClienteModal() {
                 </p>
 
                 <ClienteForm
-                    schema={empleadoSchema}
+                    schema={clienteEditSchema}
                     onSubmit={handleClienteEdit}
                     defaultValues={data}
                     isSubmitting={isPending}

@@ -1,1 +1,1 @@
-export {default as EmpleadoModaCreatel} from "./ui/CreateEmpleadoModal";
+export {default} from "./ui/CreateEmpleadoModal";

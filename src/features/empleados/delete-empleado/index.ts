@@ -1,1 +1,1 @@
-export { default as DeleteEmpleadoButton } from "./ui/DeleteEmpleadoButton";
+export { default } from "./ui/DeleteEmpleadoButton";
