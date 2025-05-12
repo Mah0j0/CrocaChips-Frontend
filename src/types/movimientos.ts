@@ -1,7 +1,7 @@
 export type Movimiento = {
     id_movimiento: number;
     vendedor: number;
-    id_producto: number;
+    producto: number;
     vendedor_nombre: string;
     producto_nombre: string;
     tipo_movimiento: string;

@@ -25,7 +25,7 @@ import Button from "../../components/ui/button/Button.tsx";
 export default function DespachosPage() {
     //const { openModal } = useModalContext(); //abrir el modal
     const { data, isLoading, isError } = useDespachos(); //Traer los despachos de la API 
-    const [filtro, setFiltro] = useState(""); //filtrar los productos,
+    const [filtro, setFiltro] = useState(""); //filtrar los despachos,
     //const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true"); 
     const [paginaActual, setPaginaActual] = useState(1);
     const elementosPorPagina = 10;
@@ -85,9 +85,9 @@ export default function DespachosPage() {
         <div>
           <PageMeta 
             title="React.js Blank Dashboard | TailAdmin"
-            description="Lista de productos"
+            description="Lista de despachos"
             />
-          <PageBreadcrumb pageTitle="Productos en almacén" />
+          <PageBreadcrumb pageTitle="Despachos de productos" />
           <div className="space-y-6">
             <ComponentCard title="">
               <div className="flex flex-row gap-10 items-center justify-between mb-5">

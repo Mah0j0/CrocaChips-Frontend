@@ -1,5 +1,8 @@
+//Tipo
 import { Producto } from "../../types/productos.ts";
+//API
 import { createProducto } from "../../api/ProductosApi.ts";
+//Componentes
 import ProductoForm from "./ProductoForm.tsx";
 import { Modal } from "../ui/modal";
 import { BoxIcon } from "../../icons/index.ts";
