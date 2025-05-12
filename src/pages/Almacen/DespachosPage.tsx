@@ -6,7 +6,7 @@ import { useDespachos } from "../../hooks/useDespacho.ts";
 //Modals
 import { useModalContext } from "../../context/ModalContext.tsx";
 import CreateDespachoModal from "../../components/movimientos/CreateDespachoModal.tsx";
-//editar despacho modal
+import EditDespachoModal from "../../components/movimientos/EditDespachoModal.tsx";
 
 //Para filtros
 //import { estados } from "../../data";
@@ -168,7 +168,7 @@ export default function DespachosPage() {
                           {/* Acciones */}
                           <TableCell className="py-5">
                               <button
-                              onClick={() => alert("Editar Despacho")}
+                              onClick={() => openModal("editDespacho", despacho)}
                               className="text-gray-400"
                               title="Más opciones"
                               >
@@ -206,6 +206,7 @@ export default function DespachosPage() {
             </ComponentCard>            
           </div>
           {/* Modales */}
+          <EditDespachoModal />
         </div>
       );
 }

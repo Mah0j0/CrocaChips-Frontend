@@ -20,6 +20,7 @@ type DespachoFormProps = {
     defaultValues?: Partial<Movimiento>;
     isSubmitting?: boolean;
     onCancel?: () => void;
+    disabledFields?: (keyof Movimiento)[];
 };
 
 //Funcion que recibe las propiedades y devuelve el formulario
@@ -28,6 +29,7 @@ export default function DespachoForm({
     defaultValues = {},
     isSubmitting = false,
     onCancel,
+    disabledFields = [],
 }: DespachoFormProps) {
 const {
    register,
@@ -36,6 +38,16 @@ const {
    reset,
    formState: { errors },
 } = useForm<Movimiento>();
+
+//Sincroniza el formulario con defaultValues cuando cambia.
+useEffect(() => {
+   if (defaultValues) {
+       reset(defaultValues);
+   }
+}, [defaultValues, reset]);
+
+//Permite deshabilitar ciertos campos
+const isDisabled = (field: keyof Movimiento) => disabledFields.includes(field);
 
 //Variables
 const { data: productos } = useProducts();
