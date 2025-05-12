@@ -2,9 +2,9 @@
 import { useEffect} from "react";
 import {useForm} from "react-hook-form";
 // Componentes UI 
-import Button from "../ui/button/Button";
-import Input from "../form/input/InputField";
-import Label from "../form/Label";
+import Button from "../ui/button/Button.tsx";
+import Input from "../form/input/InputField.tsx";
+import Label from "../form/Label.tsx";
 import Select from "../form/Select.tsx";
 
 // Tipos

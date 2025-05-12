@@ -33,7 +33,6 @@ function CreateProductoModal() {
     const handleProductoCreate = (formData: Producto) => {
         const productoData = {
             ...formData, 
-            //precio_unitario: String(formData.precio_unitario), // Convertir a string
             habilitado: true  // Asegura que este campo se envíe
         };
         mutate(productoData);
