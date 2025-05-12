@@ -11,6 +11,8 @@ type ReusableTableProps<T> ={
     data: T[];
     renderRow: (item: T, index: number) => React.ReactNode;
     getKey?: (item: T, index: number) => React.Key;
+    isHover?: boolean;
+    isHederBold?: boolean;
 }
 
 export default function ReusableTable<T>(
@@ -18,6 +20,8 @@ export default function ReusableTable<T>(
          headers,
          data,
          renderRow,
+         isHover = true,
+         isHederBold = false,
     }: ReusableTableProps<T>) {
     return (
         <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
@@ -30,7 +34,7 @@ export default function ReusableTable<T>(
                                 <TableCell
                                     key={index}
                                     isHeader
-                                    className="px-5 py-3 font-medium text-gray-500 text-start text-theme-xs dark:text-gray-400"
+                                    className={`px-5 py-3 text-gray-500 text-start dark:text-gray-400 ${isHederBold ? 'font-[700] text-theme-sm' : 'font-medium text-theme-xs'}`}
                                 >
                                     {header}
                                 </TableCell>
@@ -43,7 +47,7 @@ export default function ReusableTable<T>(
                         {data.map((item, index) => (
                             <TableRow
                                 key={index}
-                                className="hover:bg-gray-100 dark:hover:bg-gray-600"
+                                className={isHover? "hover:bg-gray-100 dark:hover:bg-gray-600" : ""}
                             >
                                 {renderRow(item, index)}
                             </TableRow>

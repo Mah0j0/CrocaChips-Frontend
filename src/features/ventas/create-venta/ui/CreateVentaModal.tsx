@@ -10,11 +10,13 @@ function CreateVentaModal() {
     const { modals, closeModal } = useModalContext();
     const isOpen = modals["createVenta"];
 
-    const { mutate, isPending } = useCreateVenta(() => {
+    const onSuccessCallback = () => {
         setTimeout(() => closeModal("createVenta"), 1000);
-    });
+    };
 
+    const { mutate, isPending } = useCreateVenta(onSuccessCallback);
     const handleVentaCreate = (formData: NuevaVenta) => {
+        console.log("formData", formData);
         mutate(formData);
     };
 

@@ -8,6 +8,7 @@ interface InputProps {
     value?: string | number;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+    onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
     className?: string;
     min?: string | number; // <-- Aquí
     max?: string | number; // <-- Y aquí
@@ -31,6 +32,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
                                                             value,
                                                             onChange,
                                                             onBlur,
+                                                            onKeyDown,
                                                             className = "",
                                                             min,
                                                             max,
@@ -63,6 +65,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
                 value={value}
                 onChange={onChange}
                 onBlur={onBlur}
+                onKeyDown={onKeyDown}
                 min={min}
                 max={max}
                 step={step}

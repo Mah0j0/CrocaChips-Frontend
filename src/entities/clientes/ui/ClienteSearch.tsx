@@ -1,48 +1,53 @@
 import { useState, useEffect } from "react";
-import { Producto } from "../model/type";
 import InputField from "../../../shared/ui/form/input/InputField.tsx";
 import Label from "../../../shared/ui/form/Label.tsx";
-import {useMisProductos} from "../hooks/useMisProductos.ts";
+import { useClientes } from "../hooks/useClientes";
+import { Cliente } from "../model/type";
 
 type Props = {
-    onSelect: (producto: {
+    onSelect: (cliente: {
         id: number;
         nombre: string;
-        precio_unitario: number;
+        carnet: string;
     }) => void;
 };
 
-export default function ProductoSearch({ onSelect }: Props) {
-    const { data: productos = [] } = useMisProductos();
+export default function ClienteSearch({ onSelect }: Props) {
+    const { data: clientes = [] } = useClientes();
     const [searchTerm, setSearchTerm] = useState("");
-    const [filtered, setFiltered] = useState<Producto[]>([]);
+    const [filtered, setFiltered] = useState<Cliente[]>([]);
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
+    const [isViewList, setIsViewList] = useState(true);
 
     useEffect(() => {
+        if (searchTerm.trim() === "") {
+            setIsViewList(true);
+        }
         const timeout = setTimeout(() => {
             if (searchTerm.trim() === "") {
                 setFiltered([]);
                 return;
             }
 
-            const result = productos.filter((p) =>
-                p.producto_nombre.toLowerCase().includes(searchTerm.toLowerCase())
+            const result = clientes.filter((c) =>
+                c.nombre.toLowerCase().includes(searchTerm.toLowerCase())
             );
             setFiltered(result);
             setHighlightedIndex(-1);
         }, 300);
 
         return () => clearTimeout(timeout);
-    }, [searchTerm, productos]);
+    }, [searchTerm, clientes]);
 
-    const handleSelect = (producto: Producto) => {
-        setSearchTerm(producto.producto_nombre);
-        setFiltered([]);
-        setHighlightedIndex(-1);
+    const handleSelect = (cliente: Cliente) => {
+        setIsViewList(false);
+        setSearchTerm(cliente.nombre); // Actualiza el campo de texto con el nombre del cliente
+        setFiltered([]); // Vacía la lista de opciones
+        setHighlightedIndex(-1); // Reinicia el índice resaltado
         onSelect({
-            id: producto.id_producto,
-            nombre: producto.producto_nombre,
-            precio_unitario: producto.precio_unitario,
+            id: cliente.id_cliente,
+            nombre: cliente.nombre,
+            carnet: cliente.carnet,
         });
     };
 
@@ -56,46 +61,46 @@ export default function ProductoSearch({ onSelect }: Props) {
         } else if (e.key === "Enter" && highlightedIndex >= 0) {
             handleSelect(filtered[highlightedIndex]);
         } else if (e.key === "Escape") {
-            setFiltered([]);
+            setFiltered([]); // Vacía la lista al presionar Escape
         }
     };
 
     return (
         <div className="relative w-full" role="combobox" aria-expanded={filtered.length > 0}>
-            <Label htmlFor="producto-list">Productos</Label>
+            <Label htmlFor="cliente-list">Clientes</Label>
             <InputField
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Buscar producto..."
+                placeholder="Buscar cliente..."
                 className="w-full"
                 aria-autocomplete="list"
-                aria-controls="producto-list"
+                aria-controls="cliente-list"
                 aria-activedescendant={
-                    highlightedIndex >= 0 ? `producto-${filtered[highlightedIndex].id_producto}` : undefined
+                    highlightedIndex >= 0 ? `cliente-${filtered[highlightedIndex].id_cliente}` : undefined
                 }
             />
-            {filtered.length > 0 && (
+            {filtered.length > 0 && isViewList &&  (
                 <ul
-                    id="producto-list"
-                    className="absolute z-10 bg-white border rounded w-full mt-1 max-h-48 overflow-y-auto shadow dark:border-gray-800 dark:bg-gray-900 dark:bg-white/[0.03] dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 xl:w-[430px]"
+                    id="cliente-list"
+                    className="absolute z-10 bg-white border rounded w-full mt-1 max-h-48 overflow-y-auto shadow dark:border-gray-800 dark:bg-gray-900  dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 xl:w-[430px]"
                     role="listbox"
                 >
-                    {filtered.map((producto, index) => (
+                    {filtered.map((cliente, index) => (
                         <li
-                            key={producto.id_producto}
-                            id={`producto-${producto.id_producto}`}
-                            onClick={() => handleSelect(producto)}
+                            key={cliente.id_cliente}
+                            id={`cliente-${cliente.id_cliente}`}
+                            onClick={() => handleSelect(cliente)}
                             role="option"
                             aria-selected={highlightedIndex === index}
                             className={`px-3 py-2 cursor-pointer flex justify-between items-center ${
-                                highlightedIndex === index ? "bg-orange-100 dark:bg-orange-500" : "hover:bg-gray-100 dark:hover:bg-orange-400"
+                                highlightedIndex === index ? "bg-orange-100 dark:bg-orange-700" : "hover:bg-gray-100 dark:hover:bg-orange-400"
                             }`}
                         >
-                            <span className="font-medium">{producto.producto_nombre}</span>
+                            <span className="font-medium">{cliente.nombre}</span>
                             <span className="text-sm text-gray-600 dark:text-gray-100">
-                                Bs{producto.precio_unitario  ? producto.precio_unitario : "0.00"} | Stock: {producto.cantidad_volatil}
+                                Ci: {cliente.carnet} | Cel: {cliente.telefono}
                             </span>
                         </li>
                     ))}

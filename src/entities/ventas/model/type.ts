@@ -16,6 +16,7 @@ export type DetallesVentaResponse = {
 export type NuevaVenta = {
     cliente: number;
     detalles: NuevoDetalle[];
+    cantidad: number;
 };
 export type NuevoDetalle = {
     producto: number;

@@ -23,24 +23,26 @@ type PropsFormField<T extends FieldValues> = {
     validation?: RegisterOptions<T>;
     options?: Option[]; // for select/multiselect
     placeholder?: string;
-    value?: string;
-    onChange?: (value: string) => void;
+    value?: string | number;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onChangeTextarea?: (value: string) => void;
     onChangeSelect?: (value: string) => void;
     onChangeMultiSelect?: (value: string[]) => void;
     defaultValue?: string | number;
 };
 
 export function FormField<T extends FieldValues>({
-     type = "text",
-     label,
-     name,
-     register,
-     errors,
-     disabled = false,
-     validation = {},
-     options = [],
-     placeholder = "",
-     onChange,
+    type = "text",
+    label,
+    name,
+    register,
+    errors,
+    disabled = false,
+    validation = {},
+    options = [],
+    placeholder = "",
+    onChange,
+    onChangeTextarea,
     onChangeMultiSelect,
     onChangeSelect,
     defaultValue,
@@ -75,8 +77,8 @@ export function FormField<T extends FieldValues>({
                 <TextArea
                     {...register(name, validation)}
                     rows={6}
-                    value={value}
-                    onChange={onChange}
+                    value={String(value)}
+                    onChange={onChangeTextarea}
                     disabled={disabled}
                     error={!!error}
                     hint={errorMessage}
@@ -89,6 +91,7 @@ export function FormField<T extends FieldValues>({
                     disabled={disabled}
                     error={!!error}
                     hint={errorMessage}
+                    onChange={onChange}
                 />
             )}
 

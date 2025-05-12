@@ -1,28 +1,35 @@
-import {Detalle} from "../model/type.ts";
+import { Detalle } from "../model/type.ts";
+import BasicTableOne from "../../../shared/ui/table/BasicTableOne.tsx";
+import { TableCell } from "../../../shared/ui/table";
 
 type Props = { detalles: Detalle[] };
 
 export default function TablaDetallesVenta({ detalles }: Props) {
+    const headers = ["Producto", "Cantidad", "Precio Unitario", "Subtotal"];
+
     return (
-        <table className="w-full border mt-4 text-sm">
-            <thead className="bg-gray-100 dark:bg-gray-700 text-left">
-            <tr>
-                <th className="p-2">Producto</th>
-                <th className="p-2">Cantidad</th>
-                <th className="p-2">Precio Unitario</th>
-                <th className="p-2">Subtotal</th>
-            </tr>
-            </thead>
-            <tbody>
-            {detalles.map((detalle) => (
-                <tr key={detalle.id_detalle}>
-                    <td className="p-2">{detalle.producto_nombre}</td>
-                    <td className="p-2">{detalle.cantidad}</td>
-                    <td className="p-2">${detalle.precio_unitario}</td>
-                    <td className="p-2">${detalle.subtotal}</td>
-                </tr>
-            ))}
-            </tbody>
-        </table>
+        <BasicTableOne
+            isHover={false}
+            isHederBold={true}
+            headers={headers}
+            data={detalles}
+            getKey={(detalle) => detalle.id_detalle}
+            renderRow={(detalle) => (
+                <>
+                    <TableCell className="px-4 py-4 text-gray-500 text-theme-sm dark:text-gray-400">
+                        {detalle.producto_nombre}
+                    </TableCell>
+                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                        {detalle.cantidad}
+                    </TableCell>
+                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                        ${detalle.precio_unitario}
+                    </TableCell>
+                    <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
+                        ${detalle.subtotal}
+                    </TableCell>
+                </>
+            )}
+        />
     );
 }
