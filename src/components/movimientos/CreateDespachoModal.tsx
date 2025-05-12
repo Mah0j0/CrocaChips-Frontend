@@ -1,9 +1,9 @@
-//Tipo
-import { Producto } from "../../types/productos.ts";
+//Tipos
+import {Movimiento} from '../../types/movimientos.ts';
 //API
-import { createProducto } from "../../api/ProductosApi.ts";
+import {createDespacho} from '../../api/DespachosApi.ts';
 //Componentes
-import ProductoForm from "./ProductoForm.tsx";
+import MovimientoForm from './MovimientoForm.tsx';
 import { Modal } from "../ui/modal";
 import { BoxIcon } from "../../icons/index.ts";
 import { useModalContext } from "../../context/ModalContext.tsx";
@@ -11,18 +11,19 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import React from "react";
 
-function CreateProductoModal() {
+//Funcion que crea el modal para crear un despacho
+function CreateDespachoModal() {
     const { modals, closeModal } = useModalContext();
-    const isOpen = modals["createProducto"];
+    const isOpen = modals["createDespacho"];
     const queryClient = useQueryClient();
 
     const { mutate, isPending } = useMutation({
-        mutationFn: createProducto,
+        mutationFn: createDespacho,
         onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ["productos"] });
-            toast.success("Producto creado correctamente");
+            await queryClient.invalidateQueries({ queryKey: ["despachos"] });
+            toast.success("Despacho creado correctamente");
             setTimeout(() => {
-                closeModal("createProducto");
+                closeModal("createDespacho");
             }, 1000);
         },
         onError: (error: Error) => {
@@ -30,12 +31,12 @@ function CreateProductoModal() {
         },
     });
 
-    const handleProductoCreate = (formData: Producto) => {
-        const productoData = {
+    const handleProductoCreate = (formData: Movimiento) => {
+        const despachoData = {
             ...formData, 
             habilitado: true  // Asegura que este campo se envíe
         };
-        mutate(productoData);
+        mutate(despachoData);
     };
 
     return (
@@ -43,23 +44,23 @@ function CreateProductoModal() {
             <div className="no-scrollbar w-full max-w-[700px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
                 <div className="mb-2 flex items-center">
                     <h4 className="text-2xl font-semibold text-gray-800 dark:text-white/90">
-                        Crear Nuevo Producto
+                        Crear Nuevo Despacho
                     </h4>
                     <BoxIcon className="size-7 text-gray-800 dark:text-white/90 ml-2" />
                 </div>
                 <p className="mb-6 text-sm text-gray-500 dark:text-gray-400">
-                    Completa la información para registrar un nuevo producto
+                    Completa la información para registrar un nuevo despacho
                 </p>
 
-                <ProductoForm
+                <MovimientoForm
                     onSubmit={handleProductoCreate}
                     defaultValues={{}}
                     isSubmitting={isPending}
-                    onCancel={() => closeModal("createProducto")}
+                    onCancel={() => closeModal("createDespacho")}
                 />
             </div>
         </Modal>
     );
 }
 
-export default React.memo(CreateProductoModal);
+export default React.memo(CreateDespachoModal);
