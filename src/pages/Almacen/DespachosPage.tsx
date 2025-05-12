@@ -4,8 +4,8 @@ import PageMeta from "../../components/common/PageMeta.tsx";
 //Despachos
 import { useDespachos } from "../../hooks/useDespacho.ts";
 //Modals
-//import { useModalContext } from "../../context/ModalContext.tsx";
-//crear despacho modal
+import { useModalContext } from "../../context/ModalContext.tsx";
+import CreateDespachoModal from "../../components/movimientos/CreateDespachoModal.tsx";
 //editar despacho modal
 
 //Para filtros
@@ -23,7 +23,7 @@ import Button from "../../components/ui/button/Button.tsx";
 
 
 export default function DespachosPage() {
-    //const { openModal } = useModalContext(); //abrir el modal
+    const { openModal } = useModalContext(); //abrir el modal
     const { data, isLoading, isError } = useDespachos(); //Traer los despachos de la API 
     const [filtro, setFiltro] = useState(""); //filtrar los despachos,
     //const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true"); 
@@ -110,11 +110,12 @@ export default function DespachosPage() {
                         size="md"
                         variant="primary"
                         startIcon={<PlusIcon className="size-5"/>}
-                        onClick={() => alert("Agregar Despacho")}
+                        onClick={() => openModal("createDespacho")}
                       > 
                         Agregar Despacho
                       </Button>
                       {/* Modal de agregar producto */} 
+                      <CreateDespachoModal />
                   </div>
               </div>
               {/* Tabla */}
