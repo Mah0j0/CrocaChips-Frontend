@@ -1,18 +1,18 @@
 // React
 import { useEffect} from "react";
 import {useForm} from "react-hook-form";
-// Componentes UI 
-import Button from "../ui/button/Button.tsx";
-import Input from "../form/input/InputField.tsx";
-import Label from "../form/Label.tsx";
-import Select from "../form/Select.tsx";
+import { Movimiento } from "../model/type";
+import {useProducts} from "../../productos";
+import {useEmpleados} from "../../empleados";
+import Label from "../../../shared/ui/form/Label.tsx";
+import Select from "../../../shared/ui/form/Select.tsx";
+import Input from "../../../shared/ui/form/input/InputField.tsx";
+import Button from "../../../shared/ui/button/Button.tsx";
+// Componentes UI
 
 // Tipos
-import { Movimiento } from "../../types/movimientos.ts";
 
-// Importar los hooks 
-import { useProducts } from "../../hooks/useProducto.ts";
-import { useEmpleados } from "../../hooks/useEmpleado.ts";
+// Importar los hooks
 
 //Props del componente
 type DespachoFormProps = {
@@ -103,13 +103,14 @@ return (
             <div>
                 <Label>Producto</Label>
                 <Select
-                    options={productos?.map(producto => ({
-                    value: producto.id_producto.toString(),
-                    label: producto.nombre
+                    options={empleados?.map(empleado => ({
+                        value: empleado.id.toString(),
+                        label: empleado.nombre
                     })) || []}
-                    placeholder="Seleccione un producto"
-                    onChange={(value) => setValue("producto", Number(value))}
-                    className={errors.producto ? "border-red-500" : ""}
+                    placeholder="Seleccione un vendedor"
+                    onChange={(value) => setValue("vendedor", Number(value))}
+                    className={errors.vendedor ? "border-red-500" : ""}
+                    disabled={isDisabled("vendedor")} // Usar isDisabled aquí
                 />
                 {errors.producto && (
                     <p className="text-sm text-red-500">{errors.producto.message}</p>

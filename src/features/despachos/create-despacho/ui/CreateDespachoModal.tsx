@@ -1,34 +1,20 @@
 //Tipos
-import {Movimiento} from '../../types/movimientos.ts';
-//API
-import {createDespacho} from '../../api/DespachosApi.ts';
+import {Movimiento} from '../../../../entities/movimientos';
 //Componentes
-import MovimientoForm from './MovimientoForm.tsx';
-import { Modal } from "../ui/modal";
-import { BoxIcon } from "../../icons/index.ts";
-import { useModalContext } from "../../context/ModalContext.tsx";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-toastify";
+import MovimientoForm from '../../../../entities/movimientos/ui/MovimientoForm.tsx';
 import React from "react";
+import {useModalContext} from "../../../../app/providers/ModalContext.tsx";
+import {BoxIcon} from "../../../../shared/icons";
+import { Modal } from '../../../../shared/ui/modal';
+import {useCreateDespacho} from "../hooks/useCreateDespacho.ts";
 
 //Funcion que crea el modal para crear un despacho
 function CreateDespachoModal() {
     const { modals, closeModal } = useModalContext();
     const isOpen = modals["createDespacho"];
-    const queryClient = useQueryClient();
 
-    const { mutate, isPending } = useMutation({
-        mutationFn: createDespacho,
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ["despachos"] });
-            toast.success("Despacho creado correctamente");
-            setTimeout(() => {
-                closeModal("createDespacho");
-            }, 1000);
-        },
-        onError: (error: Error) => {
-            toast.error(error.message);
-        },
+    const { mutate, isPending } = useCreateDespacho(() => {
+        setTimeout(() => closeModal("createEmpleado"), 10000);
     });
 
     const handleProductoCreate = (formData: Movimiento) => {

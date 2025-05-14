@@ -1,35 +1,19 @@
-//Tipos
-import {Movimiento} from '../../types/movimientos.ts';
-//API
-import {editDespacho} from '../../api/DespachosApi.ts';
-//Componentes
-import MovimientoForm from './MovimientoForm.tsx';
-import { Modal } from "../ui/modal";
-import { BoxIcon } from "../../icons/index.ts";
-import { useModalContext } from "../../context/ModalContext.tsx";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-toastify";
+import MovimientoForm from '../../../../entities/movimientos/ui/MovimientoForm.tsx';
 import React from "react";
+import {useModalContext} from "../../../../app/providers/ModalContext.tsx";
+import {BoxIcon} from "../../../../shared/icons";
+import {Movimiento} from "../../../../entities/movimientos";
+import { Modal } from '../../../../shared/ui/modal';
+import {useEditDespacho} from "../hooks/useEditDespacho.ts";
 
 //Funcion que crea el modal para editar un despacho
 function EditDespachoModal() {
     const { modals, closeModal, selectedData } = useModalContext();
     const isOpen = modals["editDespacho"];
-    const queryClient = useQueryClient(); 
     const data = selectedData; //para datos de la tabla
 
-    const { mutate, isPending } = useMutation({
-        mutationFn: editDespacho,
-        onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ["despachos"] });
-            toast.success("Despacho actualizado correctamente");
-            setTimeout(() => {
-                closeModal("editDespacho");
-            }, 1000);
-        },
-        onError: (error: Error) => {
-            toast.error(error.message);
-        },
+    const { mutate, isPending } = useEditDespacho(() => {
+        setTimeout(() => closeModal("createEmpleado"), 10000);
     });
 
     const handleDespachoEdit = (formData: Movimiento) => {
@@ -39,6 +23,7 @@ function EditDespachoModal() {
         };
         mutate(despachoData);
     };
+
     if (!data) {
         return null;
     }

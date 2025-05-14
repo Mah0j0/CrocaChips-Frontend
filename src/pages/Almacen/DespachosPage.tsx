@@ -4,9 +4,9 @@ import PageMeta from "../../shared/ui/common/PageMeta.tsx";
 //Despachos
 import { useDespachos } from "../../entities/movimientos";
 //Modals
-import { useModalContext } from "../../context/ModalContext.tsx";
-import CreateDespachoModal from "../../components/movimientos/CreateDespachoModal.tsx";
-import EditDespachoModal from "../../components/movimientos/EditDespachoModal.tsx";
+import { useModalContext } from "../../app/providers/ModalContext.tsx";
+import CreateDespachoModal from "../../features/despachos/create-despacho/ui/CreateDespachoModal.tsx";
+import EditDespachoModal from "../../features/despachos/edit-despacho/ui/EditDespachoModal.tsx";
 
 //Para filtros
 //import { estados } from "../../data";
