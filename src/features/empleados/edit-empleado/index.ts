@@ -1,0 +1,1 @@
+export {default } from './ui/EditEmpleadoModal.tsx'
