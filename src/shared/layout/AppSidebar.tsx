@@ -1,126 +1,41 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import { Link, useLocation } from "react-router";
-
-// Assume these icons are imported from an icon library
 import {
-  BoxCubeIcon,
   ChevronDownIcon,
-  GroupIcon,
-  HorizontaLDots,
-  ListIcon,/*
-  GridIcon,
-  CalenderIcon,
-  PageIcon,
-  PieChartIcon,
-  PlugInIcon,
-  TableIcon,
-  UserCircleIcon,*/
+  HorizontaLDots
 } from "../icons";
 import { useSidebar } from "../../app/providers/SidebarContext.tsx";
-
-type NavItem = {
-  name: string;
-  icon: React.ReactNode;
-  path?: string;
-  subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
-};
-
-const navItems: NavItem[] = [
-  /*{
-    icon: <GridIcon />,
-    name: "Dashboard",
-    subItems: [
-      { name: "Ventas", path: "/dash-ventas", pro: false },
-      { name: "Empleados", path: "/dash-empleados", pro: false },
-      { name: "Almacén", path: "/dash-recepciones", pro: false }
-    ],
-  },*/
-  {
-    icon: <BoxCubeIcon />,
-    name: "Inventario",
-    subItems: [
-      { name: "Almacén", path: "/almacen", pro: false },
-      { name: "Producción", path: "/lotes", pro: false },
-      { name: "Despachos", path: "/despachos", pro: false },
-      { name: "Recepciones", path: "/recepciones", pro: false },
+import {NavItem, navItems} from "../data/navItemsData.tsx";
+import {useQueryClient} from "@tanstack/react-query";
+import {Empleado} from "../../entities/empleados";
 
 
-    ],
-  },
-  {
-    name: "Comercial",
-    icon: <ListIcon />,
-    subItems: [
-      { name: "Ventas", path: "/ventas", pro: false },
-      { name: "Clientes", path: "/clientes", pro: false }
-    ],
-  },/*
-  {
-    icon: <CalenderIcon />,
-    name: "Calendario",
-    path: "/calendar",
-  },*/
-  {
-    icon: <GroupIcon />,
-    name: "Empleados",
-    path: "/usuarios",
-  },
-
-];
-/*
-const othersItems: NavItem[] = [
-  {
-    icon: <UserCircleIcon />,
-    name: "User Profile",
-    path: "/profile",
-  },
-  {
-    icon: <PieChartIcon />,
-    name: "Charts",
-    subItems: [
-      { name: "Line Chart", path: "/line-chart", pro: false },
-      { name: "Bar Chart", path: "/bar-chart", pro: false },
-    ],
-  },
-  {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
-  },
-  {
-    name: "Pages",
-    icon: <PageIcon />,
-    subItems: [
-      { name: "Blank Page", path: "/blank", pro: false },
-      { name: "404 Error", path: "/error-404", pro: false },
-    ],
-  },
-  {
-    icon: <BoxCubeIcon />,
-    name: "UI Elements",
-    subItems: [
-      { name: "Alerts", path: "/alerts", pro: false },
-      { name: "Avatar", path: "/avatars", pro: false },
-      { name: "Badge", path: "/badge", pro: false },
-      { name: "Buttons", path: "/buttons", pro: false },
-      { name: "Images", path: "/images", pro: false },
-      { name: "Videos", path: "/videos", pro: false },
-      { name: "Icons", path: "/icons", pro: false },
-    ],
-  },
-  {
-    icon: <PlugInIcon />,
-    name: "Authentication",
-    subItems: [
-      { name: "Sign In", path: "/signin", pro: false },
-      { name: "Sign Up", path: "/signup", pro: false },
-    ],
-  },
-];
-*/
 const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const location = useLocation();
+
+  const queryClient = useQueryClient();
+
+  const empleado = queryClient.getQueryData<Empleado>(["empleado"]);
+
+  const hasAccess = useCallback(
+      (itemRoles?: string[]) => {
+        if (!itemRoles || itemRoles.length === 0) return true;
+        return itemRoles.includes(empleado?.rol || "");
+      },
+      [empleado?.rol]
+  );
+
+  const filteredNavItems = useMemo(() => {
+    return navItems
+        .filter((item) => hasAccess(item.roles))
+        .map((item) => ({
+          ...item,
+          subItems: item.subItems?.filter((sub) => hasAccess(sub.roles)),
+        }))
+        .filter((item) => item.path || (item.subItems && item.subItems.length > 0));
+  }, [hasAccess]);
+
 
   const [openSubmenu, setOpenSubmenu] = useState<{
     type: "main" | "others";
@@ -363,7 +278,7 @@ const AppSidebar: React.FC = () => {
                   <HorizontaLDots className="size-6" />
                 )}
               </h2>
-              {renderMenuItems(navItems, "main")}
+              {renderMenuItems(filteredNavItems, "main")}
             </div>
             {/*
               <div className="">

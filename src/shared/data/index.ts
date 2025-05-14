@@ -7,13 +7,6 @@ export type ruta = {
   name: string;
 }
 
-export type NavItem = {
-  name: string;
-  icon: React.ReactNode;
-  path?: string;
-  subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
-};
-
 export const roles: rol[] = [
   { value: "Almacen", label: "Almacen" },
   { value: "Vendedor", label: "Vendedor" },
