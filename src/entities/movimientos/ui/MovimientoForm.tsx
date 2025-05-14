@@ -103,14 +103,14 @@ return (
             <div>
                 <Label>Producto</Label>
                 <Select
-                    options={empleados?.map(empleado => ({
-                        value: empleado.id.toString(),
-                        label: empleado.nombre
+                    options={productos?.map(producto => ({
+                        value: producto.id_producto.toString(),
+                        label: producto.nombre
                     })) || []}
-                    placeholder="Seleccione un vendedor"
-                    onChange={(value) => setValue("vendedor", Number(value))}
-                    className={errors.vendedor ? "border-red-500" : ""}
-                    disabled={isDisabled("vendedor")} // Usar isDisabled aquí
+                    placeholder="Seleccione un producto"
+                    onChange={(value) => setValue("producto", Number(value))}
+                    className={errors.producto ? "border-red-500" : ""}
+                    disabled={isDisabled("producto")}
                 />
                 {errors.producto && (
                     <p className="text-sm text-red-500">{errors.producto.message}</p>
