@@ -1,5 +1,6 @@
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-
+import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
+import { Venta } from "../../../../entities/ventas";
+import logo from "/images/logo/auth-logo.svg";
 // Estilos para el PDF
 const styles = StyleSheet.create({
   page: {
@@ -10,14 +11,19 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
   },
+  logo: {
+    width: 100,
+    marginBottom: 10,
+  },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
   },
   subtitle: {
-    fontSize: 12,
+    fontSize: 10,
     marginBottom: 20,
+    color: '#555',
   },
   table: {
     display: 'flex',
@@ -52,7 +58,7 @@ const styles = StyleSheet.create({
   },
 });
 
-import { Venta } from "../../../../entities/ventas";
+
 interface VentasPDFDocumentProps {
   ventas: Venta[];
   filtro: string;
@@ -74,6 +80,7 @@ export const VentasPDFDocument = ({
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
+          <Image src={logo} style={styles.logo}/>
           <Text style={styles.title}>Reporte de Ventas</Text>
           <Text style={styles.subtitle}>
             Filtros aplicados: {filtro || 'Ninguno'} | 

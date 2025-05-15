@@ -2,9 +2,6 @@ import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb.tsx";
 import PageMeta from "../../shared/ui/common/PageMeta.tsx";
 import { useState } from "react"; // Hook de estado de React
 import {useVentas, Venta} from "../../entities/ventas"; // Hook para datos de ventas
-import { useModalContext } from "../../app/providers/ModalContext.tsx"; // Contexto de modales
-import {DetalleVentaModal} from "../../entities/ventas";
-import {CreateVentaModal, VentaFilters} from "../../features/ventas"
 import Alert from "../../shared/ui/alert/Alert.tsx"; // Componente de alerta
 import ComponentCard from "../../shared/ui/common/ComponentCard.tsx"; // Contenedor de componentes
 import { LoadData } from "../Plantilla/OtherPage/LoadData.tsx"; // Carga de datos
@@ -13,9 +10,10 @@ import VentaTable from "../../features/ventas/table/VentaTable.tsx";
 import Button from "../../shared/ui/button/Button.tsx";
 import {PlusIcon} from "../../shared/icons";
 import { PrintIcon } from "../../shared/icons";
-//Para PDF
-import { PDFDownloadLink } from '@react-pdf/renderer';
-import { VentasPDFDocument } from '../../features/ventas/print-venta/ui/VentasPDFDocument.tsx';
+import { useModalContext } from "../../app/providers/ModalContext.tsx";//Modales
+import {DetalleVentaModal} from "../../entities/ventas";
+import {CreateVentaModal, VentaFilters} from "../../features/ventas"
+import PrintVentaModal from "../../features/ventas/print-venta/ui/PrintVentaModal.tsx"; // Modal para imprimir ventas
 
 // Componente principal de ventas
 export default function VentasPage() {
@@ -101,20 +99,8 @@ export default function VentasPage() {
                                 size="sm"
                                 variant="primary"
                                 startIcon={<PrintIcon className="size-5" />}
-                            >         
-                                <PDFDownloadLink
-                                    document={
-                                    <VentasPDFDocument 
-                                        ventas={ventasFiltradas}
-                                        filtro={filtro}
-                                        fechaInicio={fechaInicio}
-                                        fechaFin={fechaFin}
-                                    />
-                                    }
-                                    fileName={`ventas_${new Date().toISOString().split('T')[0]}.pdf`}
-                                >
-                                    {({ loading }) => (loading ? 'Preparando...' : 'Exportar')}
-                                </PDFDownloadLink>                
+                                onClick={() => openModal("printVenta")} // Abre modal de impresión
+                            >                       
                             </Button>
                         }
                         child={                         
@@ -163,6 +149,12 @@ export default function VentasPage() {
                     venta={ventaSeleccionada}
                 />
             )}
+            <PrintVentaModal
+                ventasFiltradas={ventasFiltradas}
+                filtro={filtro}
+                fechaInicio={fechaInicio}
+                fechaFin={fechaFin}
+            />
         </div>
     );
 }
