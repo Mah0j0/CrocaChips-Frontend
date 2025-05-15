@@ -12,7 +12,7 @@ import {Pagination} from "../../shared/ui/table/Pagination.tsx";
 import VentaTable from "../../features/ventas/table/VentaTable.tsx";
 import Button from "../../shared/ui/button/Button.tsx";
 import {PlusIcon} from "../../shared/icons";
-
+import { PrintIcon } from "../../shared/icons";
 
 // Componente principal de ventas
 export default function VentasPage() {
@@ -80,7 +80,7 @@ export default function VentasPage() {
 
             {/* Contenedor principal */}
             <PageBreadcrumb pageTitle="Lista de ventas" />
-            <div className="space-y-6">
+            <div className="space-y-1">
                 <ComponentCard title="">
 
                     {/* Filtros */}
@@ -93,14 +93,24 @@ export default function VentasPage() {
                         setFechaInicio={setFechaInicio}
                         setFechaFin={setFechaFin}
                         onEstadoChange={setEstadoSeleccionado}
-                        child={
+                        print={
                             <Button
-                                size="md"
+                                size="sm"
+                                variant="primary"
+                                startIcon={<PrintIcon className="size-5" />}
+                                //alerta 
+                                onClick={() => alert("Imprimiendo...")} // Imprimir
+                            >                         
+                            </Button>
+                        }
+                        child={                         
+                            <Button
+                                size="sm"
                                 variant="primary"
                                 startIcon={<PlusIcon className="size-5" />}
                                 onClick={() => openModal("createVenta")} // Abre modal de creación
                             >
-                                Nueva Venta
+                                Agregar Venta
                             </Button>
                         }
                     />
