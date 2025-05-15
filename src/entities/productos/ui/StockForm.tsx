@@ -6,8 +6,11 @@ import { FormField } from "../../../shared/ui/form/FormField.tsx";
 
 // Esquema de validación con Zod
 const stockSchema = z.object({
-    cantidad: z
-        .number({ invalid_type_error: "La cantidad debe ser un número" })
+    cantidad: z.coerce // Usa coerce para convertir strings a números
+        .number({
+            invalid_type_error: "La cantidad debe ser un número válido",
+            required_error: "La cantidad es requerida",
+        })
         .min(1, "La cantidad debe ser mayor o igual a 1")
         .positive("La cantidad debe ser un número positivo"),
 });
@@ -33,7 +36,7 @@ export default function StockForm({
         handleSubmit,
         formState: { errors },
     } = useForm<StockFormValues>({
-        resolver: zodResolver(stockSchema),
+        resolver: zodResolver(stockSchema)
     });
 
     return (
@@ -45,6 +48,7 @@ export default function StockForm({
                     name="cantidad"
                     register={register}
                     errors={errors}
+                    step={1}
                 />
                 {currentStock !== undefined && (
                     <p className="text-sm text-gray-500">

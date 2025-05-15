@@ -116,7 +116,7 @@ export default function LotesPage() {
                           {/* Cantidad */}
                           <TableCell className="px-4 py-3 text-theme-sm ">
                             <div className="flex space-x-2 align-middle">
-                            <p className="px-4">
+                            <p className="px-4 font-medium text-theme-sm text-gray-800 dark:text-white/90">
                               {lote.cantidad}
                             </p>
                             </div>                         
