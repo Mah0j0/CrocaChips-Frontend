@@ -13,6 +13,9 @@ import VentaTable from "../../features/ventas/table/VentaTable.tsx";
 import Button from "../../shared/ui/button/Button.tsx";
 import {PlusIcon} from "../../shared/icons";
 import { PrintIcon } from "../../shared/icons";
+//Para PDF
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import { VentasPDFDocument } from '../../features/ventas/print-venta/ui/VentasPDFDocument.tsx';
 
 // Componente principal de ventas
 export default function VentasPage() {
@@ -98,9 +101,20 @@ export default function VentasPage() {
                                 size="sm"
                                 variant="primary"
                                 startIcon={<PrintIcon className="size-5" />}
-                                //alerta 
-                                onClick={() => alert("Imprimiendo...")} // Imprimir
-                            >                         
+                            >         
+                                <PDFDownloadLink
+                                    document={
+                                    <VentasPDFDocument 
+                                        ventas={ventasFiltradas}
+                                        filtro={filtro}
+                                        fechaInicio={fechaInicio}
+                                        fechaFin={fechaFin}
+                                    />
+                                    }
+                                    fileName={`ventas_${new Date().toISOString().split('T')[0]}.pdf`}
+                                >
+                                    {({ loading }) => (loading ? 'Preparando...' : 'Exportar')}
+                                </PDFDownloadLink>                
                             </Button>
                         }
                         child={                         
