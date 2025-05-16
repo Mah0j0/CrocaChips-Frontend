@@ -24,6 +24,7 @@ type PropsFormField<T extends FieldValues> = {
     options?: Option[]; // for select/multiselect
     placeholder?: string;
     value?: string | number;
+    step?: number;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onChangeTextarea?: (value: string) => void;
     onChangeSelect?: (value: string) => void;
@@ -47,6 +48,7 @@ export function FormField<T extends FieldValues>({
     onChangeSelect,
     defaultValue,
     value,
+    step,
 }: PropsFormField<T>) {
     const error = errors[name];
     const errorMessage = error?.message?.toString();
@@ -92,6 +94,7 @@ export function FormField<T extends FieldValues>({
                     error={!!error}
                     hint={errorMessage}
                     onChange={onChange}
+                    step={step}
                 />
             )}
 
