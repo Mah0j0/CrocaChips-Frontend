@@ -57,8 +57,12 @@ import { ReactComponent as SearchIcon } from "./search.svg?react";
 import { ReactComponent as InfoBAsicIcon } from "./infoBasic.svg?react";
 import {ReactComponent as FilterIcon} from "./filter.svg?react";
 import {ReactComponent as PrintIcon} from "./print.svg?react";
+import {ReactComponent as FilePdfIcon} from "./file-pdf.svg?react";
+import {ReactComponent as FileExcelIcon} from "./file-excel.svg?react";
 
 export {
+  FilePdfIcon,
+  FileExcelIcon,
   PrintIcon,
   InfoBAsicIcon,
   SearchIcon,

@@ -2,12 +2,14 @@ import React from "react";
 import { Modal } from "../../../../shared/ui/modal";
 import { useModalContext } from "../../../../app/providers/ModalContext.tsx";
 import Button from "../../../../shared/ui/button/Button.tsx"; // Componente de botón
-//import { CloseLineIcon } from "../../../../shared/icons/index.ts";
+import { FilePdfIcon } from "../../../../shared/icons/index.ts";
+import { FileExcelIcon } from "../../../../shared/icons/index.ts";
 //Venta
 import { Venta } from "../../../../entities/ventas";  
-//Para PDF
+//Para PDF y Excel
 import { PDFDownloadLink } from '@react-pdf/renderer';
-import { VentasPDFDocument } from './VentasPDFDocument.tsx';       
+import { VentasPDFDocument } from './VentasPDFDocument.tsx';    
+import { exportVentasToExcel }  from './VentasXlsxDocument.tsx'; // Para exportar a Excel   
                      
 function PrintVentaModal(
     { ventasFiltradas, filtro, fechaInicio, fechaFin }: {
@@ -32,7 +34,9 @@ function PrintVentaModal(
                     Escoge el tipo de archivo que deseas guardar.
                 </p>
                 <div className="flex flex-row items-center gap-4">
-                    <Button size="sm" variant="outline">
+                    <Button size="sm" variant="outline"
+                        startIcon={<FilePdfIcon className="h-8 w-8" />}
+                    >
                         <PDFDownloadLink
                             document={
                                 <VentasPDFDocument 
@@ -47,7 +51,15 @@ function PrintVentaModal(
                             {({ loading }) => (loading ? 'Preparando...' : 'Archivo PDF')}
                         </PDFDownloadLink>
                     </Button>
-                    <Button size="sm" variant="outline">
+                    <Button size="sm" variant="outline"
+                        startIcon={<FileExcelIcon className="h-8 w-7" />}
+                        onClick={() => exportVentasToExcel({
+                            ventas: ventasFiltradas,
+                            filtro,
+                            fechaInicio,
+                            fechaFin
+                        })}
+                    >
                         Archivo Excel
                     </Button>
                 </div>
