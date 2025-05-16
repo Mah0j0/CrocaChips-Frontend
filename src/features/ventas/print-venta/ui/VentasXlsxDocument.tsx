@@ -1,5 +1,5 @@
 import { Venta } from "../../../../entities/ventas";
-import * as XLSX from 'xlsx';
+import * as XLSX from 'xlsx-js-style';
 
 
 interface ExportOptions {
@@ -34,6 +34,9 @@ export const exportVentasToExcel = ({
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, 'Ventas');
   
+  //Definir ancho de columnas 
+
+
   // Añadir metadatos
   if (filtro || fechaInicio || fechaFin) {
     const metadata = [
@@ -50,7 +53,31 @@ export const exportVentasToExcel = ({
     const metadataSheet = XLSX.utils.aoa_to_sheet(metadata);
     XLSX.utils.book_append_sheet(workbook, metadataSheet, 'Metadatos');
   }
+  //Definir ancho de columnas
+  const columnWidths = [
+    { wch: 10 }, // ID
+    { wch: 20 }, // Cliente
+    { wch: 20 }, // Vendedor
+    { wch: 15 }, // Fecha
+    { wch: 10 }, // Total
+    { wch: 10 }  // Estado
+  ];
+  // Añadir estilos a los encabezados
+  const headerStyle = {
+    font: { bold: true, color: { rgb: 'FFFFFF' } },
+    fill: { fgColor: { rgb: '4472C4' } },
+    alignment: { horizontal: 'center' }
+  };
 
+  const range = XLSX.utils.decode_range(worksheet['!ref']!);
+  // Aplicar estilos a los encabezados
+  for (let C = range.s.c; C <= range.e.c; ++C) {
+    const cellAddress = XLSX.utils.encode_cell({ r: 0, c: C });
+    worksheet[cellAddress].s = headerStyle;
+  }
+
+  // Aplicar anchos de columna
+  worksheet['!cols'] = columnWidths;
   // Generar el archivo Excel
   XLSX.writeFile(workbook, fileName);
 };
