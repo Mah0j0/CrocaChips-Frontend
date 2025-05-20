@@ -7,9 +7,11 @@ import Button from "../../../shared/ui/button/Button.tsx";
 import { useEffect } from "react";
 import { Producto } from "../model/type.ts";
 import { FormField } from "../../../shared/ui/form/FormField.tsx";
+import { productoSchema, ProductoFormData } from "../model/productoSchema.ts";
+
 
 type Props = {
-    onSubmit: (data: Producto) => void;
+    onSubmit: (data: ProductoFormData) => void;
     defaultValues?: Partial<Producto>;
     isSubmitting?: boolean;
     onCancel?: () => void;
@@ -24,7 +26,6 @@ export default function ProductoForm({
      isSubmitting = false,
      onCancel,
      disabledFields = [],
-     schema,
      children,
 }: Props) {
     const {
@@ -33,8 +34,8 @@ export default function ProductoForm({
         reset,
         setValue,
         formState: { errors },
-    } = useForm<Producto>({
-        resolver: zodResolver(schema),
+    } = useForm<ProductoFormData>({
+        resolver: zodResolver(productoSchema),
         defaultValues,
     });
 
@@ -66,9 +67,11 @@ export default function ProductoForm({
                 <FormField
                     label="Stock"
                     name="stock"
+                    type="number"
                     register={register}
                     errors={errors}
                     disabled={isDisabled("stock")}
+                    step={1}
                 />
                 <div>
                     <Label>Tiempo de vida</Label>
@@ -88,9 +91,11 @@ export default function ProductoForm({
                 <FormField
                     label="Precio (Bs./Unidad)"
                     name="precio_unitario"
+                    type="number"
                     register={register}
                     errors={errors}
                     disabled={isDisabled("precio_unitario")}
+                    step={0.01}
                 />
             </div>
             <div className="flex items-center gap-3 justify-end">
