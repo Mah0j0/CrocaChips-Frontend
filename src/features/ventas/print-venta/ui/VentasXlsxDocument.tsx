@@ -1,7 +1,6 @@
 import { Venta } from "../../../../entities/ventas";
 import * as XLSX from 'xlsx-js-style';
 
-
 interface ExportOptions {
   ventas: Venta[];
   filtro: string;
@@ -23,7 +22,7 @@ export const exportVentasToExcel = ({
     'Cliente': venta.cliente_nombre,
     'Vendedor': venta.vendedor_nombre,
     'Fecha': new Date(venta.fecha).toLocaleDateString(),
-    'Total': venta.precio_total,
+    'Total': Number(venta.precio_total),
     'Estado': venta.estado ? 'Activo' : 'Inactivo'
   }));
 
