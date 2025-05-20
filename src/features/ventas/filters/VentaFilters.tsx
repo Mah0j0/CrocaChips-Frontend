@@ -10,8 +10,7 @@ type Props = {
     fechaInicio: Date | null;
     fechaFin: Date | null;
     setFechaInicio: (date: Date | null) => void;
-    setFechaFin: (date: Date | null) => void; 
-    print?: React.ReactNode;
+    setFechaFin: (date: Date | null) => void;
     child?: React.ReactNode;
 };
 
@@ -24,7 +23,6 @@ export default function ClienteFilters({
                                            fechaFin,
                                            setFechaInicio,
                                            setFechaFin,
-                                           print,
                                            child,
                                        }: Props) {
     return (
@@ -48,7 +46,6 @@ export default function ClienteFilters({
             />
 
             {/* Contenido adicional opcional */}
-            {print}
             {child}
         </div>
     );
