@@ -66,9 +66,11 @@ export default function ProductoForm({
                 <FormField
                     label="Stock"
                     name="stock"
+                    type="number"
                     register={register}
                     errors={errors}
                     disabled={isDisabled("stock")}
+                    step={1}
                 />
                 <div>
                     <Label>Tiempo de vida</Label>
@@ -88,9 +90,11 @@ export default function ProductoForm({
                 <FormField
                     label="Precio (Bs./Unidad)"
                     name="precio_unitario"
+                    type="number"
                     register={register}
                     errors={errors}
                     disabled={isDisabled("precio_unitario")}
+                    step={0.01}
                 />
             </div>
             <div className="flex items-center gap-3 justify-end">
