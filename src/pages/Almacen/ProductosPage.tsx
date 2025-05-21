@@ -1,37 +1,42 @@
 //Inicio de pagina
-import PageBreadcrumb from "../../components/common/PageBreadCrumb.tsx";
-import PageMeta from "../../components/common/PageMeta.tsx";
+import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb.tsx";
+import PageMeta from "../../shared/ui/common/PageMeta.tsx";
 //Producto
-import { useProducts } from "../../hooks/useProducto.ts";
+import { useProducts } from "../../entities/productos";
 //Modals
-import { useModalContext } from "../../context/ModalContext.tsx";
-import CreateProductoModal from "../../components/productos/CreateProductoModal.tsx";
-import EditProductoModal from "../../components/productos/EditProductoModal.tsx";
-import IncreaseStockModal from "../../components/productos/IncreaseStockModal.tsx";
-import DecreaseSrockModal from "../../components/productos/DecreaseStockModal.tsx";
+import { useModalContext } from "../../app/providers/ModalContext.tsx";
+
+import {
+    CreateProductoModal,
+    EditProductoModal,
+    IncreaseStockModal,
+    DecreaseStockModal,
+} from "../../features/productos";
+
+//import DecreaseSrockModal from "../../features/productos/decrease-stock/ui/DecreaseStockModal.tsx";
 //Para filtros
-import { estados } from "../../data";
-import Select from "../../components/form/Select.tsx";
+import { estados } from "../../shared/data";
+import Select from "../../shared/ui/form/Select.tsx";
 //Para tablas
-import { SearchIcon, PlusIcon, MinusIcon, HorizontaLDots, ChevronLeftIcon, FilterIcon} from "../../icons/index.ts";
+import { SearchIcon, PlusIcon, MinusIcon, HorizontaLDots, ChevronLeftIcon, FilterIcon} from "../../shared/icons/index.ts";
 import { useState } from "react";
-import {TableCell} from "../../components/ui/table/index.tsx";
-import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne.tsx";
-import Badge from "../../components/ui/badge/Badge.tsx";
-import Alert from "../../components/ui/alert/Alert.tsx";
-import Input from "../../components/form/input/InputField.tsx";
-import ComponentCard from "../../components/common/ComponentCard.tsx";
-import Button from "../../components/ui/button/Button.tsx";
+import {TableCell} from "../../shared/ui/table";
+import BasicTableOne from "../../shared/ui/table/BasicTableOne.tsx";
+import Badge from "../../shared/ui/badge/Badge.tsx";
+import Alert from "../../shared/ui/alert/Alert.tsx";
+import Input from "../../shared/ui/form/input/InputField.tsx";
+import ComponentCard from "../../shared/ui/common/ComponentCard.tsx";
+import Button from "../../shared/ui/button/Button.tsx";
 
 
 export default function ProductosPage() {
   const { openModal } = useModalContext(); //abrir el modal
-  const { data, isLoading, isError } = useProducts(); //Traer los productos de la API 
+  const { data, isLoading, isError } = useProducts(); //Traer los productos de la API
   const [filtro, setFiltro] = useState(""); //filtrar los productos,
-  const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true"); 
+  const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true");
   const [paginaActual, setPaginaActual] = useState(1);
   const elementosPorPagina = 10;
-  
+
   //Cabeceras de tablas
   const headers = [
     "Nombre del producto",
@@ -43,13 +48,13 @@ export default function ProductosPage() {
     "Estado",
     "Acciones",
   ];
-  
+
   const handleSelectChange = (value: string, type: "estado") => {
     if (type === "estado") {
         setEstadoSeleccionado(value);
     }
   };
-  
+
   if (isLoading) {
     return (
       <ComponentCard title="Info Alert">
@@ -96,7 +101,7 @@ export default function ProductosPage() {
   //Renderizar la tabla
   return(
     <div>
-      <PageMeta 
+      <PageMeta
         title="React.js Blank Dashboard | TailAdmin"
         description="Lista de productos"
         />
@@ -104,25 +109,25 @@ export default function ProductosPage() {
       <div className="space-y-6">
         <ComponentCard title="">
           <div className="flex flex-row gap-10 items-center justify-between mb-5">
-              {/* Barra de búsqueda */} 
-              <div className="relative"> 
+              {/* Barra de búsqueda */}
+              <div className="relative">
                   <Input
                       placeholder="Nombre, descripcion ..."
                       type="text"
                       value={filtro}
                       onChange={(e) => setFiltro(e.target.value)}
-                      className="pl-[62px]" 
+                      className="pl-[62px]"
                   />
                   <span className="absolute left-0 top-1/2 -translate-y-1/2 border-r border-gray-200 px-3.5 py-3 text-gray-500 dark:border-gray-800 dark:text-gray-400">
                   <SearchIcon className="size-6" />
                   </span>
               </div>
               <div className="flex flex-row-reer gap-3 items-center justify-end">
-                {/* Filtros */} 
+                {/* Filtros */}
                 <div className="flex flex-row-reer gap-3 items-center justify-end">
                   <FilterIcon className="size-8 text-gray-500 dark:border-gray-800 dark:text-gray-400" />
                   <Select
-                    options={estados.map((estado) => ({ 
+                    options={estados.map((estado) => ({
                       value: estado.value.toString(),
                       label: estado.label,
                     }))}
@@ -132,13 +137,13 @@ export default function ProductosPage() {
                     placeholder="Estado"
                   />
                 </div>
-                {/* Botón para agregar producto */} 
+                {/* Botón para agregar producto */}
                   <Button
                     size="md"
                     variant="primary"
                     startIcon={<PlusIcon className="size-5"/>}
-                    onClick={() => openModal("createProducto")} 
-                  > 
+                    onClick={() => openModal("createProducto")}
+                  >
                     Agregar Producto
                   </Button>
                   <CreateProductoModal />
@@ -201,10 +206,10 @@ export default function ProductosPage() {
                           children={undefined}
                         />
                         </div>
-                        
+
                       </TableCell>
                       {/* Descripcion */}
-                      <TableCell className="px-5 py-3 text-gray-500 text-theme-sm dark:text-gray-400"> 
+                      <TableCell className="px-5 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                           {producto.descripcion}
                       </TableCell>
                       {/* Disponibilidad */}
@@ -220,7 +225,7 @@ export default function ProductosPage() {
                           }
                         >
                           {producto.stock === 0 ? "Agotado" : "Disponible"}
-                        </Badge>                       
+                        </Badge>
                       </TableCell>
                       {/* Estado */}
                       <TableCell className="p-4 py-5 text-start">
@@ -235,7 +240,7 @@ export default function ProductosPage() {
                           }
                         >
                           {producto.habilitado ? "Activo" : "Inactivo"}
-                        </Badge>    
+                        </Badge>
                       </TableCell>
                       {/* Acciones */}
                       <TableCell className="p-4 py-5 text-center">
@@ -275,11 +280,11 @@ export default function ProductosPage() {
                         Siguiente
                     </Button>
                   </div>
-        </ComponentCard>            
+        </ComponentCard>
       </div>
       <EditProductoModal/>
       <IncreaseStockModal/>
-      <DecreaseSrockModal/>
+      <DecreaseStockModal/>
     </div>
   );
 

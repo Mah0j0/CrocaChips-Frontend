@@ -1,31 +1,31 @@
 //Inicio de pagina
-import PageBreadcrumb from "../../components/common/PageBreadCrumb.tsx";
-import PageMeta from "../../components/common/PageMeta.tsx";
+import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb.tsx";
+import PageMeta from "../../shared/ui/common/PageMeta.tsx";
 //Despachos
-import { useDespachos } from "../../hooks/useDespacho.ts";
+import { useDespachos } from "../../entities/movimientos";
 //Modals
-//import { useModalContext } from "../../context/ModalContext.tsx";
-//crear despacho modal
-//editar despacho modal
+import { useModalContext } from "../../app/providers/ModalContext.tsx";
+import CreateDespachoModal from "../../features/despachos/create-despacho/ui/CreateDespachoModal.tsx";
+import EditDespachoModal from "../../features/despachos/edit-despacho/ui/EditDespachoModal.tsx";
 
 //Para filtros
 //import { estados } from "../../data";
 //import Select from "../../components/form/Select.tsx";
 //Para tablas
-import { SearchIcon, PlusIcon, HorizontaLDots, ChevronLeftIcon, FilterIcon} from "../../icons/index.ts";
+import { SearchIcon, PlusIcon, HorizontaLDots, ChevronLeftIcon} from "../../shared/icons/index.ts";
 import { useState } from "react";
-import {TableCell} from "../../components/ui/table/index.tsx";
-import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne.tsx";
-import Alert from "../../components/ui/alert/Alert.tsx";
-import Input from "../../components/form/input/InputField.tsx";
-import ComponentCard from "../../components/common/ComponentCard.tsx";
-import Button from "../../components/ui/button/Button.tsx";
+import BasicTableOne from "../../shared/ui/table/BasicTableOne.tsx";
+import Alert from "../../shared/ui/alert/Alert.tsx";
+import Input from "../../shared/ui/form/input/InputField.tsx";
+import ComponentCard from "../../shared/ui/common/ComponentCard.tsx";
+import Button from "../../shared/ui/button/Button.tsx";
+import { TableCell } from "../../shared/ui/table";
 
 
 export default function DespachosPage() {
-    //const { openModal } = useModalContext(); //abrir el modal
+    const { openModal } = useModalContext(); //abrir el modal
     const { data, isLoading, isError } = useDespachos(); //Traer los despachos de la API 
-    const [filtro, setFiltro] = useState(""); //filtrar los productos,
+    const [filtro, setFiltro] = useState(""); //filtrar los despachos,
     //const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true"); 
     const [paginaActual, setPaginaActual] = useState(1);
     const elementosPorPagina = 10;
@@ -85,9 +85,9 @@ export default function DespachosPage() {
         <div>
           <PageMeta 
             title="React.js Blank Dashboard | TailAdmin"
-            description="Lista de productos"
+            description="Lista de despachos"
             />
-          <PageBreadcrumb pageTitle="Productos en almacén" />
+          <PageBreadcrumb pageTitle="Despachos de productos" />
           <div className="space-y-6">
             <ComponentCard title="">
               <div className="flex flex-row gap-10 items-center justify-between mb-5">
@@ -110,11 +110,12 @@ export default function DespachosPage() {
                         size="md"
                         variant="primary"
                         startIcon={<PlusIcon className="size-5"/>}
-                        onClick={() => alert("Agregar Despacho")}
+                        onClick={() => openModal("createDespacho")}
                       > 
                         Agregar Despacho
                       </Button>
                       {/* Modal de agregar producto */} 
+                      <CreateDespachoModal />
                   </div>
               </div>
               {/* Tabla */}
@@ -167,7 +168,7 @@ export default function DespachosPage() {
                           {/* Acciones */}
                           <TableCell className="py-5">
                               <button
-                              onClick={() => alert("Editar Despacho")}
+                              onClick={() => openModal("editDespacho", despacho)}
                               className="text-gray-400"
                               title="Más opciones"
                               >
@@ -205,6 +206,7 @@ export default function DespachosPage() {
             </ComponentCard>            
           </div>
           {/* Modales */}
+          <EditDespachoModal />
         </div>
       );
 }
