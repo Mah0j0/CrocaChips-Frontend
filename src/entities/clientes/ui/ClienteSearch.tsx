@@ -17,12 +17,11 @@ export default function ClienteSearch({ onSelect }: Props) {
     const [searchTerm, setSearchTerm] = useState("");
     const [filtered, setFiltered] = useState<Cliente[]>([]);
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
-    const [isViewList, setIsViewList] = useState(true);
+    const [isViewList, setIsViewList] = useState(false);
 
     useEffect(() => {
         if (searchTerm.trim() === "") {
             setFiltered(clientes);
-            setIsViewList(true);
         }
         const timeout = setTimeout(() => {
             if (searchTerm.trim() === "") {
