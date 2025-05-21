@@ -8,41 +8,39 @@ interface InputProps {
     value?: string | number;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+    onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void; // <-- Agregado aquí
     onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
     className?: string;
-    min?: string | number; // <-- Aquí
-    max?: string | number; // <-- Y aquí
+    min?: string | number;
+    max?: string | number;
     step?: number;
     disabled?: boolean;
     success?: boolean;
     error?: boolean;
     hint?: string;
-}
-
-// Usamos forwardRef para pasar la ref a <input>
-interface InputProps {
-    autoComplete?: string
+    autoComplete?: string;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(({
-                                                            type = "text",
-                                                            id,
-                                                            name,
-                                                            placeholder,
-                                                            value,
-                                                            onChange,
-                                                            onBlur,
-                                                            onKeyDown,
-                                                            className = "",
-                                                            min,
-                                                            max,
-                                                            step,
-                                                            disabled = false,
-                                                            success = false,
-                                                            error = false,
-                                                            hint,
-                                                            autoComplete
-                                                        }, ref) => {
+    type = "text",
+    id,
+    name,
+    placeholder,
+    value,
+    onChange,
+    onBlur,
+    onFocus, // <-- Agregado aquí
+    onKeyDown,
+    className = "",
+    min,
+    max,
+    step,
+    disabled = false,
+    success = false,
+    error = false,
+    hint,
+    autoComplete
+}, ref) => {
     let inputClasses = `h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3  dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 ${className}`;
 
     if (disabled) {
@@ -65,14 +63,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
                 value={value}
                 onChange={onChange}
                 onBlur={onBlur}
+                onFocus={onFocus} // <-- Agregado aquí
                 onKeyDown={onKeyDown}
                 min={min}
                 max={max}
                 step={step}
                 disabled={disabled}
                 className={inputClasses}
-                ref={ref} // Asegúrate de pasar el ref
-                autoComplete={autoComplete} // Agregamos el campo autoComplete
+                ref={ref}
+                autoComplete={autoComplete}
             />
 
             {hint && (
@@ -92,6 +91,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
     );
 });
 
-Input.displayName = "Input"; // Necesario con forwardRef
+Input.displayName = "Input";
 
 export default Input;

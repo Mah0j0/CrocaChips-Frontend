@@ -18,10 +18,12 @@ export default function ProductoSearch({ onSelect }: Props) {
     const [filtered, setFiltered] = useState<Producto[]>([]);
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
 
+    const [isViewing, setIsViewing] = useState(false);
+
     useEffect(() => {
         const timeout = setTimeout(() => {
             if (searchTerm.trim() === "") {
-                setFiltered([]);
+                setFiltered(productos);
                 return;
             }
 
@@ -39,6 +41,7 @@ export default function ProductoSearch({ onSelect }: Props) {
         setSearchTerm(producto.producto_nombre);
         setFiltered([]);
         setHighlightedIndex(-1);
+        setIsViewing(false);
         onSelect({
             id: producto.id_producto,
             nombre: producto.producto_nombre,
@@ -65,6 +68,7 @@ export default function ProductoSearch({ onSelect }: Props) {
             <Label htmlFor="producto-list">Productos</Label>
             <InputField
                 type="text"
+                onFocus={() => setIsViewing(true)}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -76,10 +80,10 @@ export default function ProductoSearch({ onSelect }: Props) {
                     highlightedIndex >= 0 ? `producto-${filtered[highlightedIndex].id_producto}` : undefined
                 }
             />
-            {filtered.length > 0 && (
+            {filtered.length > 0 && isViewing &&(
                 <ul
                     id="producto-list"
-                    className="absolute z-10 bg-white border rounded w-full mt-1 max-h-48 overflow-y-auto shadow dark:border-gray-800 dark:bg-gray-900 dark:bg-white/[0.03] dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 xl:w-[430px]"
+                    className="absolute z-10 bg-white border rounded w-full mt-1 max-h-48 overflow-y-auto shadow dark:border-gray-800 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 xl:w-[430px]"
                     role="listbox"
                 >
                     {filtered.map((producto, index) => (

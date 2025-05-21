@@ -1,4 +1,4 @@
-import { useReducer, useState, useCallback } from "react";
+import {useReducer, useState, useCallback, } from "react";
 import { NuevoDetalle } from "../model/type";
 
 type DetallesAction =
