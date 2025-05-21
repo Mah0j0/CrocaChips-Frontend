@@ -21,11 +21,12 @@ export default function ClienteSearch({ onSelect }: Props) {
 
     useEffect(() => {
         if (searchTerm.trim() === "") {
+            setFiltered(clientes);
             setIsViewList(true);
         }
         const timeout = setTimeout(() => {
             if (searchTerm.trim() === "") {
-                setFiltered([]);
+                setFiltered(clientes);
                 return;
             }
 
@@ -75,6 +76,7 @@ export default function ClienteSearch({ onSelect }: Props) {
                 onKeyDown={handleKeyDown}
                 placeholder="Buscar cliente..."
                 className="w-full"
+                onFocus={()=> setIsViewList(true)}
                 aria-autocomplete="list"
                 aria-controls="cliente-list"
                 aria-activedescendant={
