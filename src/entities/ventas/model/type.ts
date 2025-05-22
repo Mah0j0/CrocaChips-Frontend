@@ -26,7 +26,6 @@ export type NuevoDetalle = {
     producto_nombre?: string;
 }
 
-
 export type Detalle = {
     id_detalle: number;
     id_venta: number;
