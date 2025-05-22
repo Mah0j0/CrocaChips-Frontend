@@ -22,13 +22,13 @@ type Props = {
 };
 
 export default function DetalleVentaForm({
-                                             onSubmit,
-                                             defaultValues = {},
-                                             isSubmitting = false,
-                                             onCancel,
-                                             disabledFields = [],
-                                             schema,
-                                         }: Props) {
+    onSubmit,
+    defaultValues = {},
+    isSubmitting = false,
+    onCancel,
+    disabledFields = [],
+    schema,
+}: Props) {
     const cantidadRef = useRef<HTMLInputElement>(null);
 
     const [clienteSeleccionado, setClienteSeleccionado] = useState(false);
@@ -88,6 +88,7 @@ export default function DetalleVentaForm({
         if (productoSeleccionado && cantidad > 0) {
             agregarDetalle(productoSeleccionado);
             setProductoSeleccionado(null);
+            setCantidad(0);
         }
     };
 
