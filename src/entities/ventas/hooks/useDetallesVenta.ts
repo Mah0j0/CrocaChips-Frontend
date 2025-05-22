@@ -1,9 +1,10 @@
-import {useReducer, useState, useCallback, } from "react";
+import { useReducer, useState, useCallback, } from "react";
 import { NuevoDetalle } from "../model/type";
 
 type DetallesAction =
     | { type: "ADD"; payload: NuevoDetalle }
-    | { type: "REMOVE"; payload: number };
+    | { type: "REMOVE"; payload: number }
+    | { type: "UPDATE"; payload: { index: number; detalle: NuevoDetalle } };
 
 function detallesReducer(state: NuevoDetalle[], action: DetallesAction): NuevoDetalle[] {
     switch (action.type) {
@@ -11,13 +12,17 @@ function detallesReducer(state: NuevoDetalle[], action: DetallesAction): NuevoDe
             return [...state, action.payload];
         case "REMOVE":
             return state.filter((_, i) => i !== action.payload);
+        case "UPDATE":
+            return state.map((detalle, index) =>
+                index === action.payload.index ? action.payload.detalle : detalle
+            );
         default:
             return state;
     }
 }
 export function useDetallesVenta(setDetallesForm: (detalles: NuevoDetalle[]) => void) {
     const [detalles, dispatch] = useReducer(detallesReducer, []);
-    const [cantidad, setCantidad] = useState(1);
+    const [cantidad, setCantidad] = useState(0);
 
     const agregarDetalle = useCallback(
         (producto: { id: number; nombre: string; precio_unitario: number }) => {
@@ -26,15 +31,43 @@ export function useDetallesVenta(setDetallesForm: (detalles: NuevoDetalle[]) => 
                 return;
             }
 
-            const nuevoDetalle: NuevoDetalle = {
-                producto: producto.id,
-                cantidad,
-            };
+            // Buscar si el producto ya existe en detalles
+            const productoExistenteIndex = detalles.findIndex(
+                (detalle) => detalle.producto === producto.id
+            );
 
-            const nuevosDetalles = [...detalles, nuevoDetalle];
-            dispatch({ type: "ADD", payload: nuevoDetalle });
-            setDetallesForm(nuevosDetalles); // sincroniza con react-hook-form
-            setCantidad(1);
+            if (productoExistenteIndex !== -1) {
+                // Actualizar la cantidad
+                const detalleExistente = detalles[productoExistenteIndex];
+                const detalleActualizado: NuevoDetalle = {
+                    ...detalleExistente,
+                    cantidad: detalleExistente.cantidad + cantidad,
+                };
+
+                // Actualizar el detalle 
+                const nuevosDetalles = [...detalles];
+                nuevosDetalles[productoExistenteIndex] = detalleActualizado;
+
+                dispatch({
+                    type: "UPDATE",
+                    payload: {
+                        index: productoExistenteIndex,
+                        detalle: detalleActualizado
+                    }
+                });
+                setDetallesForm(nuevosDetalles);
+            } else {
+                // agregar como nuevo detalle
+                const nuevoDetalle: NuevoDetalle = {
+                    producto: producto.id,
+                    cantidad,
+                };
+                dispatch({ type: "ADD", payload: nuevoDetalle });
+                const nuevosDetalles = [...detalles, nuevoDetalle];
+                setDetallesForm(nuevosDetalles);
+            }
+
+            setCantidad(0);
         },
         [cantidad, detalles, setDetallesForm]
     );
