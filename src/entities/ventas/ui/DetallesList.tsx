@@ -19,11 +19,11 @@ export default function DetallesList({ detalles, onEliminar }: Props) {
                         key={index}
                         className="flex justify-between items-center p-4 border rounded-xl shadow-sm bg-white dark:bg-slate-800 dark:text-white"
                     >
-                        <div className="space-y-1 text-sm">
-                            <p><span className="font-medium">Producto:</span> {detalle.producto_nombre}</p>
-                            <p><span className="font-medium">Cantidad:</span> {detalle.cantidad}</p>
-                            <p><span className="font-medium">Precio Unitario:</span> Bs: {detalle.precio_unitario}</p>
-                            <p><span className="font-medium">Subtotal:</span> Bs: {detalle.subtotal}</p>
+                        <div className="space-y-1 text-sm grid grid-cols-2 gap-4">
+                            <p><span className="font-[600]">Producto:</span> {detalle.producto_nombre}</p>
+                            <p><span className="font-[600]">Cantidad:</span> {detalle.cantidad}</p>
+                            <p><span className="font-[600]">Precio Unitario:</span> {detalle.precio_unitario} Bs</p>
+                            <p><span className="font-[600]">Subtotal:</span> {detalle.subtotal} Bs: </p>
                         </div>
                         <Button
                             type="button"

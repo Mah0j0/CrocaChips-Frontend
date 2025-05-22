@@ -86,6 +86,8 @@ export default function DetalleVentaForm({
 
     const handleAgregarDetalle = () => {
         if (productoSeleccionado && cantidad > 0) {
+            console.log(clienteSeleccionado);
+            console.log("Producto seleccionado:", productoSeleccionado);
             agregarDetalle(productoSeleccionado);
             setProductoSeleccionado(null);
             setCantidad(0);
@@ -104,6 +106,8 @@ export default function DetalleVentaForm({
         setClienteSeleccionado(true);
         setValue("cliente", cliente.id);
     };
+
+    console.log("Errores de validación:", errors);
 
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
