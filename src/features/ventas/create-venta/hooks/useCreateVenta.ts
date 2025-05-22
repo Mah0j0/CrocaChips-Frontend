@@ -13,6 +13,7 @@ export const useCreateVenta = (
         mutationFn: createVenta,
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: ["ventas"] });
+            await queryClient.invalidateQueries({ queryKey: ["MisProductos"] });
             toast.success("Venta registrada correctamente");
             onSuccessCallback();
         },

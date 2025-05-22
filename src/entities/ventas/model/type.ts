@@ -21,6 +21,9 @@ export type NuevaVenta = {
 export type NuevoDetalle = {
     producto: number;
     cantidad: number;
+    precio_unitario?: number;
+    subtotal?: number;
+    producto_nombre?: string;
 }
 
 export type Detalle = {

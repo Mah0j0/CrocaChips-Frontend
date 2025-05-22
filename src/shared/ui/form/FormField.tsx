@@ -88,7 +88,27 @@ export function FormField<T extends FieldValues>({
                     error={!!error}
                     hint={errorMessage}
                 />
-            ) : (
+            ) : type === "number" ? (
+                    <Input
+                        id={name}
+                        type={type}
+                        value={value}
+                        {...(register ? register(name, validation) : {})}
+                        ref={el => {
+                            if (register) {
+                                const { ref } = register(name, validation);
+                                if (typeof ref === "function") ref(el);
+                                else if (ref) (ref as React.MutableRefObject<HTMLInputElement | null>).current = el;
+                            }
+                            if (inputRef && el) inputRef.current = el;
+                        }}
+                        disabled={disabled}
+                        error={!!error}
+                        hint={errorMessage}
+                        onChange={onChange}
+                        step={step}
+                    />
+                ) : (
                 <Input
                     id={name}
                     type={type}
