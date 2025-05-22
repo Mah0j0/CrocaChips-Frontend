@@ -30,7 +30,7 @@ export default function DetalleVentaForm({
     schema,
 }: Props) {
     const cantidadRef = useRef<HTMLInputElement>(null);
-
+    const productoSearchRef = useRef<{ reset: () => void }>(null);
     const [clienteSeleccionado, setClienteSeleccionado] = useState(false);
     const [productoSeleccionado, setProductoSeleccionado] = useState<{
         id: number;
@@ -89,6 +89,10 @@ export default function DetalleVentaForm({
             agregarDetalle(productoSeleccionado);
             setProductoSeleccionado(null);
             setCantidad(0);
+            reset({cantidad: 0, });
+            if (productoSearchRef.current) {
+                productoSearchRef.current.reset();
+            }
         }
     };
 
@@ -115,7 +119,9 @@ export default function DetalleVentaForm({
                 </h4>
 
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                    <ProductoSearch onSelect={handleProductoSelect} />
+                    <ProductoSearch
+                        ref={productoSearchRef}
+                        onSelect={handleProductoSelect}/>
 
                     <div className="flex flex-row gap-10 items-center justify-center mb-5">
                         <FormField
