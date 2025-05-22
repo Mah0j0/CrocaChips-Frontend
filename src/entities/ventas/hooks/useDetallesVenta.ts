@@ -31,20 +31,21 @@ export function useDetallesVenta(setDetallesForm: (detalles: NuevoDetalle[]) => 
                 return;
             }
 
-            // Buscar si el producto ya existe en detalles
             const productoExistenteIndex = detalles.findIndex(
                 (detalle) => detalle.producto === producto.id
             );
 
             if (productoExistenteIndex !== -1) {
-                // Actualizar la cantidad
                 const detalleExistente = detalles[productoExistenteIndex];
+                const nuevaCantidad = detalleExistente.cantidad + cantidad;
                 const detalleActualizado: NuevoDetalle = {
                     ...detalleExistente,
-                    cantidad: detalleExistente.cantidad + cantidad,
+                    cantidad: nuevaCantidad,
+                    precio_unitario: producto.precio_unitario,
+                    subtotal: nuevaCantidad * producto.precio_unitario,
+                    producto_nombre: producto.nombre,
                 };
 
-                // Actualizar el detalle 
                 const nuevosDetalles = [...detalles];
                 nuevosDetalles[productoExistenteIndex] = detalleActualizado;
 
@@ -57,10 +58,12 @@ export function useDetallesVenta(setDetallesForm: (detalles: NuevoDetalle[]) => 
                 });
                 setDetallesForm(nuevosDetalles);
             } else {
-                // agregar como nuevo detalle
                 const nuevoDetalle: NuevoDetalle = {
                     producto: producto.id,
                     cantidad,
+                    precio_unitario: producto.precio_unitario,
+                    subtotal: cantidad * producto.precio_unitario,
+                    producto_nombre: producto.nombre,
                 };
                 dispatch({ type: "ADD", payload: nuevoDetalle });
                 const nuevosDetalles = [...detalles, nuevoDetalle];
