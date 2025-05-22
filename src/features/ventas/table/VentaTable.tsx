@@ -1,7 +1,6 @@
 import { TableCell } from "../../../shared/ui/table";
 import Badge from "../../../shared/ui/badge/Badge.tsx";
-import Button from "../../../shared/ui/button/Button.tsx";
-import { EyeIcon } from "../../../shared/icons";
+import { HorizontaLDots } from "../../../shared/icons";
 import BasicTableOne from "../../../shared/ui/table/BasicTableOne.tsx";
 import { Venta } from "../../../entities/ventas";
 
@@ -47,15 +46,14 @@ export default function VentaTable({ ventas, onVerDetalles }: Props) {
                             {venta.estado ? "Confirmada" : "Pendiente"}
                         </Badge>
                     </TableCell>
-                    <TableCell>
-                        <Button
-                            size="md"
-                            variant="outline"
-                            startIcon={<EyeIcon className="size-5" />}
-                            onClick={() => onVerDetalles(venta)}
-                        >
-                            Ver detalles
-                        </Button>
+                    <TableCell className="px-8">
+                        <button
+                          onClick={() => onVerDetalles(venta)}
+                          className="text-gray-400"
+                          title="Más opciones"
+                          >
+                          <HorizontaLDots className="w-7 h-7" />
+                          </button>
                     </TableCell>
                 </>
             )}

@@ -22,8 +22,7 @@ export const exportVentasToExcel = ({
     'Cliente': venta.cliente_nombre,
     'Vendedor': venta.vendedor_nombre,
     'Fecha': new Date(venta.fecha).toLocaleDateString(),
-    'Total': Number(venta.precio_total),
-    'Estado': venta.estado ? 'Activo' : 'Inactivo'
+    'Total': Number(venta.precio_total)
   }));
 
   // Crear hoja de trabajo

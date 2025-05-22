@@ -22,7 +22,7 @@ export default function VentaResumen({ venta }: Props) {
                 </div>
                 <div className="flex items-center space-x-3">
                     <FaDollarSign className="text-gray-500 dark:text-gray-400" />
-                    <p><strong>Total:</strong> ${venta.precio_total}</p>
+                    <p><strong>Total:</strong> Bs. {venta.precio_total}</p>
                 </div>
             </div>
         </div>

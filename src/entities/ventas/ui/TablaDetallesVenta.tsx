@@ -23,10 +23,10 @@ export default function TablaDetallesVenta({ detalles }: Props) {
                         {detalle.cantidad}
                     </TableCell>
                     <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
-                        ${detalle.precio_unitario}
+                        Bs. {detalle.precio_unitario}
                     </TableCell>
                     <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
-                        ${detalle.subtotal}
+                        Bs. {detalle.subtotal}
                     </TableCell>
                 </>
             )}
