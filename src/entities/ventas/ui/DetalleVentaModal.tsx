@@ -4,6 +4,9 @@ import VentaResumen from "./VentaResumen";
 import TablaDetallesVenta from "./TablaDetallesVenta";
 import { Venta } from "../model/type";
 import {useDetallesVenta} from "../hooks/useDetalleVenta.ts";
+import Button from "../../../shared/ui/button/Button.tsx";
+import {CheckCircleIcon} from "../../../shared/icons";
+import {useConfirmVenta} from "../../../features/ventas/create-venta/hooks/useConfirmVenta.ts";
 
 type Props = {
     idVenta: number;
@@ -15,6 +18,10 @@ export default function DetalleVentaModal({ idVenta, venta }: Props) {
     const isOpen = modals["detalleVenta"];
     const { data: detalles, isLoading, error } = useDetallesVenta(idVenta);
 
+    const { mutate: HandleConfirmarVenta } = useConfirmVenta(() => {
+        closeModal("detalleVenta");
+    });
+
     return (
         <Modal isOpen={isOpen} onClose={() => closeModal("detalleVenta")} className="max-w-4xl">
             <div className="p-6 bg-white dark:bg-gray-900 rounded-xl max-h-[90vh] overflow-y-auto">
@@ -25,7 +32,18 @@ export default function DetalleVentaModal({ idVenta, venta }: Props) {
 
                 <VentaResumen venta={venta} />
 
+
                 {detalles && <TablaDetallesVenta detalles={detalles} />}
+                {!venta.estado && (<Button
+                    size="md"
+                    variant="outline"
+                    className="mt-4"
+                    startIcon={<CheckCircleIcon className="size-5" />}
+                    onClick={() => HandleConfirmarVenta(venta)
+                }
+                >
+                    Confirmar Venta
+                </Button>) }
             </div>
         </Modal>
     );
