@@ -23,7 +23,6 @@ export type NuevoDetalle = {
     cantidad: number;
 }
 
-
 export type Detalle = {
     id_detalle: number;
     id_venta: number;

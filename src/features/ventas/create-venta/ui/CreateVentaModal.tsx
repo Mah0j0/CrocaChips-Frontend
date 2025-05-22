@@ -15,8 +15,8 @@ function CreateVentaModal() {
     };
 
     const { mutate, isPending } = useCreateVenta(onSuccessCallback);
+
     const handleVentaCreate = (formData: NuevaVenta) => {
-        console.log("formData", formData);
         mutate(formData);
     };
 
