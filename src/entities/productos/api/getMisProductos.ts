@@ -5,7 +5,6 @@ import {isAxiosError} from "axios";
 export async function getMisProductos(): Promise<Producto[]> {
     try {
         const { data } = await api.get<Producto[]>("/movimientos/cantidad/");
-        console.log(data);
         return data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {

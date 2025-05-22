@@ -5,12 +5,12 @@ import { z } from "zod";
 
 import Button from "../../../shared/ui/button/Button";
 import ProductoSearch from "../../productos/ui/ProductoSearch";
-import { NuevaVenta } from "../model/type";
-import { FormField } from "../../../shared/ui/form/FormField";
-import { useDetallesVenta } from "../hooks/useDetallesVenta";
-import DetallesList from "./DetallesList";
 import ClienteSearch from "../../clientes/ui/ClienteSearch";
+import DetallesList from "./DetallesList";
+import { FormField } from "../../../shared/ui/form/FormField";
 import { PlusIcon } from "../../../shared/icons";
+import { useDetallesVenta } from "../hooks/useDetallesVenta";
+import { NuevaVenta } from "../model/type";
 
 type Props = {
     onSubmit: (data: NuevaVenta) => void;
@@ -22,20 +22,22 @@ type Props = {
 };
 
 export default function DetalleVentaForm({
-    onSubmit,
-    defaultValues = {},
-    isSubmitting = false,
-    onCancel,
-    disabledFields = [],
-    schema,
-}: Props) {
+                                             onSubmit,
+                                             defaultValues = {},
+                                             isSubmitting = false,
+                                             onCancel,
+                                             disabledFields = [],
+                                             schema,
+                                         }: Props) {
     const cantidadRef = useRef<HTMLInputElement>(null);
     const productoSearchRef = useRef<{ reset: () => void }>(null);
+
     const [clienteSeleccionado, setClienteSeleccionado] = useState(false);
     const [productoSeleccionado, setProductoSeleccionado] = useState<{
         id: number;
         nombre: string;
         precio_unitario: number;
+        cantidad_volatil?: number;
     } | null>(null);
 
     const {
@@ -67,36 +69,8 @@ export default function DetalleVentaForm({
         reset({ ...defaultValues });
     }, [defaultValues, reset]);
 
-    const isDisabled = (field: keyof NuevaVenta) =>
+    const isFieldDisabled = (field: keyof NuevaVenta) =>
         disabledFields.includes(field);
-
-    const handleFormSubmit = (data: NuevaVenta) => {
-        if (detalles.length === 0) return;
-        onSubmit({ ...data, detalles });
-    };
-
-    const handleProductoSelect = (producto: {
-        id: number;
-        nombre: string;
-        precio_unitario: number;
-    }) => {
-        setProductoSeleccionado(producto);
-        setTimeout(() => cantidadRef.current?.focus(), 0);
-    };
-
-    const handleAgregarDetalle = () => {
-        if (productoSeleccionado && cantidad > 0) {
-            console.log(clienteSeleccionado);
-            console.log("Producto seleccionado:", productoSeleccionado);
-            agregarDetalle(productoSeleccionado);
-            setProductoSeleccionado(null);
-            setCantidad(0);
-            reset({cantidad: 0, });
-            if (productoSearchRef.current) {
-                productoSearchRef.current.reset();
-            }
-        }
-    };
 
     const handleClienteSelect = (cliente: {
         id: number;
@@ -107,27 +81,54 @@ export default function DetalleVentaForm({
         setValue("cliente", cliente.id);
     };
 
-    console.log("Errores de validación:", errors);
+    const handleProductoSelect = (producto: {
+        id: number;
+        nombre: string;
+        precio_unitario: number;
+        cantidad_volatil?: number;
+    }) => {
+        setProductoSeleccionado(producto);
+        setTimeout(() => cantidadRef.current?.focus(), 0);
+    };
+
+    const handleAgregarDetalle = () => {
+        if (!productoSeleccionado) return;
+
+        const disponible = productoSeleccionado.cantidad_volatil ?? Infinity;
+        if (cantidad <= 0 || cantidad > disponible) return;
+
+        agregarDetalle(productoSeleccionado);
+        setProductoSeleccionado(null);
+        setCantidad(0);
+        productoSearchRef.current?.reset();
+    };
+    console.log("Cantidad", cantidad);
+    const handleFormSubmit = (data: NuevaVenta) => {
+        if (detalles.length === 0) return;
+
+        onSubmit({ ...data, detalles });
+    };
 
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
-            {/* Cliente */}
+            {/* Selección de Cliente */}
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <ClienteSearch onSelect={handleClienteSelect} />
             </div>
 
-            {/* Productos y Cantidad */}
+            {/* Detalles de la Venta */}
             <div className="space-y-4">
                 <h4 className="text-lg font-medium text-gray-800 dark:text-white/90">
                     Detalles de la Venta
                 </h4>
 
-                <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                <div className="flex items-center gap-4">
                     <ProductoSearch
                         ref={productoSearchRef}
-                        onSelect={handleProductoSelect}/>
+                        onSelect={handleProductoSelect}
+                    />
 
-                    <div className="flex flex-row gap-10 items-center justify-center mb-5">
+                    <div className="flex items-center gap-4">
                         <FormField
                             label="Cantidad"
                             name="cantidad"
@@ -135,11 +136,15 @@ export default function DetalleVentaForm({
                             errors={errors}
                             type="number"
                             value={cantidad}
-                            onChange={(e) =>
-                                setCantidad(Number(e.target.value))
-                            }
+                            onChange={(e) => {
+                                const value = Number(e.target.value);
+                                const disponible = productoSeleccionado?.cantidad_volatil ?? Infinity;
+
+                                setCantidad(value > disponible ? disponible : value);
+                                console.log(cantidad, disponible, "disponible");
+                            }}
                             placeholder="Cantidad"
-                            disabled={isDisabled("cantidad")}
+                            disabled={isFieldDisabled("cantidad")}
                             inputRef={cantidadRef}
                         />
 
@@ -149,17 +154,21 @@ export default function DetalleVentaForm({
                             startIcon={<PlusIcon className="size-5" />}
                             type="button"
                             onClick={handleAgregarDetalle}
-                            disabled={!productoSeleccionado || cantidad <= 0}
-                        />
+                            disabled={
+                                !productoSeleccionado ||
+                                cantidad <= 0 ||
+                                (productoSeleccionado?.cantidad_volatil !== undefined &&
+                                    cantidad > productoSeleccionado.cantidad_volatil)
+                            }
+                        >
+                            Agregar
+                        </Button>
                     </div>
                 </div>
             </div>
 
-            {/* Lista de Detalles */}
-            <DetallesList
-                detalles={detalles}
-                onEliminar={eliminarDetalle}
-            />
+            {/* Lista de Productos Agregados */}
+            <DetallesList detalles={detalles} onEliminar={eliminarDetalle} />
 
             {/* Acciones */}
             <div className="flex justify-end gap-3 mt-6">
@@ -173,7 +182,6 @@ export default function DetalleVentaForm({
                         Cancelar
                     </Button>
                 )}
-
                 <Button
                     type="submit"
                     size="sm"

@@ -9,6 +9,7 @@ type Props = {
         id: number;
         nombre: string;
         precio_unitario: number;
+        cantidad_volatil?: number;
     }) => void;
 };
 
@@ -56,6 +57,7 @@ const ProductoSearch = forwardRef(function ProductoSearch(
             id: producto.id_producto,
             nombre: producto.producto_nombre,
             precio_unitario: producto.precio_unitario,
+            cantidad_volatil: producto.cantidad_volatil,
         });
     };
 
