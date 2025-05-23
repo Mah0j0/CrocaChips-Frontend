@@ -17,18 +17,18 @@ type Props = {
     defaultValues?: Partial<NuevaVenta>;
     isSubmitting?: boolean;
     onCancel?: () => void;
-    disabledFields?: (keyof NuevaVenta)[];
+    disabledFields?: (keyof NuevaVenta)[]; 
     schema: z.ZodSchema;
 };
 
 export default function DetalleVentaForm({
-                                             onSubmit,
-                                             defaultValues = {},
-                                             isSubmitting = false,
-                                             onCancel,
-                                             disabledFields = [],
-                                             schema,
-                                         }: Props) {
+    onSubmit,
+    defaultValues = {},
+    isSubmitting = false,
+    onCancel,
+    disabledFields = [],
+    schema,
+}: Props) {
     const cantidadRef = useRef<HTMLInputElement>(null);
     const productoSearchRef = useRef<{ reset: () => void }>(null);
 
@@ -39,6 +39,8 @@ export default function DetalleVentaForm({
         precio_unitario: number;
         cantidad_volatil?: number;
     } | null>(null);
+
+    const [errorCantidad, setErrorCantidad] = useState<string | null>(null);
 
     const {
         register,
@@ -89,20 +91,37 @@ export default function DetalleVentaForm({
     }) => {
         setProductoSeleccionado(producto);
         setTimeout(() => cantidadRef.current?.focus(), 0);
+        setErrorCantidad(null); // limpiar error al cambiar producto
     };
 
     const handleAgregarDetalle = () => {
         if (!productoSeleccionado) return;
 
         const disponible = productoSeleccionado.cantidad_volatil ?? Infinity;
-        if (cantidad <= 0 || cantidad > disponible) return;
 
+        const productoExistenteIndex = detalles.findIndex(
+            (d) => d.producto === productoSeleccionado.id
+        );
+
+        const nuevaCantidad =
+            productoExistenteIndex !== -1
+                ? detalles[productoExistenteIndex].cantidad + cantidad
+                : cantidad;
+
+        if (nuevaCantidad > disponible) {
+            setErrorCantidad(
+                `La cantidad total (${nuevaCantidad}) supera la cantidad disponible (${disponible}).`
+            );
+            return;
+        }
+
+        setErrorCantidad(null);
         agregarDetalle(productoSeleccionado);
         setProductoSeleccionado(null);
         setCantidad(0);
         productoSearchRef.current?.reset();
     };
-    console.log("Cantidad", cantidad);
+
     const handleFormSubmit = (data: NuevaVenta) => {
         if (detalles.length === 0) return;
 
@@ -122,13 +141,12 @@ export default function DetalleVentaForm({
                     Detalles de la Venta
                 </h4>
 
-                <div className="flex items-center gap-4">
-                    <ProductoSearch
-                        ref={productoSearchRef}
-                        onSelect={handleProductoSelect}
-                    />
-
+                <div className="flex flex-col gap-2">
                     <div className="flex items-center gap-4">
+                        <ProductoSearch
+                            ref={productoSearchRef}
+                            onSelect={handleProductoSelect}
+                        />
                         <FormField
                             label="Cantidad"
                             name="cantidad"
@@ -141,18 +159,18 @@ export default function DetalleVentaForm({
                                 const disponible = productoSeleccionado?.cantidad_volatil ?? Infinity;
 
                                 setCantidad(value > disponible ? disponible : value);
-                                console.log(cantidad, disponible, "disponible");
+                                setErrorCantidad(null); // limpiar error al cambiar cantidad
                             }}
                             placeholder="Cantidad"
                             disabled={isFieldDisabled("cantidad")}
                             inputRef={cantidadRef}
                         />
-
                         <Button
                             size="sm"
                             variant="primary"
                             startIcon={<PlusIcon className="size-5" />}
                             type="button"
+                            className="mt-6"
                             onClick={handleAgregarDetalle}
                             disabled={
                                 !productoSeleccionado ||
@@ -164,6 +182,10 @@ export default function DetalleVentaForm({
                             Agregar
                         </Button>
                     </div>
+                    {/* Mensaje de error debajo de ProductoSearch y Cantidad */}
+                    {errorCantidad && (
+                        <p className="text-sm text-red-600 mt-1">{errorCantidad}</p>
+                    )}
                 </div>
             </div>
 
