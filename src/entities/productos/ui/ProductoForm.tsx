@@ -1,51 +1,52 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { ZodSchema } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import Label from "../../../shared/ui/form/Label.tsx";
 import Select from "../../../shared/ui/form/Select.tsx";
 import Button from "../../../shared/ui/button/Button.tsx";
-import { useEffect } from "react";
-import { Producto } from "../model/type.ts";
 import { FormField } from "../../../shared/ui/form/FormField.tsx";
-import { productoSchema, ProductoFormData } from "../model/productoSchema.ts";
 
+import {Producto, ProductosCreate} from "../model/type.ts";
+import { productoSchema } from "../model/productoSchema.ts";
 
 type Props = {
-    onSubmit: (data: ProductoFormData) => void;
-    defaultValues?: Partial<Producto>;
+    onSubmit: (data: Producto) => void;
+    defaultValues?: Partial<ProductosCreate>;
     isSubmitting?: boolean;
     onCancel?: () => void;
-    disabledFields?: (keyof Producto)[];
-    schema: z.ZodSchema;
+    disabledFields?: (keyof ProductosCreate)[];
+    schema?: ZodSchema;
     children?: React.ReactNode;
 };
 
-export default function ProductoForm({
-     onSubmit,
-     defaultValues = {},
-     isSubmitting = false,
-     onCancel,
-     disabledFields = [],
-     children,
-}: Props) {
+export default function ProductoForm(
+    {
+         onSubmit,
+         defaultValues = {},
+         isSubmitting = false,
+         onCancel,
+         disabledFields = [],
+         children,
+         schema = productoSchema,
+     }: Props) {
     const {
         register,
         handleSubmit,
         reset,
         setValue,
         formState: { errors },
-    } = useForm<ProductoFormData>({
-        resolver: zodResolver(productoSchema),
+    } = useForm<Producto>({
+        resolver: zodResolver(schema),
         defaultValues,
     });
 
     useEffect(() => {
-        if (defaultValues) {
-            reset(defaultValues);
-        }
+        reset(defaultValues);
     }, [defaultValues, reset]);
 
-    const isDisabled = (field: keyof Producto) => disabledFields.includes(field);
+    const isDisabled = (field: keyof ProductosCreate) => disabledFields.includes(field);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -83,7 +84,7 @@ export default function ProductoForm({
                             { value: "6", label: "6 Meses" },
                             { value: "12", label: "1 Año" },
                         ]}
-                        defaultValue={String(defaultValues?.tiempo_vida || "1")}
+                        defaultValue={String(defaultValues?.tiempo_vida ?? "1")}
                         onChange={(value) => setValue("tiempo_vida", Number(value))}
                         className="dark:bg-dark-900"
                     />
@@ -98,12 +99,9 @@ export default function ProductoForm({
                     step={0.01}
                 />
             </div>
-            <div className="flex items-center gap-3 justify-end">
-                {children && (
-                    <>
-                        {children}
-                    </>
-                )}
+
+            <div className="flex items-center justify-end gap-3">
+                {children}
                 {onCancel && (
                     <Button type="button" variant="outline" size="sm" onClick={onCancel}>
                         Cancelar

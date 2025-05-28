@@ -1,6 +1,6 @@
 import { isAxiosError } from "axios";
 import api from "../../../shared/lib/axios.ts";
-import {LoteProduccion} from "../../movimientos/model/type.ts";
+import {LoteProduccion} from "../../movimientos";
 
 export async function getLotesEnProduccion(): Promise<LoteProduccion[]> {
   try {

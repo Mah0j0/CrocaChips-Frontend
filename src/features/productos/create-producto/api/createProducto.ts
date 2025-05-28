@@ -1,10 +1,10 @@
-import {Producto} from "../../../../entities/productos";
+import {ProductosCreate} from "../../../../entities/productos";
 import api from "../../../../shared/lib/axios.ts";
 import {isAxiosError} from "axios";
 
-export async function createProducto(producto: Producto): Promise<Producto> {
+export async function createProducto(producto: ProductosCreate): Promise<ProductosCreate> {
     try {
-        const { data } = await api.post<Producto>("productos/registrar/", producto);
+        const { data } = await api.post<ProductosCreate>("productos/registrar/", producto);
         return data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {
