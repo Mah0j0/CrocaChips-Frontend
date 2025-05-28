@@ -90,7 +90,7 @@ export function FormField<T extends FieldValues>({
                 />
             ) : type === "number" ? (
                     <Input
-                        id={name}
+                        id="number"
                         type={type}
                         value={value}
                         {...(register ? register(name, validation) : {})}
