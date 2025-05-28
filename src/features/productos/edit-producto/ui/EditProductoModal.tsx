@@ -1,6 +1,6 @@
 import React from "react";
 import {useModalContext} from "../../../../app/providers/ModalContext.tsx";
-import { Producto, ProductoForm} from "../../../../entities/productos";
+import {Producto, ProductoForm} from "../../../../entities/productos";
 import {Modal} from "../../../../shared/ui/modal";
 import { productoCreateSchema } from "../model/schema.ts";
 import { default as DeleteButton} from "../../delete-producto";

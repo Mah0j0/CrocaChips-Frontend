@@ -1,5 +1,5 @@
 import { useState, useEffect, useImperativeHandle, forwardRef } from "react";
-import { Producto } from "../model/type";
+import { ProductoStock } from "../model/type";
 import InputField from "../../../shared/ui/form/input/InputField.tsx";
 import Label from "../../../shared/ui/form/Label.tsx";
 import { useMisProductos } from "../hooks/useMisProductos.ts";
@@ -19,7 +19,7 @@ const ProductoSearch = forwardRef(function ProductoSearch(
 ) {
     const { data: productos = [] } = useMisProductos();
     const [searchTerm, setSearchTerm] = useState("");
-    const [filtered, setFiltered] = useState<Producto[]>([]);
+    const [filtered, setFiltered] = useState<ProductoStock[]>([]);
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
     const [isViewing, setIsViewing] = useState(false);
 
@@ -48,7 +48,7 @@ const ProductoSearch = forwardRef(function ProductoSearch(
         }
     }), [productos]);
 
-    const handleSelect = (producto: Producto) => {
+    const handleSelect = (producto: ProductoStock) => {
         setSearchTerm(producto.producto_nombre);
         setFiltered([]);
         setHighlightedIndex(-1);
