@@ -38,6 +38,9 @@ export default function ProductoForm({
         resolver: zodResolver(productoSchema),
         defaultValues,
     });
+    useEffect(() => {
+        register("tiempo_vida", { valueAsNumber: true });
+    }, [register]);
 
     useEffect(() => {
         if (defaultValues) {
@@ -45,10 +48,22 @@ export default function ProductoForm({
         }
     }, [defaultValues, reset]);
 
+    useEffect(() => {
+        setValue("tiempo_vida", defaultValues?.tiempo_vida ?? 1, {
+            shouldValidate: true,
+            shouldDirty: true,
+        });
+    }, [defaultValues, setValue]);
+
     const isDisabled = (field: keyof Producto) => disabledFields.includes(field);
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form
+            onSubmit={handleSubmit(onSubmit, (errors) => {
+                console.warn("Errores del formulario", errors); // 👈
+            })}
+            className="space-y-6"
+            >
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <FormField
                     label="Nombre"
@@ -84,7 +99,9 @@ export default function ProductoForm({
                             { value: "12", label: "1 Año" },
                         ]}
                         defaultValue={String(defaultValues?.tiempo_vida || "1")}
-                        onChange={(value) => setValue("tiempo_vida", Number(value))}
+                        //onChange={(value) => setValue("tiempo_vida", Number(value))}
+                        onChange={(value) => setValue("tiempo_vida", Number(value), { shouldValidate: true })}
+
                         className="dark:bg-dark-900"
                     />
                 </div>
@@ -110,7 +127,7 @@ export default function ProductoForm({
                     </Button>
                 )}
                 <Button type="submit" size="sm" disabled={isSubmitting}>
-                    Guardar Cambios
+                    Guardar
                 </Button>
             </div>
         </form>

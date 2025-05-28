@@ -2,9 +2,9 @@ import React from "react";
 import { Modal } from "../../../../shared/ui/modal";
 import { useModalContext } from "../../../../app/providers/ModalContext.tsx";
 import { useCreateProducto } from "../hooks/useCreateProducto.ts";
-import { Producto } from "../../../../entities/productos";
 import ProductoForm from "../../../../entities/productos/ui/ProductoForm.tsx";
 import { productoCreateSchema } from "../model/schema.ts";
+import { ProductoFormData } from "../../../../entities/productos/model/productoSchema.ts";
 
 function CreateProductoModal() {
     const { modals, closeModal } = useModalContext();
@@ -14,8 +14,15 @@ function CreateProductoModal() {
         setTimeout(() => closeModal("createProducto"), 10000);
     });
 
-    const handleProductoCreate = (formData: Producto) => {
-        mutate(formData);
+    const handleProductoCreate = (formData: ProductoFormData) => {
+        console.log("Submit exitoso", formData);
+        mutate({
+            ...formData,
+            id_producto: 0, // por defecto
+            producto_nombre: formData.nombre,
+            cantidad_volatil: formData.stock,
+            tiempo_vida: Number(formData.tiempo_vida),
+        });
     };
 
     return (

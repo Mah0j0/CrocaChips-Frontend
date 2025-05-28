@@ -1,11 +1,12 @@
 import React from "react";
 import {useModalContext} from "../../../../app/providers/ModalContext.tsx";
-import { Producto, ProductoForm} from "../../../../entities/productos";
+//import { Producto} from "../../../../entities/productos";
+import ProductoForm from "../../../../entities/productos/ui/ProductoForm.tsx";
 import {Modal} from "../../../../shared/ui/modal";
 import { productoCreateSchema } from "../model/schema.ts";
 import { default as DeleteButton} from "../../delete-producto";
 import {useEditProducto} from "../hooks/useEditProducto.ts";
-
+import { ProductoFormData } from "../../../../entities/productos/model/productoSchema.ts";
 
 function EditProductoModal() {
     const { modals, closeModal, selectedData } = useModalContext();
@@ -16,8 +17,15 @@ function EditProductoModal() {
         closeModal("editProducto");
     });
 
-    const handleProductoEdit = (formData: Producto) => {
-        mutate(formData);
+    const handleProductoEdit = (formData: ProductoFormData) => {
+                console.log("Submit exitoso", formData);
+        mutate({
+            ...formData,
+            id_producto: data?.id_producto || 0,
+            producto_nombre: formData.nombre,
+            cantidad_volatil: formData.stock,
+            tiempo_vida: Number(formData.tiempo_vida),
+        });
     };
 
     if (!data) return null;
