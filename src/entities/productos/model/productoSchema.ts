@@ -18,12 +18,10 @@ descripcion: z
         "La descripción solo puede contener letras y espacios"
     )
     .max(255, "La descripción no puede exceder los 1000 caracteres"),
-tiempo_vida: z.coerce
-    .number({
-        invalid_type_error: "El tiempo de vida debe ser un número",
-    })
-    .int("Debe ser un número entero")
-    .positive("Debe ser mayor a cero"),
+    tiempo_vida: z.coerce.number({
+    invalid_type_error: "El tiempo de vida debe ser un número",
+    }),
+
 precio_unitario: z.coerce
     .number({
         invalid_type_error: "El precio debe ser un número",
