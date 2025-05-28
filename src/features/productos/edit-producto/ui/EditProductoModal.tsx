@@ -10,13 +10,18 @@ import {useEditProducto} from "../hooks/useEditProducto.ts";
 function EditProductoModal() {
     const { modals, closeModal, selectedData } = useModalContext();
     const isOpen = modals["editProducto"];
-    const data = selectedData;
+    const data:Producto = selectedData;
 
     const { mutate, isPending } = useEditProducto(() => {
         closeModal("editProducto");
     });
 
     const handleProductoEdit = (formData: Producto) => {
+        formData.id_producto = data.id_producto; // Asegura que el ID del producto se mantenga
+        formData.precio_unitario = Number(formData.precio_unitario);
+        formData.stock = Number(formData.stock);
+        formData.tiempo_vida = Number(formData.tiempo_vida);
+        console.log(formData);
         mutate(formData);
     };
 

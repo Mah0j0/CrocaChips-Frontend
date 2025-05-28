@@ -12,16 +12,15 @@ export const productoCreateSchema = z.object({
         .max(500, "La descripción no debe superar los 500 caracteres"),
 
     tiempo_vida: z
-        .number({
+        .string({
             required_error: "El tiempo de vida es obligatorio",
             invalid_type_error: "El tiempo de vida debe ser un número",
         })
-        .int("El tiempo de vida debe ser un número entero")
         .min(1, "Debe ser al menos 1 mes")
         .max(120, "No puede ser mayor a 120 meses"),
 
     precio_unitario: z
-        .number({
+        .string({
             required_error: "El precio unitario es obligatorio",
             invalid_type_error: "El precio unitario debe ser un número",
         })
@@ -33,7 +32,6 @@ export const productoCreateSchema = z.object({
             required_error: "El stock es obligatorio",
             invalid_type_error: "El stock debe ser un número",
         })
-        .int("El stock debe ser un número entero")
         .min(0, "No puede ser negativo")
         .max(100_000, "No puede exceder 100,000 unidades"),
 });
