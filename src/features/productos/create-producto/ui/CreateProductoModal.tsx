@@ -13,7 +13,7 @@ const CreateProductoModal = () => {
 
     const { mutate, isPending } = useCreateProducto(() => {
         // Cierra el modal tras 3 segundos de éxito (mejor UX que 10 segundos)
-        setTimeout(() => closeModal("createProducto"), 3000);
+        setTimeout(() => closeModal("createProducto"), 100);
     });
 
     const handleProductoCreate = (formData: ProductosCreate) => {

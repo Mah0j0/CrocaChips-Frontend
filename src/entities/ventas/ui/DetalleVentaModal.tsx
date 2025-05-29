@@ -7,6 +7,8 @@ import {useDetallesVenta} from "../hooks/useDetalleVenta.ts";
 import Button from "../../../shared/ui/button/Button.tsx";
 import {CheckCircleIcon} from "../../../shared/icons";
 import {useConfirmVenta} from "../../../features/ventas/create-venta/hooks/useConfirmVenta.ts";
+import { QueryClient } from '@tanstack/react-query'
+import {Empleado} from "../../empleados";
 
 type Props = {
     idVenta: number;
@@ -17,6 +19,9 @@ export default function DetalleVentaModal({ idVenta, venta }: Props) {
     const { modals, closeModal } = useModalContext();
     const isOpen = modals["detalleVenta"];
     const { data: detalles, isLoading, error } = useDetallesVenta(idVenta);
+
+    const queryClient = new QueryClient();
+    const empleado: Empleado = queryClient.getQueryData(["empleado"])!;
 
     const { mutate: HandleConfirmarVenta } = useConfirmVenta(() => {
         closeModal("detalleVenta");
@@ -34,16 +39,17 @@ export default function DetalleVentaModal({ idVenta, venta }: Props) {
 
 
                 {detalles && <TablaDetallesVenta detalles={detalles} />}
-                {!venta.estado && (<Button
-                    size="md"
-                    variant="outline"
-                    className="mt-4"
-                    startIcon={<CheckCircleIcon className="size-5" />}
-                    onClick={() => HandleConfirmarVenta(venta)
-                }
-                >
-                    Confirmar Venta
-                </Button>) }
+                {!venta.estado && empleado && empleado.rol === 'Administrador' && (
+                    <Button
+                        size="md"
+                        variant="outline"
+                        className="mt-4"
+                        startIcon={<CheckCircleIcon className="size-5" />}
+                        onClick={() => HandleConfirmarVenta(venta)}
+                    >
+                        Confirmar Venta
+                    </Button>
+                )}
             </div>
         </Modal>
     );

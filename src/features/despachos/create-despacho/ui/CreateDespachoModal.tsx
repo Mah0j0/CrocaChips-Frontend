@@ -14,7 +14,7 @@ function CreateDespachoModal() {
     const isOpen = modals["createDespacho"];
 
     const { mutate, isPending } = useCreateDespacho(() => {
-        setTimeout(() => closeModal("createDespacho"), 10000);
+        setTimeout(() => closeModal("createDespacho"), 100);
     });
 
     const handleProductoCreate = (formData: Movimiento) => {

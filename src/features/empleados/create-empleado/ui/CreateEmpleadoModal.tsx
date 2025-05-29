@@ -14,7 +14,7 @@ function CreateEmpleadoModal() {
 
     const { mutate, isPending } = useCreateEmpleado((data) => {
         setCredenciales(data);
-        setTimeout(() => closeModal("createEmpleado"), 10000);
+        setTimeout(() => closeModal("createEmpleado"), 100);
     });
 
     const handleEmpleadoCreate = (formData: Empleado) => {
