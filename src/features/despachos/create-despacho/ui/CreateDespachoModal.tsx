@@ -14,7 +14,7 @@ function CreateDespachoModal() {
     const isOpen = modals["createDespacho"];
 
     const { mutate, isPending } = useCreateDespacho(() => {
-        setTimeout(() => closeModal("createEmpleado"), 10000);
+        setTimeout(() => closeModal("createDespacho"), 10000);
     });
 
     const handleProductoCreate = (formData: Movimiento) => {
@@ -26,7 +26,7 @@ function CreateDespachoModal() {
     };
 
     return (
-        <Modal isOpen={isOpen} onClose={() => closeModal("createProducto")} className="max-w-[700px] m-4">
+        <Modal isOpen={isOpen} onClose={() => closeModal("createDespacho")} className="max-w-[700px] m-4">
             <div className="no-scrollbar w-full max-w-[700px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
                 <div className="mb-2 flex items-center">
                     <h4 className="text-2xl font-semibold text-gray-800 dark:text-white/90">
