@@ -11,7 +11,7 @@ function CreateVentaModal() {
     const isOpen = modals["createVenta"];
 
     const onSuccessCallback = () => {
-        setTimeout(() => closeModal("createVenta"), 1000);
+        setTimeout(() => closeModal("createVenta"), 100);
     };
 
     const { mutate, isPending } = useCreateVenta(onSuccessCallback);

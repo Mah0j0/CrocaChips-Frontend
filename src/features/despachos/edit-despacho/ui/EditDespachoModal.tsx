@@ -13,7 +13,7 @@ function EditDespachoModal() {
     const data = selectedData; //para datos de la tabla
 
     const { mutate, isPending } = useEditDespacho(() => {
-        setTimeout(() => closeModal("createEmpleado"), 10000);
+        setTimeout(() => closeModal("createEmpleado"), 100);
     });
 
     const handleDespachoEdit = (formData: Movimiento) => {
