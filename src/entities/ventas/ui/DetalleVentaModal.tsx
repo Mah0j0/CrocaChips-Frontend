@@ -7,7 +7,7 @@ import {useDetallesVenta} from "../hooks/useDetalleVenta.ts";
 import Button from "../../../shared/ui/button/Button.tsx";
 import {CheckCircleIcon} from "../../../shared/icons";
 import {useConfirmVenta} from "../../../features/ventas/create-venta/hooks/useConfirmVenta.ts";
-import { QueryClient } from '@tanstack/react-query'
+import {useQueryClient} from '@tanstack/react-query'
 import {Empleado} from "../../empleados";
 
 type Props = {
@@ -20,8 +20,8 @@ export default function DetalleVentaModal({ idVenta, venta }: Props) {
     const isOpen = modals["detalleVenta"];
     const { data: detalles, isLoading, error } = useDetallesVenta(idVenta);
 
-    const queryClient = new QueryClient();
-    const empleado: Empleado = queryClient.getQueryData(["empleado"])!;
+    const queryClient = useQueryClient();
+    const empleado = queryClient.getQueryData<Empleado>(["empleado"]);
 
     const { mutate: HandleConfirmarVenta } = useConfirmVenta(() => {
         closeModal("detalleVenta");
