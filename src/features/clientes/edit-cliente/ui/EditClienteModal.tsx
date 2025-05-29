@@ -17,6 +17,7 @@ function EditClienteModal() {
     });
 
     const handleClienteEdit = (formData: Cliente) => {
+        formData.id_cliente = data?.id_cliente; // Ensure the ID is set for the edit operation
         mutate(formData);
     };
 
