@@ -17,6 +17,10 @@ const CreateProductoModal = () => {
     });
 
     const handleProductoCreate = (formData: ProductosCreate) => {
+        formData.precio_unitario = Number(formData.precio_unitario);
+        formData.stock = Number(formData.stock);
+        formData.tiempo_vida = Number(formData.tiempo_vida);
+        console.log(formData)
         mutate(formData);
     };
 
