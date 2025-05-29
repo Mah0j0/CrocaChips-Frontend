@@ -1,25 +1,25 @@
 import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb.tsx";
 import PageMeta from "../../shared/ui/common/PageMeta.tsx";
 import { useState } from "react"; // Hook de estado de React
-import {useVentas, Venta} from "../../entities/ventas"; // Hook para datos de ventas
+import { useVentas, Venta } from "../../entities/ventas"; // Hook para datos de ventas
 import Alert from "../../shared/ui/alert/Alert.tsx"; // Componente de alerta
 import ComponentCard from "../../shared/ui/common/ComponentCard.tsx"; // Contenedor de componentes
 import { LoadData } from "../Plantilla/OtherPage/LoadData.tsx"; // Carga de datos
-import {Pagination} from "../../shared/ui/table/Pagination.tsx";
+import { Pagination } from "../../shared/ui/table/Pagination.tsx";
 import VentaTable from "../../features/ventas/table/VentaTable.tsx";
 import Button from "../../shared/ui/button/Button.tsx";
-import {PlusIcon} from "../../shared/icons";
+import { PlusIcon } from "../../shared/icons";
 import { PrintIcon } from "../../shared/icons";
 import { useModalContext } from "../../app/providers/ModalContext.tsx";//Modales
-import {DetalleVentaModal} from "../../entities/ventas";
-import {CreateVentaModal, VentaFilters} from "../../features/ventas"
+import { DetalleVentaModal } from "../../entities/ventas";
+import { CreateVentaModal, VentaFilters } from "../../features/ventas"
 import PrintVentaModal from "../../features/ventas/print-venta/ui/PrintVentaModal.tsx"; // Modal para imprimir ventas
 
 // Componente principal de ventas
 export default function VentasPage() {
     const { data, isLoading, error } = useVentas(); // Datos
     const { openModal } = useModalContext(); // Abrir modales
-    const [ventaSeleccionada, setVentaSeleccionada] = useState<Venta|null>(null);
+    const [ventaSeleccionada, setVentaSeleccionada] = useState<Venta | null>(null);
     const [filtro, setFiltro] = useState(""); // Filtrar ventas
     const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true");
     const [fechaInicio, setFechaInicio] = useState<Date | null>(null); // Fecha de inicio
@@ -60,9 +60,27 @@ export default function VentasPage() {
                 ? true
                 : venta.estado?.toString() === estadoSeleccionado
         )
-        .filter((venta) =>
-            (fechaInicio && fechaFin) ? new Date(venta.fecha) >= fechaInicio && new Date(venta.fecha) <= fechaFin : true
-        );
+        .filter((venta) => {
+            const ventaDate = new Date(venta.fecha);
+            // No se seleccionó ninguna fecha
+            if (!fechaInicio && !fechaFin) return true;
+            // Solo se seleccionó una fecha
+            if (fechaInicio && (!fechaFin || fechaInicio.getTime() === fechaFin.getTime())) {
+                const nextDayStart = new Date(fechaInicio);
+                nextDayStart.setDate(nextDayStart.getDate() - 1);
+                nextDayStart.setHours(0, 0, 0, 0);
+                const nextDayEnd = new Date(nextDayStart);
+                nextDayEnd.setHours(23, 59, 59, 999);
+                return ventaDate >= nextDayStart && ventaDate <= nextDayEnd;
+            }
+            // Se seleccionó ambas fechas
+            if (fechaInicio && fechaFin) {
+                const adjustedFechaInicio = new Date(fechaInicio);
+                adjustedFechaInicio.setDate(adjustedFechaInicio.getDate() - 1);
+                adjustedFechaInicio.setHours(0, 0, 0, 0);
+                return ventaDate >= adjustedFechaInicio && ventaDate <= fechaFin;
+            }
+        })
 
     // Paginación
     const indiceInicio = (paginaActual - 1) * elementosPorPagina;
@@ -100,10 +118,10 @@ export default function VentasPage() {
                                 variant="primary"
                                 startIcon={<PrintIcon className="size-5" />}
                                 onClick={() => openModal("printVenta")} // Abre modal de impresión
-                            >                       
+                            >
                             </Button>
                         }
-                        child={                         
+                        child={
                             <Button
                                 size="sm"
                                 variant="primary"
@@ -121,7 +139,13 @@ export default function VentasPage() {
                             <Alert
                                 variant="warning"
                                 title="No se encontraron resultados"
-                                message={`No se encontraron ventas con el término "${filtro}".`}
+                                message={
+                                    fechaInicio && (!fechaFin || fechaInicio.getTime() === fechaFin.getTime())
+                                        ? `No hay ventas realizadas en la fecha seleccionada.`
+                                        : fechaInicio && fechaFin
+                                            ? `No hay ventas realizadas entre las fechas seleccionadas.`
+                                            : `No se encontraron ventas con el término "${filtro}".`
+                                }
                                 showLink={false}
                             />
                         </ComponentCard>

@@ -23,6 +23,8 @@ export default function FiltroRangoFechas({ fechaInicio, fechaFin, onChange }: P
                         selectsRange
                         dateFormat="yyyy-MM-dd"
                         placeholderText="Selecciona fechas"
+                        maxDate={new Date()}
+                        isClearable={true}
                     />
                 </div>
             </div>
