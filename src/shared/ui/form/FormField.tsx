@@ -34,98 +34,106 @@ type PropsFormField<T extends FieldValues> = {
     inputRef?: React.RefObject<HTMLInputElement | null>
 };
 
+// Función para asignar el ref de react-hook-form y también uno externo (opcional)
+const assignRef = (
+    el: HTMLInputElement | null,
+    reactHookFormRef: any,
+    externalRef?: React.RefObject<HTMLInputElement | null>
+) => {
+    if (typeof reactHookFormRef === "function") {
+        reactHookFormRef(el);
+    } else if (reactHookFormRef && 'current' in reactHookFormRef) {
+        (reactHookFormRef as React.MutableRefObject<HTMLInputElement | null>).current = el;
+    }
+
+    if (externalRef) {
+        externalRef.current = el;
+    }
+};
+
 export function FormField<T extends FieldValues>({
-    type = "text",
-    label,
-    name,
-    register,
-    errors,
-    disabled = false,
-    validation = {},
-    options = [],
-    placeholder = "",
-    onChange,
-    onChangeTextarea,
-    onChangeMultiSelect,
-    onChangeSelect,
-    defaultValue,
-    value,
-    step,
-    inputRef
-}: PropsFormField<T>) {
+                                                     type = "text",
+                                                     label,
+                                                     name,
+                                                     register,
+                                                     errors,
+                                                     disabled = false,
+                                                     validation = {},
+                                                     options = [],
+                                                     placeholder = "",
+                                                     onChange,
+                                                     onChangeTextarea,
+                                                     onChangeMultiSelect,
+                                                     onChangeSelect,
+                                                     defaultValue,
+                                                     value,
+                                                     step,
+                                                     inputRef
+                                                 }: PropsFormField<T>) {
+    const { ref: rhfRef, ...field } = register(name, validation);
     const error = errors[name];
     const errorMessage = error?.message?.toString();
 
-    return (
-        <div>
-            <Label htmlFor={name}>{label}</Label>
+    const renderField = () => {
+        switch (type) {
+            case "select":
+                return (
+                    <Select
+                        {...field}
+                        options={options}
+                        defaultValue={defaultValue}
+                        placeholder={placeholder}
+                        disabled={disabled}
+                        onChange={onChangeSelect}
+                    />
+                );
 
-            {type === "select" ? (
-                <Select
-                    {...register(name, validation)}
-                    options={options}
-                    defaultValue={defaultValue}
-                    placeholder={placeholder}
-                    disabled={disabled}
-                    onChange={onChangeSelect}
-                />
-            ) : type === "multiselect" ? (
-                <MultiSelect
-                    {...register(name, validation)}
-                    options={options}
-                    defaultSelected={defaultValue ? [defaultValue.toString()] : []}
-                    onChange={onChangeMultiSelect}
-                    disabled={disabled}
-                    label={label}
-                />
-            ) : type === "textarea" ? (
-                <TextArea
-                    {...register(name, validation)}
-                    rows={6}
-                    value={String(value)}
-                    onChange={onChangeTextarea}
-                    disabled={disabled}
-                    error={!!error}
-                    hint={errorMessage}
-                />
-            ) : type === "number" ? (
+            case "multiselect":
+                return (
+                    <MultiSelect
+                        {...field}
+                        options={options}
+                        defaultSelected={defaultValue ? [defaultValue.toString()] : []}
+                        onChange={onChangeMultiSelect}
+                        disabled={disabled}
+                        label={label}
+                    />
+                );
+
+            case "textarea":
+                return (
+                    <TextArea
+                        {...field}
+                        rows={6}
+                        value={value?.toString() ?? ""}
+                        onChange={onChangeTextarea}
+                        disabled={disabled}
+                        error={!!error}
+                        hint={errorMessage}
+                    />
+                );
+
+            default:
+                return (
                     <Input
-                        id="number"
+                        id={name}
                         type={type}
-                        value={value}
-                        {...(register ? register(name, validation) : {})}
-                        ref={el => {
-                            if (register) {
-                                const { ref } = register(name, validation);
-                                if (typeof ref === "function") ref(el);
-                                else if (ref) (ref as React.MutableRefObject<HTMLInputElement | null>).current = el;
-                            }
-                            if (inputRef && el) inputRef.current = el;
-                        }}
+                        {...field}
+                        ref={(el) => assignRef(el, rhfRef, inputRef)}
                         disabled={disabled}
                         error={!!error}
                         hint={errorMessage}
                         onChange={onChange}
                         step={step}
                     />
-                ) : (
-                <Input
-                    id={name}
-                    type={type}
-                    {...register(name, validation)}
-                    ref={el => {
-                        const { ref } = register(name, validation);
-                        if (typeof ref === "function") ref(el);
-                        else if (ref) (ref as React.MutableRefObject<HTMLInputElement | null>).current = el;
-                        if (inputRef && el) inputRef.current = el;
-                    }}
-                    disabled={disabled}
-                    error={!!error}
-                    hint={errorMessage}
-                    onChange={onChange}
-                    step={step}
-                />
-            )}
+                );
+        }
+    };
+
+    return (
+        <div>
+            <Label htmlFor={name}>{label}</Label>
+            {renderField()}
         </div>
     );
 }

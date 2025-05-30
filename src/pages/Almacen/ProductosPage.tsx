@@ -102,7 +102,7 @@ export default function ProductosPage() {
   return(
     <div>
       <PageMeta
-        title="React.js Blank Dashboard | TailAdmin"
+        title="Almacén"
         description="Lista de productos"
         />
       <PageBreadcrumb pageTitle="Productos en almacén" />

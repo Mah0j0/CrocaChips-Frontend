@@ -48,6 +48,7 @@ export default function EmpleadoForm({
 
     const isDisabled = (field: keyof Empleado) => disabledFields.includes(field);
 
+    console.log("defaultValues", errors);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -84,16 +85,18 @@ export default function EmpleadoForm({
                     <Label>Rol</Label>
                     <Select
                         disabled={isDisabled("rol")}
+
                         options={roles.map((rol) => ({
                             value: String(rol.value), // Convertir a string
                             label: rol.label,
                         }))}
-                        defaultValue={String(defaultValues.rol)} // Convertir a string
+                        defaultValue={String(defaultValues.rol ?? "")}
                         onChange={(value) => setValue("rol", value)}
                         className="dark:bg-dark-900"
                     />
                 </div>
                 <FormField
+                    type={"number"}
                     label="Teléfono"
                     name="telefono"
                     register={register}

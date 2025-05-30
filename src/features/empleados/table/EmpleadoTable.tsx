@@ -18,7 +18,7 @@ export default function EmpleadoTable({ empleados }: Props) {
         <BasicTableOne
             headers={headers}
             data={empleados}
-            getKey={(empleado) => empleado.id}
+            getKey={(empleado) => empleado.id!}
             renderRow={(empleado) => (
                 <>
                     <TableCell className="px-5 py-4 sm:px-6 text-start">

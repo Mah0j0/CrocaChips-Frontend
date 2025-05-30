@@ -1,10 +1,12 @@
-import {Empleado, EmpleadoPasUser} from "../../../../entities/empleados";
+import {EmpleadoPasUser} from "../../../../entities/empleados";
 import api from "../../../../shared/lib/axios.ts";
 import {isAxiosError} from "axios";
+import {NewEmpleado} from "../model/type.ts";
 
-export async function createEmpleado(empleado: Empleado): Promise<EmpleadoPasUser> {
+export async function createEmpleado(empleado: NewEmpleado): Promise<EmpleadoPasUser> {
     try {
         const { data } = await api.post<EmpleadoPasUser>("/empleados/registrar/", empleado);
+        console.log(data);
         return data;
     } catch (error) {
         if (isAxiosError(error) && error.response) {

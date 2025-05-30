@@ -84,7 +84,7 @@ export default function DespachosPage() {
     return(
         <div>
           <PageMeta 
-            title="React.js Blank Dashboard | TailAdmin"
+            title="Despachos"
             description="Lista de despachos"
             />
           <PageBreadcrumb pageTitle="Despachos de productos" />

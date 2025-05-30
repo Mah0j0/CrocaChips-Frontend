@@ -87,7 +87,7 @@ return (
                 <Label>Vendedor</Label>
                 <Select
                     options={empleados?.map(empleado => ({
-                    value: empleado.id.toString(),
+                    value: empleado.id!.toString(),
                     label: empleado.nombre
                     })) || []}
                     placeholder="Seleccione un vendedor"
