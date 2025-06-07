@@ -1,13 +1,13 @@
 export type Empleado = {
+    id?: number;
+    usuario?: string;
     nombre: string;
     apellido: string;
-    rol: string;
-    id: number;
-    usuario: string;
-    telefono: number;
     carnet: string;
-    imagen: string;
-    habilitado: boolean;
+    telefono: number;
+    rol: string;
+    imagen?: string;
+    habilitado?: boolean;
 };
 
 export type LoginForm = Pick<Empleado, "usuario"> & {

@@ -93,7 +93,7 @@ export default function VentasPage() {
         <div>
             {/* Metadatos y ruta de navegación */}
             <PageMeta
-                title="React.js Blank Dashboard | TailAdmin"
+                title="Ventas"
                 description="Lista de ventas"
             />
 

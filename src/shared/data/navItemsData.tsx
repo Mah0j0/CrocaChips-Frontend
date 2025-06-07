@@ -38,7 +38,7 @@ export const navItems: NavItem[] = [
             { name: "Almacén", path: "/almacen", pro: false ,roles:["Almacen", "Administrador"]},
             { name: "Producción", path: "/lotes", pro: false ,roles:["Almacen", "Administrador"]},
             { name: "Despachos", path: "/despachos", pro: false ,roles:["Almacen", "Administrador"]},
-            { name: "Recepciones", path: "/recepciones", pro: false ,roles:["Almacen", "Administrador"]},
+            // { name: "Recepciones", path: "/recepciones", pro: false ,roles:["Almacen", "Administrador"]},
         ],
     },
     {

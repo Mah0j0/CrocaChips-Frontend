@@ -1,11 +1,12 @@
 import { Modal } from "../../../../shared/ui/modal";
 import EmpleadoForm from "../../../../entities/empleados/ui/EmpleadoForm.tsx";
 import { useModalContext } from "../../../../app/providers/ModalContext.tsx";
-import { Empleado, EmpleadoPasUser } from "../../../../entities/empleados";
+import { EmpleadoPasUser } from "../../../../entities/empleados";
 import React, { useState } from "react";
 import CopyButton from "../../../../shared/ui/copy/CopyToClipboard.tsx";
 import {useCreateEmpleado} from "../hooks/useCreateEmpleado.ts";
-import {empleadoCreateSchema} from "../model/schema.ts";
+import {createEmpleadoSchema} from "../model/schema.ts";
+import {NewEmpleado} from "../model/type.ts";
 
 function CreateEmpleadoModal() {
     const { modals, closeModal } = useModalContext();
@@ -14,10 +15,14 @@ function CreateEmpleadoModal() {
 
     const { mutate, isPending } = useCreateEmpleado((data) => {
         setCredenciales(data);
-        setTimeout(() => closeModal("createEmpleado"), 100);
+        // Cerrar el modal y limpiar credenciales después de 10 segundos
+        setTimeout(() => {
+            closeModal("createEmpleado");
+            setCredenciales(null);
+        }, 10000);
     });
 
-    const handleEmpleadoCreate = (formData: Empleado) => {
+    const handleEmpleadoCreate = (formData: NewEmpleado) => {
         mutate(formData);
     };
 
@@ -40,7 +45,7 @@ function CreateEmpleadoModal() {
                     </div>
                 ) : (
                     <EmpleadoForm
-                        schema={empleadoCreateSchema}
+                        schema={createEmpleadoSchema}
                         onSubmit={handleEmpleadoCreate}
                         defaultValues={{}}
                         isSubmitting={isPending}

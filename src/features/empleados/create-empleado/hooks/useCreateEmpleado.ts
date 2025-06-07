@@ -12,6 +12,7 @@ export const useCreateEmpleado = (
     return useMutation({
         mutationFn: createEmpleado,
         onSuccess: async (data: EmpleadoPasUser) => {
+            console.log(data);
             await queryClient.invalidateQueries({ queryKey: ["empleados"] });
             toast.success("Empleado creado correctamente");
             onSuccessCallback(data);

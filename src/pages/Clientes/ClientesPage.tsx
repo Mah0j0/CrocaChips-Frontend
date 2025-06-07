@@ -56,7 +56,7 @@ export default function ClientesPage() {
     return (
         <div>
             <PageMeta
-                title="React.js Blank Dashboard | TailAdmin"
+                title="Clientes"
                 description="Lista de Clientes"
             />
             <PageBreadcrumb pageTitle="Lista de Clientes" />
@@ -74,7 +74,7 @@ export default function ClientesPage() {
                                 onClick={() => openModal("createCliente")}
                                 endIcon={<GroupIcon className="size-5" />}
                             >
-                                Nuevo Usuario
+                                Nuevo Cliente
                             </Button>
                         }
                     />

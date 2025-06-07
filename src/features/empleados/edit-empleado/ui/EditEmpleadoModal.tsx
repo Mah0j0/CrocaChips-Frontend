@@ -17,6 +17,7 @@ function EditEmpleadoModal() {
     });
 
     const handleEmpleadoEdit = (formData: Empleado) => {
+        formData.id = selectedData.id;
         mutate(formData);
     };
 

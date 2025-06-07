@@ -69,7 +69,7 @@ export default function LotesPage() {
     return(
         <div>
           <PageMeta 
-            title="React.js Blank Dashboard | TailAdmin"
+            title="Produccion"
             description="Lista de lotes de producción"
             />
           <PageBreadcrumb pageTitle="Lotes de producción" />

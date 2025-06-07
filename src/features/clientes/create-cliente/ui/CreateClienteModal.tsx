@@ -11,7 +11,7 @@ function CreateClienteModal() {
     const isOpen = modals["createCliente"];
 
     const { mutate, isPending } = useCreateCliente(() => {
-        setTimeout(() => closeModal("createEmpleado"), 100);
+        setTimeout(() => closeModal("createCliente"), 100);
     });
 
     const handleClienteCreate = (formData: Cliente) => {

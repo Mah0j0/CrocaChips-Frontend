@@ -28,7 +28,7 @@ export default function EmpleadosPage() {
                 .includes(filtro.toLowerCase())
         )
         .filter((empleado) =>
-            estadoSeleccionado ? empleado.habilitado.toString() === estadoSeleccionado : true
+            estadoSeleccionado ? empleado.habilitado!.toString() === estadoSeleccionado : true
         )
         .filter((empleado) => (rolSeleccionado ? empleado.rol === rolSeleccionado : true));
 
@@ -53,7 +53,7 @@ export default function EmpleadosPage() {
 
     return (
         <div>
-            <PageMeta title="Lista de empleados" description="Página de empleados" />
+            <PageMeta title="Empleados" description="Página de empleados" />
             <PageBreadcrumb pageTitle="Lista de empleados" />
 
             <div className="space-y-6">
