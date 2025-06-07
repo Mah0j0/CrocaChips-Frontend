@@ -10,7 +10,7 @@ export const useEditEmpleado = (
     return useMutation({
         mutationFn: editEmpleado,
         onSuccess: async () => {
-            await queryClient.invalidateQueries({ queryKey: ["empleado"] });
+            await queryClient.invalidateQueries({ queryKey: ["empleados"] });
             toast.success("Perfil actualizado correctamente");
             onSuccessCallback();
         },

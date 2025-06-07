@@ -15,7 +15,11 @@ function CreateEmpleadoModal() {
 
     const { mutate, isPending } = useCreateEmpleado((data) => {
         setCredenciales(data);
-        setTimeout(() => closeModal("createEmpleado"), 10000);
+        // Cerrar el modal y limpiar credenciales después de 10 segundos
+        setTimeout(() => {
+            closeModal("createEmpleado");
+            setCredenciales(null);
+        }, 10000);
     });
 
     const handleEmpleadoCreate = (formData: NewEmpleado) => {
