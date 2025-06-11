@@ -7,6 +7,7 @@ import { ThemeToggleButton } from "../ui/common/ThemeToggleButton.tsx";
 import UserDropdown from "../ui/header/UserDropdown.tsx";
 import {ruta, rutas} from "../data";
 import {EmpleadoInfo} from "../../entities/empleados";
+import NotificationDropdown from "../ui/header/NotificationDropdown.tsx";
 
 type AppHeaderProps = {
   userData?: EmpleadoInfo;
@@ -230,9 +231,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({userData}) => {
           <div className="flex items-center gap-2 2xsm:gap-3">
             {/* <!-- Dark Mode Toggler --> */}
             <ThemeToggleButton />
-            {/* <!-- Dark Mode Toggler -->
             <NotificationDropdown />
-            */}
             {/* <!-- Notification Menu Area --> */}
           </div>
           {/* <!-- User Area --> */}
