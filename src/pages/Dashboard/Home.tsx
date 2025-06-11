@@ -1,4 +1,3 @@
-import StatisticsChart from "../../shared/ui/ecommerce/StatisticsChart";
 import PageMeta from "../../shared/ui/common/PageMeta";
 import BannerDashboard from "../../shared/ui/common/BannerDashboard";
 import InfoCards from "../../entities/dashboard/ui/infoCards.tsx";
