@@ -1,66 +1,66 @@
 import {
-    BoxCubeIcon,
-    GroupIcon,
-    ListIcon,
+  BoxCubeIcon,
+  GroupIcon,
+  ListIcon,
 } from "../icons";
 
 export type NavSubItem = {
-    name: string;
-    path: string;
-    pro?: boolean;
-    new?: boolean;
-    roles?: string[]; // <- aquí
+  name: string;
+  path: string;
+  pro?: boolean;
+  new?: boolean;
+  roles?: string[]; // <- aquí
 };
 
 export type NavItem = {
-    name: string;
-    icon: React.ReactNode;
-    path?: string;
-    roles?: string[]; // <- aquí
-    subItems?: NavSubItem[];
+  name: string;
+  icon: React.ReactNode;
+  path?: string;
+  roles?: string[]; // <- aquí
+  subItems?: NavSubItem[];
 };
 
 export const navItems: NavItem[] = [
-    /*{
-      icon: <GridIcon />,
-      name: "Dashboard",
-      subItems: [
-        { name: "Ventas", path: "/dash-ventas", pro: false },
-        { name: "Empleados", path: "/dash-empleados", pro: false },
-        { name: "Almacén", path: "/dash-recepciones", pro: false }
-      ],
-    },*/
-    {
-        icon: <BoxCubeIcon />,
-        name: "Inventario",
-        roles: ["Almacen", "Administrador"],
-        subItems: [
-            { name: "Almacén", path: "/almacen", pro: false ,roles:["Almacen", "Administrador"]},
-            { name: "Producción", path: "/lotes", pro: false ,roles:["Almacen", "Administrador"]},
-            { name: "Despachos", path: "/despachos", pro: false ,roles:["Almacen", "Administrador"]},
-            // { name: "Recepciones", path: "/recepciones", pro: false ,roles:["Almacen", "Administrador"]},
-        ],
-    },
-    {
-        name: "Comercial",
-        icon: <ListIcon />,
-        subItems: [
-            { name: "Ventas", path: "/ventas", pro: false ,roles:["Vendedor", "Administrador"]},
-            { name: "Clientes", path: "/clientes", pro: false ,roles:["Vendedor", "Administrador"]},
-        ],
-        roles: ["Vendedor", "Administrador"],
-    },/*
+  /*{
+    icon: <GridIcon />,
+    name: "Dashboard",
+    subItems: [
+      { name: "Ventas", path: "/dash-ventas", pro: false },
+      { name: "Empleados", path: "/dash-empleados", pro: false },
+      { name: "Almacén", path: "/dash-recepciones", pro: false }
+    ],
+  },*/
+  {
+    icon: <BoxCubeIcon />,
+    name: "Inventario",
+    roles: ["Almacen", "Administrador"],
+    subItems: [
+      { name: "Almacén", path: "/almacen", pro: false, roles: ["Almacen", "Administrador"] },
+      { name: "Producción", path: "/lotes", pro: false, roles: ["Almacen", "Administrador"] },
+      { name: "Despachos", path: "/despachos", pro: false, roles: ["Almacen", "Administrador"] },
+      { name: "Recepciones", path: "/recepciones", pro: false, roles: ["Almacen", "Administrador"] },
+    ],
+  },
+  {
+    name: "Comercial",
+    icon: <ListIcon />,
+    subItems: [
+      { name: "Ventas", path: "/ventas", pro: false, roles: ["Vendedor", "Administrador"] },
+      { name: "Clientes", path: "/clientes", pro: false, roles: ["Vendedor", "Administrador"] },
+    ],
+    roles: ["Vendedor", "Administrador"],
+  },/*
   {
     icon: <CalenderIcon />,
     name: "Calendario",
     path: "/calendar",
   },*/
-    {
-        icon: <GroupIcon />,
-        name: "Empleados",
-        path: "/usuarios",
-        roles: ["Administrador"],
-    },
+  {
+    icon: <GroupIcon />,
+    name: "Empleados",
+    path: "/usuarios",
+    roles: ["Administrador"],
+  },
 
 ];
 
