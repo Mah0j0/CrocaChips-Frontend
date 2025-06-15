@@ -1,10 +1,10 @@
 import MovimientoForm from '../../../../entities/movimientos/ui/MovimientoForm.tsx';
 import React from "react";
-import {useModalContext} from "../../../../app/providers/ModalContext.tsx";
-import {BoxIcon} from "../../../../shared/icons";
-import {Movimiento} from "../../../../entities/movimientos";
+import { useModalContext } from "../../../../app/providers/ModalContext.tsx";
+import { BoxIcon } from "../../../../shared/icons";
+import { Movimiento } from "../../../../entities/movimientos";
 import { Modal } from '../../../../shared/ui/modal';
-import {useEditDespacho} from "../hooks/useEditDespacho.ts";
+import { useEditDespacho } from "../hooks/useEditDespacho.ts";
 
 //Funcion que crea el modal para editar un despacho
 function EditDespachoModal() {
@@ -18,7 +18,7 @@ function EditDespachoModal() {
 
     const handleDespachoEdit = (formData: Movimiento) => {
         const despachoData = {
-            ...formData, 
+            ...formData,
             id_movimiento: data.id_movimiento, // Asegurar que incluimos el ID
         };
         mutate(despachoData);
@@ -46,6 +46,7 @@ function EditDespachoModal() {
                     isSubmitting={isPending}
                     onCancel={() => closeModal("editDespacho")}
                     disabledFields={["id_movimiento"]} // Campos que no se pueden editar
+                    isEditing={true}
                 />
             </div>
         </Modal>

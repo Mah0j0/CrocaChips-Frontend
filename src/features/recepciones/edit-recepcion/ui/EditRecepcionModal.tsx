@@ -46,7 +46,7 @@ function EditRecepcionModal() {
                     <BoxIcon className="size-7 text-gray-800 dark:text-white/90 ml-2" />
                 </div>
                 <p className="mb-6 text-sm text-gray-500 dark:text-gray-400">
-                    Actualiza la información de la recepción según sea necesario.
+                    Actualiza la cantidad de la recepción según sea necesario.
                 </p>
 
                 {/* Formulario de recepción */}
@@ -56,6 +56,7 @@ function EditRecepcionModal() {
                     isSubmitting={isPending}
                     onCancel={() => closeModal("editRecepcion")}
                     disabledFields={["id_movimiento"]}
+                    isEditing={true}
                 />
             </div>
         </Modal>

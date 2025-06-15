@@ -16,6 +16,7 @@ type DespachoFormProps = {
     isSubmitting?: boolean;
     onCancel?: () => void;
     disabledFields?: (keyof Movimiento)[];
+    isEditing?: boolean;
 };
 
 // Funcion que recibe las propiedades y devuelve el formulario
@@ -24,7 +25,7 @@ export default function DespachoForm({
     defaultValues = {},
     isSubmitting = false,
     onCancel,
-    disabledFields = [],
+    isEditing,
 }: DespachoFormProps) {
     const {
         register,
@@ -32,17 +33,17 @@ export default function DespachoForm({
         setValue,
         reset,
         formState: { errors },
-    } = useForm<Movimiento>();
+    } = useForm<Movimiento>({
+        defaultValues,
+    });
 
-    //Sincroniza el formulario con defaultValues cuando cambia.
+    // Sincronización y reseteo de valores del formulario
     useEffect(() => {
         if (defaultValues) {
             reset(defaultValues);
         }
     }, [defaultValues, reset]);
 
-    //Permite deshabilitar ciertos campos
-    const isDisabled = (field: keyof Movimiento) => disabledFields.includes(field);
 
     //Variables
     const { data: productos } = useProducts();
@@ -62,59 +63,60 @@ export default function DespachoForm({
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-8">
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-                {/* Campo Vendedor (Select) */}
-                <div className="space-y-3">
-                    <Label className="block font-medium text-gray-700 dark:text-gray-300">Vendedor</Label>
-                    <Select
-                        options={empleados?.map(empleado => ({
-                            value: empleado.id!.toString(),
-                            label: empleado.nombre
-                        })) || []}
-                        placeholder="Seleccione un vendedor"
-                        onChange={(value) => setValue("vendedor", Number(value), { shouldValidate: true })}
-                        className={`w-full ${errors.vendedor ? "border-red-500 dark:border-red-400" : ""}`}
-                        defaultValue={defaultValues.vendedor?.toString()}
-                    />
-                    <input
-                        type="hidden"
-                        {...register("vendedor", {
-                            required: "Debe seleccionar un vendedor"
-                        })}
-                    />
-                    {errors.vendedor && (
-                        <p className="text-xs text-red-600 dark:text-red-400 mt-0 leading-none">{errors.vendedor.message}</p>
-                    )}
-                </div>
+                {!isEditing && (
+                    <>
+                        {/* Campo Vendedor (Select) */}
+                        <div className="space-y-3">
+                            <Label className="block font-medium text-gray-700 dark:text-gray-300">Vendedor</Label>
+                            <Select
+                                options={empleados?.map(empleado => ({
+                                    value: empleado.id!.toString(),
+                                    label: empleado.nombre
+                                })) || []}
+                                placeholder="Seleccione un vendedor"
+                                onChange={(value) => setValue("vendedor", Number(value), { shouldValidate: true })}
+                                className={`w-full ${errors.vendedor ? "border-red-500 dark:border-red-400" : ""}`}
+                            />
+                            <input
+                                type="hidden"
+                                {...register("vendedor", {
+                                    required: "Debe seleccionar un vendedor"
+                                })}
+                            />
+                            {errors.vendedor && (
+                                <p className="text-xs text-red-600 dark:text-red-400 mt-0 leading-none">{errors.vendedor.message}</p>
+                            )}
+                        </div>
 
-                {/* Campo Producto (Select) */}
-                <div className="space-y-3">
-                    <Label className="block font-medium text-gray-700 dark:text-gray-300">Producto</Label>
-                    <Select
-                        options={productos?.map(producto => ({
-                            value: producto.id_producto.toString(),
-                            label: producto.nombre
-                        })) || []}
-                        placeholder="Seleccione un producto"
-                        onChange={(value) => setValue("producto", Number(value), { shouldValidate: true })}
-                        className={`w-full ${errors.producto ? "border-red-500 dark:border-red-400" : ""}`}
-                        disabled={isDisabled("producto")}
-                        defaultValue={defaultValues.producto?.toString()}
-                    />
-                    <input
-                        type="hidden"
-                        {...register("producto", {
-                            required: "Debe seleccionar un producto"
-                        })}
-                    />
-                    {errors.producto && (
-                        <p className="text-xs text-red-600 dark:text-red-400 mt-0 leading-none">{errors.producto.message}</p>
-                    )}
-                </div>
+                        {/* Campo Producto (Select) */}
+                        <div className="space-y-3">
+                            <Label className="block font-medium text-gray-700 dark:text-gray-300">Producto</Label>
+                            <Select
+                                options={productos?.map(producto => ({
+                                    value: producto.id_producto.toString(),
+                                    label: producto.nombre
+                                })) || []}
+                                placeholder="Seleccione un producto"
+                                onChange={(value) => setValue("producto", Number(value), { shouldValidate: true })}
+                                className={`w-full ${errors.producto ? "border-red-500 dark:border-red-400" : ""}`}
+                            />
+                            <input
+                                type="hidden"
+                                {...register("producto", {
+                                    required: "Debe seleccionar un producto"
+                                })}
+                            />
+                            {errors.producto && (
+                                <p className="text-xs text-red-600 dark:text-red-400 mt-0 leading-none">{errors.producto.message}</p>
+                            )}
+                        </div>
+                    </>
+                )}
 
                 {/* Campo Cantidad */}
-                <div className="space-y-3">
+                <div className="space-y-3 col-span-2">
                     <Label className="block font-medium text-gray-700 dark:text-gray-300">Cantidad</Label>
-                    <div className="max-w-xs">
+                    <div>
                         <Input
                             type="number"
                             {...register("cantidad", {

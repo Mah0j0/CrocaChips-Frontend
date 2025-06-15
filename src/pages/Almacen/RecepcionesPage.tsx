@@ -28,7 +28,6 @@ export default function RecepcionesPage() {
     "Vendedor",
     "Producto",
     "Cantidad",
-    "Cantidad Volatil",
     "Fecha de recepción",
     "Acciones"
   ];
@@ -62,8 +61,8 @@ export default function RecepcionesPage() {
 
   // Ordenar y filtrar recepciones
   const recepcionesFiltradas = (data ?? [])
-    // Ordenar por fecha de más reciente a más antigua
-    .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
+    // Ordenar por id de forma descendente
+    .sort((a, b) => b.id_movimiento - a.id_movimiento)
     // Filtrar según búsqueda
     .filter((recepcion) =>
       `${recepcion.vendedor_nombre} ${recepcion.producto_nombre} ${recepcion.tipo_movimiento}`
@@ -147,12 +146,6 @@ export default function RecepcionesPage() {
                   <TableCell className="p-4 py-5 sm:px-6">
                     <p className="font-medium text-theme-sm text-gray-800 dark:text-white/90">
                       {recepcion.cantidad}
-                    </p>
-                  </TableCell>
-                  {/* Cantidad Volatil */}
-                  <TableCell className="p-4 py-5 sm:px-6">
-                    <p className="font-medium text-theme-sm text-gray-800 dark:text-white/90">
-                      {recepcion.cantidad_volatil}
                     </p>
                   </TableCell>
                   {/* Fecha */}
