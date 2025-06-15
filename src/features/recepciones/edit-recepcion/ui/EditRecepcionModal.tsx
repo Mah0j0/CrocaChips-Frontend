@@ -8,13 +8,19 @@ import { BoxIcon } from "../../../../shared/icons";
 import { Modal } from '../../../../shared/ui/modal';
 import { useEditRecepcion } from "../hooks/useEditRecepcion.ts";
 import { useDeleteRecepcion } from "../../delete-recepcion/hooks/useDeleteRecepcion.ts";
+import { useProducts } from "../../../../entities/productos";
+import { useEmpleados } from "../../../../entities/empleados";
 
 // Editar Modal
 function EditRecepcionModal() {
     // Apertura/cierre del modal
     const { modals, closeModal, selectedData } = useModalContext();
     const isOpen = modals["editRecepcion"];
-    const data = selectedData; // datos de la tabla
+    const data: Movimiento = selectedData; // datos de la tabla
+
+    // Hooks para obtener datos
+    const { data: productos } = useProducts();
+    const { data: empleados } = useEmpleados();
 
     // Hook para editar
     const { mutate, isPending } = useEditRecepcion(() => {
@@ -31,11 +37,17 @@ function EditRecepcionModal() {
 
     // Función que maneja el envío del formulario
     const handleRecepcionEdit = (formData: Movimiento) => {
+        // Obtener los datos actualizados del vendedor y producto
+        const vendedorSeleccionado = empleados?.find(e => e.id === formData.vendedor);
+        const productoSeleccionado = productos?.find(p => p.id_producto === formData.producto);
+
         const recepcionData = {
             ...formData,
-            id_movimiento: data.id_movimiento, // ID
-            tipo_movimiento: "Recepcion",  // tipo_movimiento
-            cantidad_volatil: 0  // Establecer en 0
+            id_movimiento: data.id_movimiento,
+            tipo_movimiento: data.tipo_movimiento,
+            cantidad_volatil: data.cantidad_volatil || 0,
+            vendedor_nombre: vendedorSeleccionado?.nombre || '',
+            producto_nombre: productoSeleccionado?.nombre || ''
         };
         mutate(recepcionData);
     };

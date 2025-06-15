@@ -65,16 +65,17 @@ export default function DespachoForm({
         const vendedorSeleccionado = empleados?.find(e => e.id === data.vendedor);
         const productoSeleccionado = productos?.find(p => p.id_producto === data.producto);
 
+        if (!vendedorSeleccionado || !productoSeleccionado) {
+            return;
+        }
+
         const payload: Movimiento = {
-            id_movimiento: 0,
-            vendedor: data.vendedor,
-            producto: data.producto,
-            vendedor_nombre: vendedorSeleccionado?.nombre || '',
-            producto_nombre: productoSeleccionado?.nombre || '',
-            tipo_movimiento: "Despacho",
+            ...data,
+            vendedor_nombre: vendedorSeleccionado.nombre,
+            producto_nombre: productoSeleccionado.nombre,
+            tipo_movimiento: defaultValues.tipo_movimiento || "Despacho",
             cantidad: data.cantidad,
-            cantidad_volatil: 0, // Valor por defecto
-            fecha: new Date().toISOString().split('T')[0], // Fecha actual
+            cantidad_volatil: defaultValues.cantidad_volatil || 0,
         };
         onSubmit(payload);
     };
@@ -92,6 +93,7 @@ export default function DespachoForm({
                         placeholder="Seleccione un vendedor"
                         onChange={(value) => setValue("vendedor", Number(value), { shouldValidate: true })}
                         className={`w-full ${errors.vendedor ? "border-red-500 dark:border-red-400" : ""}`}
+                        defaultValue={defaultValues.vendedor?.toString()}
                     />
                     <input
                         type="hidden"
@@ -116,6 +118,7 @@ export default function DespachoForm({
                         onChange={(value) => setValue("producto", Number(value), { shouldValidate: true })}
                         className={`w-full ${errors.producto ? "border-red-500 dark:border-red-400" : ""}`}
                         disabled={isDisabled("producto")}
+                        defaultValue={defaultValues.producto?.toString()}
                     />
                     <input
                         type="hidden"
