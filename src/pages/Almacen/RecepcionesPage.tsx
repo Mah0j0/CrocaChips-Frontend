@@ -3,14 +3,6 @@ import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb.tsx";
 import PageMeta from "../../shared/ui/common/PageMeta.tsx";
 // Recepciones
 import { useRecepciones } from "../../entities/movimientos";
-
-//import { useModalContext } from "../../context/ModalContext.tsx";
-//crear recepcion modal
-//editar recepcion modal
-
-//Para filtros
-//import { estados } from "../../data";
-//import Select from "../../components/form/Select.tsx";
 //Para tablas
 import { SearchIcon, PlusIcon, HorizontaLDots, ChevronLeftIcon } from "../../shared/icons/index.ts";
 import { useState } from "react";
@@ -28,11 +20,10 @@ export default function RecepcionesPage() {
   const { openModal } = useModalContext(); // abrir modal
   const { data, isLoading, isError } = useRecepciones(); //Traer los recepciones de la API 
   const [filtro, setFiltro] = useState(""); //filtrar los productos,
-  //const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true"); 
   const [paginaActual, setPaginaActual] = useState(1);
   const elementosPorPagina = 10;
 
-  //Cabeceras de tablas
+  // Cabeceras 
   const headers = [
     "Vendedor",
     "Producto",
@@ -42,7 +33,7 @@ export default function RecepcionesPage() {
     "Acciones"
   ];
 
-  //Manejo de errores
+  // Manejo de estados de carga
   if (isLoading) {
     return (
       <ComponentCard title="Info Alert">
@@ -69,7 +60,7 @@ export default function RecepcionesPage() {
     );
   }
 
-  //Filtro de barra de búsqueda
+  // Filtrar recepciones según búsqueda
   const recepcionesFiltradas = (data ?? [])
     .filter((recepcion) =>
       `${recepcion.vendedor_nombre} ${recepcion.producto_nombre} ${recepcion.tipo_movimiento}`
@@ -77,20 +68,20 @@ export default function RecepcionesPage() {
         .includes(filtro.toLowerCase())
     )
 
-  //Paginación
+  // Paginación
   const indiceInicio = (paginaActual - 1) * elementosPorPagina;
   const indiceFin = indiceInicio + elementosPorPagina;
   const recepcionesPaginadas = recepcionesFiltradas.slice(indiceInicio, indiceFin);
   const totalPaginas = Math.ceil(recepcionesFiltradas.length / elementosPorPagina);
 
-  //Renderizar la tabla
+  // Renderizar la tabla
   return (
     <div>
       <PageMeta
-        title="React.js Blank Dashboard | TailAdmin"
-        description="Lista de productos"
+        title="Recepciones"
+        description="Lista de recepciones"
       />
-      <PageBreadcrumb pageTitle="Productos en almacén" />
+      <PageBreadcrumb pageTitle="Recepciones de productos" />
       <div className="space-y-6">
         <ComponentCard title="">
           <div className="flex flex-row gap-10 items-center justify-between mb-5">
@@ -151,13 +142,13 @@ export default function RecepcionesPage() {
                   </TableCell>
                   {/* Cantidad */}
                   <TableCell className="p-4 py-5 sm:px-6">
-                    <p className="font-medium text-theme-sm text-gray-800 dark:text-white/90 px-2">
+                    <p className="font-medium text-theme-sm text-gray-800 dark:text-white/90">
                       {recepcion.cantidad}
                     </p>
                   </TableCell>
                   {/* Cantidad Volatil */}
                   <TableCell className="p-4 py-5 sm:px-6">
-                    <p className="font-medium text-theme-sm text-gray-800 dark:text-white/90 px-7">
+                    <p className="font-medium text-theme-sm text-gray-800 dark:text-white/90">
                       {recepcion.cantidad_volatil}
                     </p>
                   </TableCell>
@@ -168,13 +159,13 @@ export default function RecepcionesPage() {
                     </p>
                   </TableCell>
                   {/* Acciones */}
-                  <TableCell className="py-5">
+                  <TableCell className="p-4 py-5 sm:px-6">
                     <button
                       onClick={() => openModal("editRecepcion", recepcion)}
                       className="text-gray-400 hover:text-gray-600"
                       title="Editar recepción"
                     >
-                      <HorizontaLDots className="w-5 h-5" />
+                      <HorizontaLDots className="w-7 h-7" />
                     </button>
                   </TableCell>
                 </>
