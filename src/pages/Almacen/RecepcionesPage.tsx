@@ -60,8 +60,11 @@ export default function RecepcionesPage() {
     );
   }
 
-  // Filtrar recepciones según búsqueda
+  // Ordenar y filtrar recepciones
   const recepcionesFiltradas = (data ?? [])
+    // Ordenar por fecha de más reciente a más antigua
+    .sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
+    // Filtrar según búsqueda
     .filter((recepcion) =>
       `${recepcion.vendedor_nombre} ${recepcion.producto_nombre} ${recepcion.tipo_movimiento}`
         .toLowerCase()

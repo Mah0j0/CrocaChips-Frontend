@@ -34,7 +34,7 @@ export default function ReusableTable<T>(
                                 <TableCell
                                     key={index}
                                     isHeader
-                                    className={`px-5 py-3 text-gray-500 text-start dark:text-gray-400 ${isHederBold ? 'font-[700] text-theme-sm' : 'font-medium text-theme-xs'}`}
+                                    className={`px-5 py-3 text-orange-500 text-start dark:text-orange-400 ${isHederBold ? 'font-[700] text-theme-sm' : 'font-medium text-theme-xs'}`}
                                 >
                                     {header}
                                 </TableCell>
