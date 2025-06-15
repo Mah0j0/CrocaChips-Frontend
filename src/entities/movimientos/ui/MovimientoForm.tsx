@@ -90,11 +90,17 @@ export default function DespachoForm({
                             label: empleado.nombre
                         })) || []}
                         placeholder="Seleccione un vendedor"
-                        onChange={(value) => setValue("vendedor", Number(value))}
-                        className={`w-full ${errors.vendedor ? "border-red-500" : ""}`}
+                        onChange={(value) => setValue("vendedor", Number(value), { shouldValidate: true })}
+                        className={`w-full ${errors.vendedor ? "border-red-500 dark:border-red-400" : ""}`}
+                    />
+                    <input
+                        type="hidden"
+                        {...register("vendedor", {
+                            required: "Debe seleccionar un vendedor"
+                        })}
                     />
                     {errors.vendedor && (
-                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.vendedor.message}</p>
+                        <p className="text-xs text-red-600 dark:text-red-400 mt-0 leading-none">{errors.vendedor.message}</p>
                     )}
                 </div>
 
@@ -107,12 +113,18 @@ export default function DespachoForm({
                             label: producto.nombre
                         })) || []}
                         placeholder="Seleccione un producto"
-                        onChange={(value) => setValue("producto", Number(value))}
-                        className={`w-full ${errors.producto ? "border-red-500" : ""}`}
+                        onChange={(value) => setValue("producto", Number(value), { shouldValidate: true })}
+                        className={`w-full ${errors.producto ? "border-red-500 dark:border-red-400" : ""}`}
                         disabled={isDisabled("producto")}
                     />
+                    <input
+                        type="hidden"
+                        {...register("producto", {
+                            required: "Debe seleccionar un producto"
+                        })}
+                    />
                     {errors.producto && (
-                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.producto.message}</p>
+                        <p className="text-xs text-red-600 dark:text-red-400 mt-0 leading-none">{errors.producto.message}</p>
                     )}
                 </div>
 
@@ -127,10 +139,22 @@ export default function DespachoForm({
                                 min: {
                                     value: 1,
                                     message: "La cantidad debe ser al menos 1"
+                                },
+                                max: {
+                                    value: 500,
+                                    message: "La cantidad no puede ser mayor a 500"
+                                },
+                                valueAsNumber: true,
+                                validate: (value) => {
+                                    if (isNaN(Number(value))) {
+                                        return "Por favor ingrese un número válido";
+                                    }
+                                    return true;
                                 }
                             })}
                             error={!!errors.cantidad}
                             hint={errors.cantidad?.message}
+                            aria-invalid={errors.cantidad ? "true" : "false"}
                             placeholder="Ej. 50"
                             className="w-full"
                         />
