@@ -8,11 +8,6 @@ import Label from "../../../shared/ui/form/Label.tsx";
 import Select from "../../../shared/ui/form/Select.tsx";
 import Input from "../../../shared/ui/form/input/InputField.tsx";
 import Button from "../../../shared/ui/button/Button.tsx";
-// Componentes UI
-
-// Tipos
-
-// Importar los hooks
 
 //Props del componente
 type DespachoFormProps = {
@@ -71,7 +66,7 @@ export default function DespachoForm({
         const productoSeleccionado = productos?.find(p => p.id_producto === data.producto);
 
         const payload: Movimiento = {
-            id_movimiento: 0, // Asumo que se genera automáticamente en el backend
+            id_movimiento: 0,
             vendedor: data.vendedor,
             producto: data.producto,
             vendedor_nombre: vendedorSeleccionado?.nombre || '',
@@ -84,11 +79,11 @@ export default function DespachoForm({
         onSubmit(payload);
     };
     return (
-        <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-8">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
                 {/* Campo Vendedor (Select) */}
-                <div>
-                    <Label>Vendedor</Label>
+                <div className="space-y-3">
+                    <Label className="block font-medium text-gray-700 dark:text-gray-300">Vendedor</Label>
                     <Select
                         options={empleados?.map(empleado => ({
                             value: empleado.id!.toString(),
@@ -96,34 +91,35 @@ export default function DespachoForm({
                         })) || []}
                         placeholder="Seleccione un vendedor"
                         onChange={(value) => setValue("vendedor", Number(value))}
-                        className={errors.vendedor ? "border-red-500" : ""}
+                        className={`w-full ${errors.vendedor ? "border-red-500" : ""}`}
                     />
                     {errors.vendedor && (
-                        <p className="text-sm text-red-500">{errors.vendedor.message}</p>
+                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.vendedor.message}</p>
                     )}
                 </div>
-                {/* Campo Producto (Select) */}
-                <div>
-                    <div>
-                        <Label>Producto</Label>
-                        <Select
-                            options={productos?.map(producto => ({
-                                value: producto.id_producto.toString(),
-                                label: producto.nombre
-                            })) || []}
-                            placeholder="Seleccione un producto"
-                            onChange={(value) => setValue("producto", Number(value))}
-                            className={errors.producto ? "border-red-500" : ""}
-                            disabled={isDisabled("producto")}
-                        />
-                        {errors.producto && (
-                            <p className="text-sm text-red-500">{errors.producto.message}</p>
-                        )}
-                    </div>
 
-                    {/* Campo Cantidad (Input Number) */}
-                    <div>
-                        <Label>Cantidad</Label>
+                {/* Campo Producto (Select) */}
+                <div className="space-y-3">
+                    <Label className="block font-medium text-gray-700 dark:text-gray-300">Producto</Label>
+                    <Select
+                        options={productos?.map(producto => ({
+                            value: producto.id_producto.toString(),
+                            label: producto.nombre
+                        })) || []}
+                        placeholder="Seleccione un producto"
+                        onChange={(value) => setValue("producto", Number(value))}
+                        className={`w-full ${errors.producto ? "border-red-500" : ""}`}
+                        disabled={isDisabled("producto")}
+                    />
+                    {errors.producto && (
+                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.producto.message}</p>
+                    )}
+                </div>
+
+                {/* Campo Cantidad (Input Number) */}
+                <div className="space-y-3">
+                    <Label className="block font-medium text-gray-700 dark:text-gray-300">Cantidad</Label>
+                    <div className="max-w-xs">
                         <Input
                             type="number"
                             {...register("cantidad", {
@@ -136,32 +132,46 @@ export default function DespachoForm({
                             error={!!errors.cantidad}
                             hint={errors.cantidad?.message}
                             placeholder="Ej. 50"
+                            className="w-full"
                         />
                     </div>
                 </div>
             </div>
 
             {/* Botones de acción */}
-            <div className="flex items-center gap-3 justify-end">
+            <div className="flex items-center justify-end gap-4 pt-4">
                 {onCancel && (
-                    <Button type="button" variant="outline" size="sm" onClick={onCancel}>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        size="md"
+                        onClick={onCancel}
+                        className="px-5"
+                    >
                         Cancelar
                     </Button>
                 )}
+
                 {/* Botón de Eliminar - Recepciones */}
                 {showDeleteButton && (
                     <Button
                         type="button"
                         variant="outline"
-                        size="sm"
+                        size="md"
                         onClick={onDelete}
-                        className="text-red-600 hover:text-red-800 border-red-600 hover:bg-red-100 dark:text-red-400 dark:hover:text-red-300 dark:border-red-400 dark:hover:bg-red-900/30"
+                        className="px-5 text-red-600 hover:text-red-800 border-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:border-red-400 dark:hover:bg-red-900/20"
                     >
                         Eliminar
                     </Button>
                 )}
-                <Button type="submit" size="sm" disabled={isSubmitting}>
-                    Guardar Cambios
+
+                <Button
+                    type="submit"
+                    size="md"
+                    disabled={isSubmitting}
+                    className="px-5"
+                >
+                    {isSubmitting ? "Guardando..." : "Guardar Cambios"}
                 </Button>
             </div>
         </form>
