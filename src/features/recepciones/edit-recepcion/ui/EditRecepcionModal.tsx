@@ -7,6 +7,7 @@ import { useModalContext } from "../../../../app/providers/ModalContext.tsx";
 import { BoxIcon } from "../../../../shared/icons";
 import { Modal } from '../../../../shared/ui/modal';
 import { useEditRecepcion } from "../hooks/useEditRecepcion.ts";
+import { useDeleteRecepcion } from "../../delete-recepcion/hooks/useDeleteRecepcion.ts";
 
 // Editar Modal
 function EditRecepcionModal() {
@@ -15,10 +16,18 @@ function EditRecepcionModal() {
     const isOpen = modals["editRecepcion"];
     const data = selectedData; // datos de la tabla
 
-    // Mutación para editar una recepción
+    // Hook para editar
     const { mutate, isPending } = useEditRecepcion(() => {
         setTimeout(() => closeModal("editRecepcion"), 100);
     });
+
+    // Hook para eliminar
+    const { mutate: deleteRecepcion } = useDeleteRecepcion(() => {
+        closeModal("editRecepcion");
+    });
+    const handleDelete = () => {
+        deleteRecepcion(data);
+    };
 
     // Función que maneja el envío del formulario
     const handleRecepcionEdit = (formData: Movimiento) => {
@@ -54,7 +63,9 @@ function EditRecepcionModal() {
                     defaultValues={data}
                     isSubmitting={isPending}
                     onCancel={() => closeModal("editRecepcion")}
-                    disabledFields={["id_movimiento"]} // Campos que no se pueden editar
+                    disabledFields={["id_movimiento"]}
+                    showDeleteButton={true}
+                    onDelete={handleDelete}
                 />
             </div>
         </Modal>
