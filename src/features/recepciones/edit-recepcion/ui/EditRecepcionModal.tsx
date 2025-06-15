@@ -7,6 +7,7 @@ import { BoxIcon } from "../../../../shared/icons";
 import { Modal } from '../../../../shared/ui/modal';
 // Formulario
 import MovimientoForm from '../../../../entities/movimientos/ui/MovimientoForm.tsx';
+// Hook
 import { useEditRecepcion } from "../hooks/useEditRecepcion.ts";
 
 // Editar Modal

@@ -9,26 +9,22 @@ import Select from "../../../shared/ui/form/Select.tsx";
 import Input from "../../../shared/ui/form/input/InputField.tsx";
 import Button from "../../../shared/ui/button/Button.tsx";
 
-//Props del componente
+// Props del componente
 type DespachoFormProps = {
     onSubmit: (data: Movimiento) => void;
     defaultValues?: Partial<Movimiento>;
     isSubmitting?: boolean;
     onCancel?: () => void;
     disabledFields?: (keyof Movimiento)[];
-    showDeleteButton?: boolean;
-    onDelete?: () => void;
 };
 
-//Funcion que recibe las propiedades y devuelve el formulario
+// Funcion que recibe las propiedades y devuelve el formulario
 export default function DespachoForm({
     onSubmit,
     defaultValues = {},
     isSubmitting = false,
     onCancel,
     disabledFields = [],
-    showDeleteButton = false,
-    onDelete,
 }: DespachoFormProps) {
     const {
         register,
@@ -52,33 +48,17 @@ export default function DespachoForm({
     const { data: productos } = useProducts();
     const { data: empleados } = useEmpleados();
 
-    //Sincroniza el formulario con defaultValues cuando cambia.
-    useEffect(() => {
-        if (defaultValues) {
-            reset(defaultValues);
-        }
-    }, [defaultValues, reset]);
-
     //FORMULARIO DE DESPACHO
     const handleFormSubmit = (data: Movimiento) => {
-        // Obtener nombres del vendedor y producto seleccionados
-        const vendedorSeleccionado = empleados?.find(e => e.id === data.vendedor);
-        const productoSeleccionado = productos?.find(p => p.id_producto === data.producto);
-
-        if (!vendedorSeleccionado || !productoSeleccionado) {
-            return;
-        }
 
         const payload: Movimiento = {
             ...data,
-            vendedor_nombre: vendedorSeleccionado.nombre,
-            producto_nombre: productoSeleccionado.nombre,
-            tipo_movimiento: defaultValues.tipo_movimiento || "Despacho",
+            tipo_movimiento: data.tipo_movimiento,
             cantidad: data.cantidad,
-            cantidad_volatil: defaultValues.cantidad_volatil || 0,
         };
         onSubmit(payload);
     };
+    // Renderizado del formulario
     return (
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-8">
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
@@ -131,7 +111,7 @@ export default function DespachoForm({
                     )}
                 </div>
 
-                {/* Campo Cantidad (Input Number) */}
+                {/* Campo Cantidad */}
                 <div className="space-y-3">
                     <Label className="block font-medium text-gray-700 dark:text-gray-300">Cantidad</Label>
                     <div className="max-w-xs">
@@ -178,20 +158,6 @@ export default function DespachoForm({
                         Cancelar
                     </Button>
                 )}
-
-                {/* Botón de Eliminar - Recepciones */}
-                {showDeleteButton && (
-                    <Button
-                        type="button"
-                        variant="outline"
-                        size="md"
-                        onClick={onDelete}
-                        className="px-5 text-red-600 hover:text-red-800 border-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:border-red-400 dark:hover:bg-red-900/20"
-                    >
-                        Eliminar
-                    </Button>
-                )}
-
                 <Button
                     type="submit"
                     size="md"
