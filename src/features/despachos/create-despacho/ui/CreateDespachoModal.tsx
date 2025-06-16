@@ -1,12 +1,12 @@
 //Tipos
-import {Movimiento} from '../../../../entities/movimientos';
+import { Movimiento } from '../../../../entities/movimientos';
 //Componentes
 import MovimientoForm from '../../../../entities/movimientos/ui/MovimientoForm.tsx';
 import React from "react";
-import {useModalContext} from "../../../../app/providers/ModalContext.tsx";
-import {BoxIcon} from "../../../../shared/icons";
+import { useModalContext } from "../../../../app/providers/ModalContext.tsx";
+import { BoxIcon } from "../../../../shared/icons";
 import { Modal } from '../../../../shared/ui/modal';
-import {useCreateDespacho} from "../hooks/useCreateDespacho.ts";
+import { useCreateDespacho } from "../hooks/useCreateDespacho.ts";
 
 //Funcion que crea el modal para crear un despacho
 function CreateDespachoModal() {
@@ -19,8 +19,7 @@ function CreateDespachoModal() {
 
     const handleProductoCreate = (formData: Movimiento) => {
         const despachoData = {
-            ...formData, 
-            habilitado: true  // Asegura que este campo se envíe
+            ...formData,
         };
         mutate(despachoData);
     };

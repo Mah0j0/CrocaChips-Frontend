@@ -17,9 +17,9 @@ import { useModalContext } from "../../app/providers/ModalContext";
 import { CreateRecepcionModal, EditRecepcionModal } from "../../features/recepciones";
 
 export default function RecepcionesPage() {
-  const { openModal } = useModalContext(); // abrir modal
-  const { data, isLoading, isError } = useRecepciones(); //Traer los recepciones de la API 
-  const [filtro, setFiltro] = useState(""); //filtrar los productos,
+  const { openModal } = useModalContext();
+  const { data, isLoading, isError } = useRecepciones();
+  const [filtro, setFiltro] = useState("");
   const [paginaActual, setPaginaActual] = useState(1);
   const elementosPorPagina = 10;
 

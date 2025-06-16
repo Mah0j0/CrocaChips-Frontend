@@ -37,7 +37,7 @@ function EditDespachoModal() {
                     <BoxIcon className="size-7 text-gray-800 dark:text-white/90 ml-2" />
                 </div>
                 <p className="mb-6 text-sm text-gray-500 dark:text-gray-400">
-                    Actualiza la información del despacho según sea necesario.
+                    Actualiza la cantidad del despacho según sea necesario.
                 </p>
 
                 <MovimientoForm

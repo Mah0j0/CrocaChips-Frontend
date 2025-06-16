@@ -22,9 +22,7 @@ function CreateRecepcionModal() {
     // Función que maneja el envío del formulario
     const handleRecepcionCreate = (formData: Movimiento) => {
         const recepcionData = {
-            ...formData,
-            tipo_movimiento: "Recepcion",  // Asegurar el tipo correcto
-            cantidad_volatil: 0  // Establecer en 0
+            ...formData,// Establecer en 0
         };
         mutate(recepcionData);
     };

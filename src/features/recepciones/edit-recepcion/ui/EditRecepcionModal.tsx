@@ -27,7 +27,6 @@ function EditRecepcionModal() {
         const recepcionData = {
             ...formData,
             id_movimiento: data.id_movimiento,
-            tipo_movimiento: data.tipo_movimiento,
         };
         mutate(recepcionData);
     };

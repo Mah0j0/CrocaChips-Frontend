@@ -126,8 +126,8 @@ export default function DespachoForm({
                                     message: "La cantidad debe ser al menos 1"
                                 },
                                 max: {
-                                    value: 500,
-                                    message: "La cantidad no puede ser mayor a 500"
+                                    value: defaultValues?.cantidad_volatil || 500,
+                                    message: `La cantidad no puede ser mayor a ${defaultValues?.cantidad_volatil}`
                                 },
                                 valueAsNumber: true,
                                 validate: (value) => {

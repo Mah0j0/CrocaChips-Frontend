@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from "react-toastify";
-import {editDespacho} from "../api/editDespacho.ts";
+import { editDespacho } from "../api/editDespacho.ts";
 
 export const useEditDespacho = (
     onSuccessCallback: () => void
@@ -15,7 +15,7 @@ export const useEditDespacho = (
             onSuccessCallback();
         },
         onError: (error: Error) => {
-            toast.error(error.message || "Error al crear el Cliente");
+            toast.error(error.message || "Error al editar el despacho");
         },
     });
 };
