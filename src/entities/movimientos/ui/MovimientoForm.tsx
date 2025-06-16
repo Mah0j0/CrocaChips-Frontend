@@ -1,153 +1,174 @@
 // React
-import { useEffect} from "react";
-import {useForm} from "react-hook-form";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { Movimiento } from "../model/type";
-import {useProducts} from "../../productos";
-import {useEmpleados} from "../../empleados";
+import { useProducts } from "../../productos";
+import { useEmpleados } from "../../empleados";
 import Label from "../../../shared/ui/form/Label.tsx";
 import Select from "../../../shared/ui/form/Select.tsx";
 import Input from "../../../shared/ui/form/input/InputField.tsx";
 import Button from "../../../shared/ui/button/Button.tsx";
-// Componentes UI
 
-// Tipos
-
-// Importar los hooks
-
-//Props del componente
+// Props del componente
 type DespachoFormProps = {
     onSubmit: (data: Movimiento) => void;
     defaultValues?: Partial<Movimiento>;
     isSubmitting?: boolean;
     onCancel?: () => void;
     disabledFields?: (keyof Movimiento)[];
+    isEditing?: boolean;
 };
 
-//Funcion que recibe las propiedades y devuelve el formulario
+// Funcion que recibe las propiedades y devuelve el formulario
 export default function DespachoForm({
     onSubmit,
     defaultValues = {},
     isSubmitting = false,
     onCancel,
-    disabledFields = [],
+    isEditing,
 }: DespachoFormProps) {
-const {
-   register,
-   handleSubmit,
-   setValue,
-   reset,
-   formState: { errors },
-} = useForm<Movimiento>();
+    const {
+        register,
+        handleSubmit,
+        setValue,
+        reset,
+        formState: { errors },
+    } = useForm<Movimiento>({
+        defaultValues,
+    });
 
-//Sincroniza el formulario con defaultValues cuando cambia.
-useEffect(() => {
-   if (defaultValues) {
-       reset(defaultValues);
-   }
-}, [defaultValues, reset]);
+    // Sincronización y reseteo de valores del formulario
+    useEffect(() => {
+        if (defaultValues) {
+            reset(defaultValues);
+        }
+    }, [defaultValues, reset]);
 
-//Permite deshabilitar ciertos campos
-const isDisabled = (field: keyof Movimiento) => disabledFields.includes(field);
 
-//Variables
-const { data: productos } = useProducts();
-const { data: empleados } = useEmpleados();
+    //Variables
+    const { data: productos } = useProducts();
+    const { data: empleados } = useEmpleados();
 
-//Sincroniza el formulario con defaultValues cuando cambia.
-useEffect(() => {
-    if (defaultValues) {
-        reset(defaultValues);
-    }
- }, [defaultValues, reset]);
+    //FORMULARIO DE DESPACHO
+    const handleFormSubmit = (data: Movimiento) => {
 
- //FORMULARIO DE DESPACHO
- const handleFormSubmit = (data: Movimiento) => {
-    // Obtener nombres del vendedor y producto seleccionados
-    const vendedorSeleccionado = empleados?.find(e => e.id === data.vendedor);
-    const productoSeleccionado = productos?.find(p => p.id_producto === data.producto);
-
-    const payload: Movimiento = {
-        id_movimiento: 0, // Asumo que se genera automáticamente en el backend
-        vendedor: data.vendedor,
-        producto: data.producto,
-        vendedor_nombre: vendedorSeleccionado?.nombre || '',
-        producto_nombre: productoSeleccionado?.nombre || '',
-        tipo_movimiento: "Despacho",
-        cantidad: data.cantidad,
-        cantidad_volatil: 0, // Valor por defecto
-        fecha: new Date().toISOString().split('T')[0], // Fecha actual
+        const payload: Movimiento = {
+            ...data,
+            tipo_movimiento: data.tipo_movimiento,
+            cantidad: data.cantidad,
+        };
+        onSubmit(payload);
     };
-    onSubmit(payload);
-};
-return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            {/* Campo Vendedor (Select) */}
-            <div>
-                <Label>Vendedor</Label>
-                <Select
-                    options={empleados?.map(empleado => ({
-                    value: empleado.id!.toString(),
-                    label: empleado.nombre
-                    })) || []}
-                    placeholder="Seleccione un vendedor"
-                    onChange={(value) => setValue("vendedor", Number(value))}
-                    className={errors.vendedor ? "border-red-500" : ""}
-                />
-                {errors.vendedor && (
-                    <p className="text-sm text-red-500">{errors.vendedor.message}</p>
+    // Renderizado del formulario
+    return (
+        <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-8">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+                {!isEditing && (
+                    <>
+                        {/* Campo Vendedor (Select) */}
+                        <div className="space-y-3">
+                            <Label className="block font-medium text-gray-700 dark:text-gray-300">Vendedor</Label>
+                            <Select
+                                options={empleados?.map(empleado => ({
+                                    value: empleado.id!.toString(),
+                                    label: empleado.nombre
+                                })) || []}
+                                placeholder="Seleccione un vendedor"
+                                onChange={(value) => setValue("vendedor", Number(value), { shouldValidate: true })}
+                                className={`w-full ${errors.vendedor ? "border-red-500 dark:border-red-400" : ""}`}
+                            />
+                            <input
+                                type="hidden"
+                                {...register("vendedor", {
+                                    required: "Debe seleccionar un vendedor"
+                                })}
+                            />
+                            {errors.vendedor && (
+                                <p className="text-xs text-red-600 dark:text-red-400 mt-0 leading-none">{errors.vendedor.message}</p>
+                            )}
+                        </div>
+
+                        {/* Campo Producto (Select) */}
+                        <div className="space-y-3">
+                            <Label className="block font-medium text-gray-700 dark:text-gray-300">Producto</Label>
+                            <Select
+                                options={productos?.map(producto => ({
+                                    value: producto.id_producto.toString(),
+                                    label: producto.nombre
+                                })) || []}
+                                placeholder="Seleccione un producto"
+                                onChange={(value) => setValue("producto", Number(value), { shouldValidate: true })}
+                                className={`w-full ${errors.producto ? "border-red-500 dark:border-red-400" : ""}`}
+                            />
+                            <input
+                                type="hidden"
+                                {...register("producto", {
+                                    required: "Debe seleccionar un producto"
+                                })}
+                            />
+                            {errors.producto && (
+                                <p className="text-xs text-red-600 dark:text-red-400 mt-0 leading-none">{errors.producto.message}</p>
+                            )}
+                        </div>
+                    </>
                 )}
-            </div>
-            {/* Campo Producto (Select) */}
-            <div>
-            <div>
-                <Label>Producto</Label>
-                <Select
-                    options={productos?.map(producto => ({
-                        value: producto.id_producto.toString(),
-                        label: producto.nombre
-                    })) || []}
-                    placeholder="Seleccione un producto"
-                    onChange={(value) => setValue("producto", Number(value))}
-                    className={errors.producto ? "border-red-500" : ""}
-                    disabled={isDisabled("producto")}
-                />
-                {errors.producto && (
-                    <p className="text-sm text-red-500">{errors.producto.message}</p>
-                )}
+
+                {/* Campo Cantidad */}
+                <div className="space-y-3 col-span-2">
+                    <Label className="block font-medium text-gray-700 dark:text-gray-300">Cantidad</Label>
+                    <div>
+                        <Input
+                            type="number"
+                            {...register("cantidad", {
+                                required: "La cantidad es requerida",
+                                min: {
+                                    value: 1,
+                                    message: "La cantidad debe ser al menos 1"
+                                },
+                                max: {
+                                    value: defaultValues?.cantidad_volatil || 500,
+                                    message: `La cantidad no puede ser mayor a ${defaultValues?.cantidad_volatil}`
+                                },
+                                valueAsNumber: true,
+                                validate: (value) => {
+                                    if (isNaN(Number(value))) {
+                                        return "Por favor ingrese un número válido";
+                                    }
+                                    return true;
+                                }
+                            })}
+                            error={!!errors.cantidad}
+                            hint={errors.cantidad?.message}
+                            aria-invalid={errors.cantidad ? "true" : "false"}
+                            placeholder="Ej. 50"
+                            className="w-full"
+                        />
+                    </div>
+                </div>
             </div>
 
-            {/* Campo Cantidad (Input Number) */}
-            <div>
-                <Label>Cantidad</Label>
-                <Input
-                    type="number"
-                    {...register("cantidad", {
-                        required: "La cantidad es requerida",
-                        min: {
-                            value: 1,
-                            message: "La cantidad debe ser al menos 1"
-                        }
-                    })}
-                    error={!!errors.cantidad}
-                    hint={errors.cantidad?.message}
-                    placeholder="Ej. 50"
-                />
-            </div>
-        </div>
-        </div>
-
-        {/* Botones de acción */}
-        <div className="flex items-center gap-3 justify-end">
-            {onCancel && (
-                <Button type="button" variant="outline" size="sm" onClick={onCancel}>
-                    Cancelar
+            {/* Botones de acción */}
+            <div className="flex items-center justify-end gap-4 pt-4">
+                {onCancel && (
+                    <Button
+                        type="button"
+                        variant="outline"
+                        size="md"
+                        onClick={onCancel}
+                        className="px-5"
+                    >
+                        Cancelar
+                    </Button>
+                )}
+                <Button
+                    type="submit"
+                    size="md"
+                    disabled={isSubmitting}
+                    className="px-5"
+                >
+                    {isSubmitting ? "Guardando..." : "Guardar Cambios"}
                 </Button>
-            )}
-            <Button type="submit" size="sm" disabled={isSubmitting}>
-                Guardar Cambios
-            </Button>
-        </div>
-    </form>
-);
+            </div>
+        </form>
+    );
 }

@@ -1,51 +1,54 @@
-//Tipos
+// Tipos
 import { Movimiento } from '../../../../entities/movimientos';
-//Componentes
+// Componentes
 import MovimientoForm from '../../../../entities/movimientos/ui/MovimientoForm.tsx';
 import React from "react";
 import { useModalContext } from "../../../../app/providers/ModalContext.tsx";
 import { BoxIcon } from "../../../../shared/icons";
 import { Modal } from '../../../../shared/ui/modal';
-import { useCreateDespacho } from "../hooks/useCreateDespacho.ts";
+import { useCreateRecepcion } from "../hooks/useCreateRecepcion.ts";
 
-//Funcion que crea el modal para crear un despacho
-function CreateDespachoModal() {
+// Crear Modal
+function CreateRecepcionModal() {
+    // Apertura/cierre del modal
     const { modals, closeModal } = useModalContext();
-    const isOpen = modals["createDespacho"];
+    const isOpen = modals["createRecepcion"];
 
-    const { mutate, isPending } = useCreateDespacho(() => {
-        setTimeout(() => closeModal("createDespacho"), 100);
+    // Mutación para crear una recepción
+    const { mutate, isPending } = useCreateRecepcion(() => {
+        setTimeout(() => closeModal("createRecepcion"), 100);
     });
 
-    const handleProductoCreate = (formData: Movimiento) => {
-        const despachoData = {
-            ...formData,
+    // Función que maneja el envío del formulario
+    const handleRecepcionCreate = (formData: Movimiento) => {
+        const recepcionData = {
+            ...formData,// Establecer en 0
         };
-        mutate(despachoData);
+        mutate(recepcionData);
     };
 
+    // Renderizado del modal
     return (
-        <Modal isOpen={isOpen} onClose={() => closeModal("createDespacho")} className="max-w-[700px] m-4">
+        <Modal isOpen={isOpen} onClose={() => closeModal("createRecepcion")} className="max-w-[700px] m-4">
             <div className="no-scrollbar w-full max-w-[700px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
                 <div className="mb-2 flex items-center">
                     <h4 className="text-2xl font-semibold text-gray-800 dark:text-white/90">
-                        Crear Nuevo Despacho
+                        Crear Nueva Recepción
                     </h4>
                     <BoxIcon className="size-7 text-gray-800 dark:text-white/90 ml-2" />
                 </div>
                 <p className="mb-6 text-sm text-gray-500 dark:text-gray-400">
-                    Completa la información para registrar un nuevo despacho
+                    Completa la información para registrar una nueva recepción
                 </p>
-
+                {/* Formulario de recepción */}
                 <MovimientoForm
-                    onSubmit={handleProductoCreate}
+                    onSubmit={handleRecepcionCreate}
                     defaultValues={{}}
                     isSubmitting={isPending}
-                    onCancel={() => closeModal("createDespacho")}
+                    onCancel={() => closeModal("createRecepcion")}
                 />
             </div>
         </Modal>
     );
 }
-
-export default React.memo(CreateDespachoModal);
+export default React.memo(CreateRecepcionModal);

@@ -1,10 +1,10 @@
 import MovimientoForm from '../../../../entities/movimientos/ui/MovimientoForm.tsx';
 import React from "react";
-import {useModalContext} from "../../../../app/providers/ModalContext.tsx";
-import {BoxIcon} from "../../../../shared/icons";
-import {Movimiento} from "../../../../entities/movimientos";
+import { useModalContext } from "../../../../app/providers/ModalContext.tsx";
+import { BoxIcon } from "../../../../shared/icons";
+import { Movimiento } from "../../../../entities/movimientos";
 import { Modal } from '../../../../shared/ui/modal';
-import {useEditDespacho} from "../hooks/useEditDespacho.ts";
+import { useEditDespacho } from "../hooks/useEditDespacho.ts";
 
 //Funcion que crea el modal para editar un despacho
 function EditDespachoModal() {
@@ -18,7 +18,7 @@ function EditDespachoModal() {
 
     const handleDespachoEdit = (formData: Movimiento) => {
         const despachoData = {
-            ...formData, 
+            ...formData,
             id_movimiento: data.id_movimiento, // Asegurar que incluimos el ID
         };
         mutate(despachoData);
@@ -37,7 +37,7 @@ function EditDespachoModal() {
                     <BoxIcon className="size-7 text-gray-800 dark:text-white/90 ml-2" />
                 </div>
                 <p className="mb-6 text-sm text-gray-500 dark:text-gray-400">
-                    Actualiza la información del despacho según sea necesario.
+                    Actualiza la cantidad del despacho según sea necesario.
                 </p>
 
                 <MovimientoForm
@@ -46,6 +46,7 @@ function EditDespachoModal() {
                     isSubmitting={isPending}
                     onCancel={() => closeModal("editDespacho")}
                     disabledFields={["id_movimiento"]} // Campos que no se pueden editar
+                    isEditing={true}
                 />
             </div>
         </Modal>
