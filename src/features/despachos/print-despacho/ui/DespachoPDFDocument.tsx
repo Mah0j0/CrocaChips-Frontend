@@ -1,57 +1,154 @@
 import { Page, Text, View, Document, StyleSheet, Image } from '@react-pdf/renderer';
 import { Movimiento } from "../../../../entities/movimientos";
-import logo from "../../../../../public/images/logo/auth-logo.svg";
+import logo from "../../../../../public/images/logo/logo_nombre.jpg";
 
-// Estilos para el PDF
+// Colores corporativos
+const COLORS = {
+    primary: '#2c3e50',
+    secondary: '#3498db',
+    lightGray: '#f5f7fa',
+    border: '#e0e6ed'
+};
+
 const styles = StyleSheet.create({
     page: {
-        padding: 30,
+        padding: 40,
         fontSize: 10,
+        fontFamily: 'Helvetica',
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100%'
     },
     header: {
-        marginBottom: 20,
-        textAlign: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderBottomWidth: 2,
+        borderBottomColor: COLORS.primary,
+        paddingBottom: 15,
+        marginBottom: 25
     },
     logo: {
-        width: 100,
-        marginBottom: 10,
+        width: 135,
+        height: 55,
+        objectFit: 'contain'
+    },
+    companyInfo: {
+        textAlign: 'right',
+        color: '#555'
+    },
+    titleSection: {
+        textAlign: 'center',
+        marginBottom: 25
     },
     title: {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'bold',
-        marginBottom: 10,
+        color: COLORS.primary,
+        marginBottom: 5
     },
     subtitle: {
-        fontSize: 10,
-        marginBottom: 20,
-        color: '#555',
+        fontSize: 12,
+        color: '#ef561e',
+        fontWeight: 'bold'
     },
-    infoContainer: {
-        marginBottom: 30,
+    documentInfo: {
+        backgroundColor: COLORS.lightGray,
+        padding: 15,
+        borderRadius: 5,
+        marginBottom: 25,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    infoLabel: {
+        fontWeight: 'bold',
+        color: COLORS.primary,
+        marginBottom: 3
+    },
+    infoValue: {
+        color: '#555'
+    },
+    gridContainer: {
+        flexDirection: 'row',
+        marginBottom: 25,
+        gap: 15
+    },
+    gridColumn: {
+        flex: 1
+    },
+    sectionTitle: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: COLORS.primary,
+        marginBottom: 10,
+        paddingBottom: 5,
+        borderBottomWidth: 1,
+        borderBottomColor: COLORS.border
     },
     infoRow: {
         flexDirection: 'row',
-        marginBottom: 10,
+        justifyContent: 'space-between',
+        marginBottom: 8,
+        paddingBottom: 8,
+        borderBottomWidth: 0.5,
+        borderBottomColor: COLORS.border
     },
-    infoLabel: {
-        width: '30%',
-        fontWeight: 'bold',
+    table: {
+        marginTop: 10
     },
-    infoValue: {
-        width: '70%',
+    tableRow: {
+        flexDirection: 'row',
+        borderBottomWidth: 1,
+        borderBottomColor: COLORS.border,
+        paddingVertical: 8
+    },
+    tableHeader: {
+        backgroundColor: COLORS.primary,
+        color: 'white',
+        fontWeight: 'bold'
+    },
+    tableCell: {
+        flex: 1,
+        paddingHorizontal: 5
     },
     signatureContainer: {
         marginTop: 50,
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
-    signatureLabel: {
-        marginBottom: 10,
+    signatureBox: {
+        width: '45%',
+        textAlign: 'center'
     },
     signatureLine: {
         borderBottomWidth: 1,
         borderBottomColor: '#000',
-        borderBottomStyle: 'solid',
-        width: '50%',
+        marginTop: 50,
+        width: '100%',
+        height: 40
     },
+    footer: {
+        position: 'absolute',
+        bottom: 30,
+        left: 40,
+        right: 40,
+        textAlign: 'center',
+        color: '#888',
+        fontSize: 9,
+        borderTopWidth: 1,
+        borderTopColor: COLORS.border,
+        paddingTop: 10
+    },
+    pageNumber: {
+        position: 'absolute',
+        bottom: 10,
+        left: 0,
+        right: 0,
+        textAlign: 'center',
+        fontSize: 10,
+        color: '#666'
+    }
 });
 
 interface DespachoPDFDocumentProps {
@@ -59,54 +156,115 @@ interface DespachoPDFDocumentProps {
 }
 
 export const DespachoPDFDocument = ({ despacho }: DespachoPDFDocumentProps) => {
-    // Formatear fecha para mostrar en el PDF
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
-        return date.toLocaleDateString();
+        return date.toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
     };
+
+    const currentDate = new Date().toLocaleDateString('es-ES');
 
     return (
         <Document>
             <Page size="A4" style={styles.page}>
+                {/* Encabezado */}
                 <View style={styles.header}>
                     <Image src={logo} style={styles.logo} />
-                    <Text style={styles.title}>Detalle de Despacho</Text>
-                    <Text style={styles.subtitle}>
-                        Información del despacho con ID: {despacho.id_movimiento}
-                    </Text>
+                    <View style={styles.companyInfo}>
+                        <Text>Croca Chips | Empresa de snacks</Text>
+                        <Text>Rio Seco, Zona Brasil, C. Puerto Alonso N°21123</Text>
+                        <Text>crocachips@gmail.com | crocachips.com</Text>
+                    </View>
                 </View>
 
-                <View style={styles.infoContainer}>
-                    <View style={styles.infoRow}>
-                        <Text style={styles.infoLabel}>ID del Despacho:</Text>
-                        <Text style={styles.infoValue}>{despacho.id_movimiento}</Text>
-                    </View>
+                {/* Título */}
+                <View style={styles.titleSection}>
+                    <Text style={styles.title}>COMPROBANTE DE DESPACHO</Text>
+                    <Text style={styles.subtitle}>Documento N°: {despacho.id_movimiento}</Text>
+                </View>
 
-                    <View style={styles.infoRow}>
-                        <Text style={styles.infoLabel}>Nombre del Vendedor:</Text>
-                        <Text style={styles.infoValue}>{despacho.vendedor_nombre}</Text>
+                {/* Información del documento */}
+                <View style={styles.documentInfo}>
+                    <View>
+                        <Text style={styles.infoLabel}>FECHA DE EMISIÓN</Text>
+                        <Text style={styles.infoValue}>{formatDate(currentDate)}</Text>
                     </View>
-
-                    <View style={styles.infoRow}>
-                        <Text style={styles.infoLabel}>Nombre del Producto:</Text>
-                        <Text style={styles.infoValue}>{despacho.producto_nombre}</Text>
-                    </View>
-
-                    <View style={styles.infoRow}>
-                        <Text style={styles.infoLabel}>Cantidad Despachada:</Text>
-                        <Text style={styles.infoValue}>{despacho.cantidad}</Text>
-                    </View>
-
-                    <View style={styles.infoRow}>
-                        <Text style={styles.infoLabel}>Fecha del Despacho:</Text>
+                    <View>
+                        <Text style={styles.infoLabel}>FECHA DE DESPACHO</Text>
                         <Text style={styles.infoValue}>{formatDate(despacho.fecha)}</Text>
                     </View>
+                    <View>
+                        <Text style={styles.infoLabel}>ESTADO</Text>
+                        <Text style={styles.infoValue}>Completado</Text>
+                    </View>
                 </View>
 
-                <View style={styles.signatureContainer}>
-                    <Text style={styles.signatureLabel}>Firma del responsable:</Text>
-                    <View style={styles.signatureLine}></View>
+                {/* Grid de información */}
+                <View style={styles.gridContainer}>
+                    {/* Columna 1 - Información general */}
+                    <View style={styles.gridColumn}>
+                        <Text style={styles.sectionTitle}>INFORMACIÓN GENERAL</Text>
+                        <View style={styles.infoRow}>
+                            <Text>ID Despacho:</Text>
+                            <Text>{despacho.id_movimiento}</Text>
+                        </View>
+                        <View style={styles.infoRow}>
+                            <Text>Vendedor:</Text>
+                            <Text>{despacho.vendedor_nombre}</Text>
+                        </View>
+                    </View>
+
+                    {/* Columna 2 - Información del producto */}
+                    <View style={styles.gridColumn}>
+                        <Text style={styles.sectionTitle}>DETALLE DEL PRODUCTO</Text>
+                        <View style={styles.infoRow}>
+                            <Text>Producto:</Text>
+                            <Text>{despacho.producto_nombre}</Text>
+                        </View>
+                        <View style={styles.infoRow}>
+                            <Text>Cantidad:</Text>
+                            <Text>{despacho.cantidad} unidades</Text>
+                        </View>
+                    </View>
                 </View>
+
+                {/* Tabla de resumen */}
+                <Text style={styles.sectionTitle}>RESUMEN DE DESPACHO</Text>
+                <View style={styles.table}>
+                    <View style={[styles.tableRow, styles.tableHeader]}>
+                        <Text style={styles.tableCell}>Vendedor</Text>
+                        <Text style={styles.tableCell}>Producto</Text>
+                        <Text style={styles.tableCell}>Cantidad</Text>
+                    </View>
+                    <View style={styles.tableRow}>
+                        <Text style={styles.tableCell}>{despacho.vendedor_nombre}</Text>
+                        <Text style={styles.tableCell}>{despacho.producto_nombre}</Text>
+                        <Text style={styles.tableCell}>{despacho.cantidad}</Text>
+                    </View>
+                </View>
+
+                {/* Firma */}
+                <View style={styles.signatureContainer}>
+                    <View style={styles.signatureBox}>
+                        <Text>Vendedor Responsable:</Text>
+                        <View style={styles.signatureLine} />
+                        <Text style={{ marginTop: 10, fontSize: 9 }}>Nombre y Firma</Text>
+                    </View>
+                </View>
+
+                {/* Pie de página */}
+                <View style={styles.footer}>
+                    <Text>Este documento es válido como comprobante de despacho oficial</Text>
+                    <Text>Proceso generado automáticamente el {currentDate}</Text>
+                </View>
+
+                {/* Número de página */}
+                <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (
+                    `Página ${pageNumber} de ${totalPages}`
+                )} fixed />
             </Page>
         </Document>
     );
