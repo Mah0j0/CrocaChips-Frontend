@@ -111,6 +111,7 @@ export default function RecepcionesPage() {
                 Agregar Recepción
               </Button>
               {/* Modal de agregar producto */}
+              <CreateRecepcionModal />
             </div>
           </div>
           {/* Tabla */}
@@ -155,7 +156,7 @@ export default function RecepcionesPage() {
                     </p>
                   </TableCell>
                   {/* Acciones */}
-                  <TableCell className="p-4 py-5 sm:px-6">
+                  <TableCell className="p-4 py-5 sm:px-7">
                     <button
                       onClick={() => openModal("editRecepcion", recepcion)}
                       className="text-gray-400 hover:text-gray-600"
@@ -195,7 +196,6 @@ export default function RecepcionesPage() {
         </ComponentCard>
       </div>
       {/* Modales */}
-      <CreateRecepcionModal />
       <EditRecepcionModal />
     </div>
   );

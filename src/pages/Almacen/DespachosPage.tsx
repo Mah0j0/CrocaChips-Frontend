@@ -7,7 +7,7 @@ import { useDespachos } from "../../entities/movimientos";
 import { useModalContext } from "../../app/providers/ModalContext.tsx";
 import CreateDespachoModal from "../../features/despachos/create-despacho/ui/CreateDespachoModal.tsx";
 import EditDespachoModal from "../../features/despachos/edit-despacho/ui/EditDespachoModal.tsx";
-
+import { PrintDespachoButton } from "../../features/despachos/print-despacho";
 //Para filtros
 //import { estados } from "../../data";
 //import Select from "../../components/form/Select.tsx";
@@ -163,14 +163,17 @@ export default function DespachosPage() {
                     </p>
                   </TableCell>
                   {/* Acciones */}
-                  <TableCell className="p-4 py-5 sm:px-6">
-                    <button
-                      onClick={() => openModal("editDespacho", despacho)}
-                      className="text-gray-400 hover:text-gray-600"
-                      title="Más opciones"
-                    >
-                      <HorizontaLDots className="w-7 h-7" />
-                    </button>
+                  <TableCell className="p-4 py-5 sm:px-3">
+                    <div className="flex items-center">
+                      <button
+                        onClick={() => openModal("editDespacho", despacho)}
+                        className="text-gray-400 hover:text-gray-600 mr-2"
+                        title="Editar"
+                      >
+                        <HorizontaLDots className="w-7 h-7" />
+                      </button>
+                      <PrintDespachoButton despacho={despacho} />
+                    </div>
                   </TableCell>
                 </>
               )}
