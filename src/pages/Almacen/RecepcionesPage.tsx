@@ -111,6 +111,7 @@ export default function RecepcionesPage() {
                 Agregar Recepción
               </Button>
               {/* Modal de agregar producto */}
+              <CreateRecepcionModal />
             </div>
           </div>
           {/* Tabla */}
@@ -195,7 +196,6 @@ export default function RecepcionesPage() {
         </ComponentCard>
       </div>
       {/* Modales */}
-      <CreateRecepcionModal />
       <EditRecepcionModal />
     </div>
   );
