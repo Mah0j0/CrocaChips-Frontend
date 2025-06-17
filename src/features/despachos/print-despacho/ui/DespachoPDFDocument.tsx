@@ -156,8 +156,12 @@ interface DespachoPDFDocumentProps {
 }
 
 export const DespachoPDFDocument = ({ despacho }: DespachoPDFDocumentProps) => {
-    const formatDate = (dateString: string) => {
-        const date = new Date(dateString);
+    // Función de formateo consistente para todas las fechas
+    const formatDate = (dateInput: string | Date) => {
+        const date = typeof dateInput === 'string'
+            ? new Date(dateInput)
+            : dateInput;
+
         return date.toLocaleDateString('es-ES', {
             year: 'numeric',
             month: 'long',
@@ -165,7 +169,8 @@ export const DespachoPDFDocument = ({ despacho }: DespachoPDFDocumentProps) => {
         });
     };
 
-    const currentDate = new Date().toLocaleDateString('es-ES');
+    const currentDate = formatDate(new Date());
+    const fechaDespacho = formatDate(despacho.fecha);
 
     return (
         <Document>
@@ -190,11 +195,11 @@ export const DespachoPDFDocument = ({ despacho }: DespachoPDFDocumentProps) => {
                 <View style={styles.documentInfo}>
                     <View>
                         <Text style={styles.infoLabel}>FECHA DE EMISIÓN</Text>
-                        <Text style={styles.infoValue}>{formatDate(currentDate)}</Text>
+                        <Text style={styles.infoValue}>{currentDate}</Text>
                     </View>
                     <View>
                         <Text style={styles.infoLabel}>FECHA DE DESPACHO</Text>
-                        <Text style={styles.infoValue}>{formatDate(despacho.fecha)}</Text>
+                        <Text style={styles.infoValue}>{fechaDespacho}</Text>
                     </View>
                     <View>
                         <Text style={styles.infoLabel}>ESTADO</Text>

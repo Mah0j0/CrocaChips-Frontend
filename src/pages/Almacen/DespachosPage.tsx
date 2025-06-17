@@ -163,7 +163,7 @@ export default function DespachosPage() {
                     </p>
                   </TableCell>
                   {/* Acciones */}
-                  <TableCell className="p-4 py-5 sm:px-6">
+                  <TableCell className="p-4 py-5 sm:px-3">
                     <div className="flex items-center">
                       <button
                         onClick={() => openModal("editDespacho", despacho)}
