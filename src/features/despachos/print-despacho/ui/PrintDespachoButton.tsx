@@ -11,18 +11,20 @@ type Props = {
 
 export const PrintDespachoButton: React.FC<Props> = ({ despacho }) => {
     return (
-        <Button 
-            size="sm" 
-            variant="outline"
-            startIcon={<FilePdfIcon className="h-5 w-5" />}
-            className="mr-2"
+        <PDFDownloadLink
+            document={<DespachoPDFDocument despacho={despacho} />}
+            fileName={`despacho_${despacho.id_movimiento}_${new Date().toISOString().split('T')[0]}.pdf`}
         >
-            <PDFDownloadLink
-                document={<DespachoPDFDocument despacho={despacho} />}
-                fileName={`despacho_${despacho.id_movimiento}_${new Date().toISOString().split('T')[0]}.pdf`}
-            >
-                {({ loading }) => (loading ? 'Preparando...' : 'PDF')}
-            </PDFDownloadLink>
-        </Button>
+            {({ loading }) => (
+                <Button
+                    size="sm"
+                    variant="outline"
+                    startIcon={<FilePdfIcon className="h-5 w-5" />}
+                    className="mr-2"
+                    disabled={loading}
+                >
+                </Button>
+            )}
+        </PDFDownloadLink>
     );
 };
