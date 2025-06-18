@@ -151,23 +151,30 @@ const styles = StyleSheet.create({
     }
 });
 
+const numero = (num: number) => {
+    return String(num).padStart(4, '0');
+};
+
 interface DespachoPDFDocumentProps {
     despacho: Movimiento;
+    valor?: number;
+    precio_unitario?: number;
 }
 
-export const DespachoPDFDocument = ({ despacho }: DespachoPDFDocumentProps) => {
+export const DespachoPDFDocument = ({ despacho, valor, precio_unitario }: DespachoPDFDocumentProps) => {
     // Función de formateo consistente para todas las fechas
     const formatDate = (dateInput: string | Date) => {
-        const date = typeof dateInput === 'string'
-            ? new Date(dateInput)
-            : dateInput;
+    const date = typeof dateInput === 'string'
+        ? new Date(dateInput + 'T00:00:00')  // Evita el desfase UTC
+        : dateInput;
 
-        return date.toLocaleDateString('es-ES', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
-    };
+    return date.toLocaleDateString('es-ES', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+};
+
 
     const currentDate = formatDate(new Date());
     const fechaDespacho = formatDate(despacho.fecha);
@@ -188,7 +195,7 @@ export const DespachoPDFDocument = ({ despacho }: DespachoPDFDocumentProps) => {
                 {/* Título */}
                 <View style={styles.titleSection}>
                     <Text style={styles.title}>COMPROBANTE DE DESPACHO</Text>
-                    <Text style={styles.subtitle}>Documento N°: {despacho.id_movimiento}</Text>
+                    <Text style={styles.subtitle}>Documento N°: {numero(despacho.id_movimiento)}</Text>
                 </View>
 
                 {/* Información del documento */}
@@ -243,11 +250,15 @@ export const DespachoPDFDocument = ({ despacho }: DespachoPDFDocumentProps) => {
                         <Text style={styles.tableCell}>Vendedor</Text>
                         <Text style={styles.tableCell}>Producto</Text>
                         <Text style={styles.tableCell}>Cantidad</Text>
+                        <Text style={styles.tableCell}>Precio Unitario</Text>
+                        <Text style={styles.tableCell}>Valor</Text>
                     </View>
                     <View style={styles.tableRow}>
                         <Text style={styles.tableCell}>{despacho.vendedor_nombre}</Text>
                         <Text style={styles.tableCell}>{despacho.producto_nombre}</Text>
                         <Text style={styles.tableCell}>{despacho.cantidad}</Text>
+                        <Text style={styles.tableCell}>Bs. {precio_unitario}</Text>
+                        <Text style={styles.tableCell}>Bs. {valor}</Text>
                     </View>
                 </View>
 
@@ -266,10 +277,6 @@ export const DespachoPDFDocument = ({ despacho }: DespachoPDFDocumentProps) => {
                     <Text>Proceso generado automáticamente el {currentDate}</Text>
                 </View>
 
-                {/* Número de página */}
-                <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (
-                    `Página ${pageNumber} de ${totalPages}`
-                )} fixed />
             </Page>
         </Document>
     );

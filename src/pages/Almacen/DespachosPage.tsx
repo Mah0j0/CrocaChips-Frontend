@@ -3,6 +3,7 @@ import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb.tsx";
 import PageMeta from "../../shared/ui/common/PageMeta.tsx";
 //Despachos
 import { useDespachos } from "../../entities/movimientos";
+import { useProducts } from "../../entities/productos/index.ts";
 //Modals
 import { useModalContext } from "../../app/providers/ModalContext.tsx";
 import CreateDespachoModal from "../../features/despachos/create-despacho/ui/CreateDespachoModal.tsx";
@@ -25,6 +26,7 @@ import { TableCell } from "../../shared/ui/table";
 export default function DespachosPage() {
   const { openModal } = useModalContext(); //abrir el modal
   const { data, isLoading, isError } = useDespachos(); //Traer los despachos de la API 
+  const { data: productos } = useProducts();
   const [filtro, setFiltro] = useState(""); //filtrar los despachos,
   //const [estadoSeleccionado, setEstadoSeleccionado] = useState<string>("true"); 
   const [paginaActual, setPaginaActual] = useState(1);
@@ -76,6 +78,12 @@ export default function DespachosPage() {
         .toLowerCase()
         .includes(filtro.toLowerCase())
     )
+
+  const obtenerPrecioUnitario = (nombreProducto: string) => {
+    const producto = productos?.find(p => p.nombre === nombreProducto);
+    return producto ? producto.precio_unitario : 0;
+  }
+
 
   //Paginación
   const indiceInicio = (paginaActual - 1) * elementosPorPagina;
@@ -137,6 +145,7 @@ export default function DespachosPage() {
               data={despachosPaginados}
               getKey={(despacho) => despacho.id_movimiento}
               renderRow={(despacho) => (
+
                 <>
                   {/* Vendedor */}
                   <TableCell className="p-4 py-5 sm:px-6">
@@ -172,7 +181,13 @@ export default function DespachosPage() {
                       >
                         <HorizontaLDots className="w-7 h-7" />
                       </button>
-                      <PrintDespachoButton despacho={despacho} />
+                      <PrintDespachoButton
+                        despacho={{
+                          ...despacho,
+                          valor: despacho.cantidad * obtenerPrecioUnitario(despacho.producto_nombre),
+                          precio_unitario: obtenerPrecioUnitario(despacho.producto_nombre)
+                        }}
+                      />
                     </div>
                   </TableCell>
                 </>
