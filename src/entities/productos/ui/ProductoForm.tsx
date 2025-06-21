@@ -92,6 +92,7 @@ export default function ProductoForm({
                         render={({ field }) => (
                             <Select
                                 {...field}
+                                defaultValue={field.value ? String(field.value) : ""}
                                 disabled={isDisabled("tiempo_vida")}
                                 options={[
                                     { value: "1", label: "1 Mes" },
