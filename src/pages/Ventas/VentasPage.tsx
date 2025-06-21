@@ -37,9 +37,38 @@ export default function VentasPage() {
         return fechaInicio !== null && fechaFin !== null;
     };
 
+    // Validación de fechas y existencia de ventas
+    const validarFechasYVentas = () => {
+        if (!validarFechasSeleccionadas()) {
+            return false;
+        }
+        // Verificar si hay ventas en el rango de fechas
+        const ventasEnRango = (data ?? []).filter((venta) => {
+            const ventaDate = new Date(venta.fecha);
+            // Solo se seleccionó una fecha
+            if (fechaInicio && (!fechaFin || fechaInicio.getTime() === fechaFin.getTime())) {
+                const nextDayStart = new Date(fechaInicio);
+                nextDayStart.setDate(nextDayStart.getDate() - 1);
+                nextDayStart.setHours(0, 0, 0, 0);
+                const nextDayEnd = new Date(nextDayStart);
+                nextDayEnd.setHours(23, 59, 59, 999);
+                return ventaDate >= nextDayStart && ventaDate <= nextDayEnd;
+            }
+            // Se seleccionó ambas fechas
+            if (fechaInicio && fechaFin) {
+                const adjustedFechaInicio = new Date(fechaInicio);
+                adjustedFechaInicio.setDate(adjustedFechaInicio.getDate() - 1);
+                adjustedFechaInicio.setHours(0, 0, 0, 0);
+                return ventaDate >= adjustedFechaInicio && ventaDate <= fechaFin;
+            }
+            return false;
+        });
+        return ventasEnRango.length > 0;
+    };
+
     // Imprimir reporte
     const handlePrintClick = () => {
-        if (validarFechasSeleccionadas()) {
+        if (validarFechasYVentas()) {
             openModal("printVenta");
         }
     };
@@ -136,10 +165,10 @@ export default function VentasPage() {
                         print={
                             <Button
                                 size="sm"
-                                variant={validarFechasSeleccionadas() ? "primary" : "outline"}
+                                variant={validarFechasYVentas() ? "primary" : "outline"}
                                 startIcon={<PrintIcon className="size-5" />}
                                 onClick={handlePrintClick}
-                                disabled={!validarFechasSeleccionadas()}
+                                disabled={!validarFechasYVentas()}
                             >
                             </Button>
                         }
