@@ -32,6 +32,27 @@ export default function VentasPage() {
         openModal("detalleVenta"); // Abre el modal
     };
 
+    // Validación de fechas
+    const validarFechasSeleccionadas = () => {
+        return fechaInicio !== null && fechaFin !== null;
+    };
+
+    // Imprimir reporte
+    const handlePrintClick = () => {
+        if (validarFechasSeleccionadas()) {
+            openModal("printVenta");
+        }
+    };
+
+    // Cambio de fecha de inicio
+    const handleFechaInicioChange = (fecha: Date | null) => {
+        setFechaInicio(fecha);
+    };
+
+    // Cambio de fecha fin
+    const handleFechaFinChange = (fecha: Date | null) => {
+        setFechaFin(fecha);
+    };
 
     if (isLoading) return (<LoadData message={"Ventas"} />);
 
@@ -109,15 +130,16 @@ export default function VentasPage() {
                         estado={estadoSeleccionado}
                         fechaInicio={fechaInicio}
                         fechaFin={fechaFin}
-                        setFechaInicio={setFechaInicio}
-                        setFechaFin={setFechaFin}
+                        setFechaInicio={handleFechaInicioChange}
+                        setFechaFin={handleFechaFinChange}
                         onEstadoChange={setEstadoSeleccionado}
                         print={
                             <Button
                                 size="sm"
-                                variant="primary"
+                                variant={validarFechasSeleccionadas() ? "primary" : "outline"}
                                 startIcon={<PrintIcon className="size-5" />}
-                                onClick={() => openModal("printVenta")} // Abre modal de impresión
+                                onClick={handlePrintClick}
+                                disabled={!validarFechasSeleccionadas()}
                             >
                             </Button>
                         }
