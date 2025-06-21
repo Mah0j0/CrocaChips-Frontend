@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useModalContext } from "../../app/providers/ModalContext";
-import {useEmpleados} from "../../entities/empleados";
-import {LoadData} from "../Plantilla/OtherPage/LoadData.tsx";
+import { useEmpleados } from "../../entities/empleados";
+import { LoadData } from "../Plantilla/OtherPage/LoadData.tsx";
 import ComponentCard from "../../shared/ui/common/ComponentCard.tsx";
 import Alert from "../../shared/ui/alert/Alert.tsx";
 import PageMeta from "../../shared/ui/common/PageMeta.tsx";
 import PageBreadcrumb from "../../shared/ui/common/PageBreadCrumb.tsx";
-import { EmpleadoFilters, EmpleadoTable, CreateEmpleadoModal,EditEmpleadoModal} from '../../features/empleados'
+import { EmpleadoFilters, EmpleadoTable, CreateEmpleadoModal, EditEmpleadoModal } from '../../features/empleados'
 import Button from "../../shared/ui/button/Button.tsx";
-import {GroupIcon} from "../../shared/icons";
-import {Pagination} from "../../shared/ui/table/Pagination.tsx";
+import { GroupIcon } from "../../shared/icons";
+import { Pagination } from "../../shared/ui/table/Pagination.tsx";
 
 export default function EmpleadosPage() {
     const { openModal } = useModalContext();
@@ -72,7 +72,7 @@ export default function EmpleadosPage() {
                                 onClick={() => openModal("createEmpleado")}
                                 endIcon={<GroupIcon className="size-5" />}
                             >
-                                Nuevo Usuario
+                                Nuevo Empleado
                             </Button>
                         }
                     />
