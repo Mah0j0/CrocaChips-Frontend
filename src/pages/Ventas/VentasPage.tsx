@@ -131,6 +131,7 @@ export default function VentasPage() {
                 return ventaDate >= adjustedFechaInicio && ventaDate <= fechaFin;
             }
         })
+        .sort((a, b) => b.id_venta - a.id_venta); // Ordenación descendente por ID
 
     // Paginación
     const indiceInicio = (paginaActual - 1) * elementosPorPagina;
