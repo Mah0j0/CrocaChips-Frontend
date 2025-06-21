@@ -32,6 +32,56 @@ export default function VentasPage() {
         openModal("detalleVenta"); // Abre el modal
     };
 
+    // Validación de fechas
+    const validarFechasSeleccionadas = () => {
+        return fechaInicio !== null && fechaFin !== null;
+    };
+
+    // Validación de fechas y existencia de ventas
+    const validarFechasYVentas = () => {
+        if (!validarFechasSeleccionadas()) {
+            return false;
+        }
+        // Verificar si hay ventas en el rango de fechas
+        const ventasEnRango = (data ?? []).filter((venta) => {
+            const ventaDate = new Date(venta.fecha);
+            // Solo se seleccionó una fecha
+            if (fechaInicio && (!fechaFin || fechaInicio.getTime() === fechaFin.getTime())) {
+                const nextDayStart = new Date(fechaInicio);
+                nextDayStart.setDate(nextDayStart.getDate() - 1);
+                nextDayStart.setHours(0, 0, 0, 0);
+                const nextDayEnd = new Date(nextDayStart);
+                nextDayEnd.setHours(23, 59, 59, 999);
+                return ventaDate >= nextDayStart && ventaDate <= nextDayEnd;
+            }
+            // Se seleccionó ambas fechas
+            if (fechaInicio && fechaFin) {
+                const adjustedFechaInicio = new Date(fechaInicio);
+                adjustedFechaInicio.setDate(adjustedFechaInicio.getDate() - 1);
+                adjustedFechaInicio.setHours(0, 0, 0, 0);
+                return ventaDate >= adjustedFechaInicio && ventaDate <= fechaFin;
+            }
+            return false;
+        });
+        return ventasEnRango.length > 0;
+    };
+
+    // Imprimir reporte
+    const handlePrintClick = () => {
+        if (validarFechasYVentas()) {
+            openModal("printVenta");
+        }
+    };
+
+    // Cambio de fecha de inicio
+    const handleFechaInicioChange = (fecha: Date | null) => {
+        setFechaInicio(fecha);
+    };
+
+    // Cambio de fecha fin
+    const handleFechaFinChange = (fecha: Date | null) => {
+        setFechaFin(fecha);
+    };
 
     if (isLoading) return (<LoadData message={"Ventas"} />);
 
@@ -81,6 +131,7 @@ export default function VentasPage() {
                 return ventaDate >= adjustedFechaInicio && ventaDate <= fechaFin;
             }
         })
+        .sort((a, b) => b.id_venta - a.id_venta); // Ordenación descendente por ID
 
     // Paginación
     const indiceInicio = (paginaActual - 1) * elementosPorPagina;
@@ -109,15 +160,16 @@ export default function VentasPage() {
                         estado={estadoSeleccionado}
                         fechaInicio={fechaInicio}
                         fechaFin={fechaFin}
-                        setFechaInicio={setFechaInicio}
-                        setFechaFin={setFechaFin}
+                        setFechaInicio={handleFechaInicioChange}
+                        setFechaFin={handleFechaFinChange}
                         onEstadoChange={setEstadoSeleccionado}
                         print={
                             <Button
                                 size="sm"
-                                variant="primary"
+                                variant={validarFechasYVentas() ? "primary" : "outline"}
                                 startIcon={<PrintIcon className="size-5" />}
-                                onClick={() => openModal("printVenta")} // Abre modal de impresión
+                                onClick={handlePrintClick}
+                                disabled={!validarFechasYVentas()}
                             >
                             </Button>
                         }

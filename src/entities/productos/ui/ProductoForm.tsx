@@ -19,17 +19,19 @@ type Props = {
     disabledFields?: (keyof ProductosCreate)[];
     schema?: ZodSchema;
     children?: React.ReactNode;
+    hideStock?: boolean;
 };
 
 export default function ProductoForm({
-                                         onSubmit,
-                                         defaultValues = {},
-                                         isSubmitting = false,
-                                         onCancel,
-                                         disabledFields = [],
-                                         children,
-                                         schema = productoSchema,
-                                     }: Props) {
+    onSubmit,
+    defaultValues = {},
+    isSubmitting = false,
+    onCancel,
+    disabledFields = [],
+    children,
+    schema = productoSchema,
+    hideStock = false,
+}: Props) {
     const {
         register,
         handleSubmit,
@@ -70,15 +72,17 @@ export default function ProductoForm({
                     disabled={isDisabled("descripcion")}
                 />
 
-                <FormField
-                    label="Stock"
-                    name="stock"
-                    type="number"
-                    register={register}
-                    errors={errors}
-                    disabled={isDisabled("stock")}
-                    step={1}
-                />
+                {!hideStock && (
+                    <FormField
+                        label="Stock"
+                        name="stock"
+                        type="number"
+                        register={register}
+                        errors={errors}
+                        disabled={isDisabled("stock")}
+                        step={1}
+                    />
+                )}
 
                 <div>
                     <Label>Tiempo de vida</Label>
@@ -88,6 +92,7 @@ export default function ProductoForm({
                         render={({ field }) => (
                             <Select
                                 {...field}
+                                defaultValue={field.value ? String(field.value) : ""}
                                 disabled={isDisabled("tiempo_vida")}
                                 options={[
                                     { value: "1", label: "1 Mes" },

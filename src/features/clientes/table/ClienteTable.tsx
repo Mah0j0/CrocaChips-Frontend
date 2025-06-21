@@ -1,10 +1,9 @@
-import {useModalContext} from "../../../app/providers/ModalContext.tsx";
-import {TableCell} from "../../../shared/ui/table";
+import { useModalContext } from "../../../app/providers/ModalContext.tsx";
+import { TableCell } from "../../../shared/ui/table";
 // import Badge from "../../../shared/ui/badge/Badge.tsx";
-import Button from "../../../shared/ui/button/Button.tsx";
-import {MoreDotIcon} from "../../../shared/icons";
+import { HorizontaLDots } from "../../../shared/icons";
 import BasicTableOne from "../../../shared/ui/table/BasicTableOne.tsx";
-import {Cliente} from "../../../entities/clientes";
+import { Cliente } from "../../../entities/clientes";
 
 type Props = {
     clientes: Cliente[];
@@ -12,7 +11,7 @@ type Props = {
 
 export default function ClienteTable({ clientes }: Props) {
     const { openModal } = useModalContext();
-    const headers = ["Nombre", "Carnet", "Dirección", "Telefono", ""];
+    const headers = ["Nombre", "Carnet", "Dirección", "Telefono", "Acciones"];
 
     return (
         <BasicTableOne
@@ -55,13 +54,14 @@ export default function ClienteTable({ clientes }: Props) {
                     {/*        {cliente.habilitado ? "Habilitado" : "Deshabilitado"}*/}
                     {/*    </Badge>*/}
                     {/*</TableCell>*/}
-                    <TableCell>
-                        <Button
-                            endIcon={<MoreDotIcon className="size-5" />}
-                            size="md"
-                            variant="outline"
+                    <TableCell className="p-4 py-5 sm:px-7">
+                        <button
                             onClick={() => openModal("editCliente", cliente)}
-                        />
+                            className="text-gray-400 hover:text-gray-600"
+                            title="Editar cliente"
+                        >
+                            <HorizontaLDots className="w-7 h-7" />
+                        </button>
                     </TableCell>
                 </>
             )}

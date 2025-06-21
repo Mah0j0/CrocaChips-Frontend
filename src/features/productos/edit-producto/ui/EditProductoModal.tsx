@@ -1,16 +1,16 @@
 import React from "react";
-import {useModalContext} from "../../../../app/providers/ModalContext.tsx";
-import {Producto, ProductoForm} from "../../../../entities/productos";
-import {Modal} from "../../../../shared/ui/modal";
+import { useModalContext } from "../../../../app/providers/ModalContext.tsx";
+import { Producto, ProductoForm } from "../../../../entities/productos";
+import { Modal } from "../../../../shared/ui/modal";
 import { productoCreateSchema } from "../model/schema.ts";
-import { default as DeleteButton} from "../../delete-producto";
-import {useEditProducto} from "../hooks/useEditProducto.ts";
+import { default as DeleteButton } from "../../delete-producto";
+import { useEditProducto } from "../hooks/useEditProducto.ts";
 
 
 function EditProductoModal() {
     const { modals, closeModal, selectedData } = useModalContext();
     const isOpen = modals["editProducto"];
-    const data:Producto = selectedData;
+    const data: Producto = selectedData;
 
     const { mutate, isPending } = useEditProducto(() => {
         closeModal("editProducto");
@@ -43,6 +43,7 @@ function EditProductoModal() {
                     defaultValues={data}
                     isSubmitting={isPending}
                     onCancel={() => closeModal("editProducto")}
+                    hideStock={true}
                     children={
                         <DeleteButton
                             producto={data}

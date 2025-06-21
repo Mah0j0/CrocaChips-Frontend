@@ -1,6 +1,6 @@
 import React from "react";
 import { Empleado } from "../../../../entities/empleados";
-import {useDeleteEmpleado} from "../hooks/useDeleteEmpleado";
+import { useDeleteEmpleado } from "../hooks/useDeleteEmpleado";
 import Button from "../../../../shared/ui/button/Button";
 
 type Props = {
@@ -27,6 +27,7 @@ function DeleteEmpleadoButton({ empleado, onSuccess }: Props) {
             size="sm"
             onClick={handleDelete}
             disabled={isDeleting}
+            className="px-5 text-red-600 hover:text-red-800 border-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:border-red-400 dark:hover:bg-red-900/20"
         >
             {isDeleting ? "Eliminando..." : "Eliminar"}
         </Button>
