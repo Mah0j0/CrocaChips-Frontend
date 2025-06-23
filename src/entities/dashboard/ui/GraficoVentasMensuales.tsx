@@ -27,7 +27,7 @@ export default function GraficoVentas() {
         chart: {
             fontFamily: "Outfit, sans-serif",
             type: "bar",
-            height: 180,
+            height: 300,
             animations: { enabled: true, easing: 'easeinout' },
             toolbar: {
                 show: true,
@@ -107,7 +107,7 @@ export default function GraficoVentas() {
                 formatter: (val: number) => `Bs ${val.toLocaleString()}`,
                 title: { formatter: () => 'Ventas:' }
             },
-            theme: 'dark'
+            theme: 'light'
         },
         responsive: [{
             breakpoint: 768,

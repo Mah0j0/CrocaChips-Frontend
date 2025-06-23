@@ -90,3 +90,76 @@ src/
    ```bash
    npm run dev
    ```
+
+📊 DASHBOARDS RECOMENDADOS
+🔹 1. Dashboard de Ventas
+KPIs:
+✅ Total de ventas del mes / semana
+
+📈 Tendencia de ventas por fecha
+
+🧍‍♂️ Ventas por vendedor
+
+🛍️ Productos más vendidos (por cantidad y por monto)
+
+🧾 Ticket promedio = Total ventas / número de ventas
+
+🧑‍🤝‍🧑 Clientes frecuentes (mayor cantidad de compras)
+
+Gráficos sugeridos:
+Línea temporal de ventas (por día/semana/mes)
+
+Barras horizontales: Top 10 productos
+
+Pie chart: Participación por vendedor
+
+🔹 2. Dashboard de Inventario
+KPIs:
+📦 Stock actual por producto
+
+🆕 Productos recién producidos (últimos lotes)
+
+⚠️ Productos con bajo stock
+
+♻️ Días promedio para agotar stock
+
+📤 Movimientos de salida (ventas)
+
+📥 Movimientos de entrada (producción)
+
+Gráficos sugeridos:
+Barras apiladas: Movimientos (entradas/salidas) por producto
+
+Tabla: Productos con menor stock
+
+Línea de tiempo: Evolución del inventario por producto
+
+🔹 3. Dashboard de Producción
+KPIs:
+🏭 Total producido en el mes
+
+🕒 Tiempo promedio entre producciones
+
+📅 Productos producidos por fecha
+
+🚨 Diferencia entre producción y ventas (¿sobrestock o falta?)
+
+Gráficos sugeridos:
+Línea temporal: Cantidad producida por día
+
+Tabla: Comparativa entre producción y ventas por producto
+
+🔹 4. Dashboard de Clientes
+KPIs:
+👥 Total de clientes activos
+
+📈 Nuevos clientes por mes
+
+💸 Clientes con mayor volumen de compra
+
+⏱️ Tiempo promedio entre compras
+
+Gráficos sugeridos:
+Tabla: Clientes con más compras
+
+Gráfico de barras: Nuevos clientes por mes

@@ -2,6 +2,8 @@ import PageMeta from "../../shared/ui/common/PageMeta";
 import BannerDashboard from "../../shared/ui/common/BannerDashboard";
 import InfoCards from "../../entities/dashboard/ui/infoCards.tsx";
 import GraficoVentasMensuales from "../../entities/dashboard/ui/GraficoVentasMensuales.tsx";
+import VentasDashboard from "../../entities/dashboard/ui/VentasDashboard.tsx";
+import ProyeccionProductos from "../../entities/dashboard/ui/proyeccion/ProyeccionProductos.tsx";
 export default function Home() {
   return (
     <>
@@ -20,6 +22,13 @@ export default function Home() {
         <div className="col-span-12 xl:col-span-7">
           <GraficoVentasMensuales/>
         </div>
+
+          <div className="col-span-12 xl:col-span-12">
+              <VentasDashboard/>
+          </div>
+          <div className="col-span-12 xl:col-span-12">
+              <ProyeccionProductos/>
+          </div>
       </div>
     </>
   );
