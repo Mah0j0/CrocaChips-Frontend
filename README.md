@@ -1,165 +1,151 @@
-# TailAdmin React
+# 🚀 Sistema de Gestión de Inventarios para Croca Chips
 
-Panel de administración moderno construido con **React 19**, **Vite**, **Tailwind CSS** y una variedad de librerías especializadas para gráficos, formularios, calendarios y más.
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white) ![React Query](https://img.shields.io/badge/React_Query-FF4154?style=for-the-badge&logo=reactquery&logoColor=white) ![Zod](https://img.shields.io/badge/Zod-3E67B1?style=for-the-badge&logo=zod&logoColor=white) ![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white)
 
-## 🚀 Características principales
+![Banner del Proyecto](home.png)
 
-- Interfaz moderna y responsiva con Tailwind CSS.
-- Manejo de formularios con `react-hook-form`.
-- Peticiones HTTP con `axios` y manejo de datos con `react-query`.
-- Gráficas dinámicas con ApexCharts.
-- Calendarios interactivos con FullCalendar.
-- Soporte para drag and drop, subida de archivos y notificaciones.
-- Enrutamiento con `react-router`.
-- Arquitectura modular y optimizada para producción con Vite.
+## 📝 Descripción del Proyecto
 
-## 📦 Tecnologías y librerías usadas
+Este proyecto es el frontend de un sistema integral de gestión de inventarios diseñado específicamente para la empresa "Croca Chips". 🥔 Desarrollado con **React** y **TypeScript**, sigue una arquitectura modular y escalable basada en **Feature-Sliced Design (FSD)**. El sistema permite a Croca Chips administrar eficientemente sus productos, inventario, clientes, empleados y ventas, optimizando los flujos de trabajo internos y proporcionando una visión clara de las operaciones. Su objetivo es mejorar la eficiencia y la toma de decisiones en la gestión de stock y recursos.
 
-### Dependencias principales
+## ✨ Características Principales
 
-| Librería                        | Propósito                                      |
-|--------------------------------|------------------------------------------------|
-| `react` / `react-dom`          | Librería principal para UI                     |
-| `react-router`                 | Enrutamiento SPA                               |
-| `axios`                        | Cliente HTTP                                   |
-| `@tanstack/react-query`        | Manejo de peticiones y caché de datos          |
-| `react-hook-form`             | Formularios con validación                     |
-| `react-toastify`               | Notificaciones                                 |
-| `flatpickr`                    | Selector de fechas                             |
-| `@fullcalendar/*`             | Calendario interactivo                         |
-| `apexcharts` / `react-apexcharts` | Gráficos y visualización de datos         |
-| `@react-jvectormap/*`         | Mapas interactivos                             |
-| `react-dnd` / `react-dnd-html5-backend` | Drag & drop                         |
-| `react-dropzone`              | Subida de archivos                             |
-| `react-helmet-async`          | Manipulación del head (SEO, meta tags, etc.)   |
-| `swiper`                      | Carruseles y sliders                           |
-| `clsx`                        | Utilidad para clases condicionales             |
-| `tailwind-merge`              | Combinar clases Tailwind sin conflictos        |
+Este sistema ofrece un conjunto robusto de funcionalidades para una gestión completa:
 
-### Herramientas de desarrollo
+*   **📦 Gestión de Productos:** Agrega, edita, elimina y gestiona el stock de todos los productos de Croca Chips.
+*   **👥 Gestión de Clientes:** Mantén una base de datos completa de clientes con opciones CRUD (Crear, Leer, Actualizar, Eliminar).
+*   **👨‍💼 Gestión de Empleados:** Administra la información detallada del personal de la empresa.
+*   **📊 Gestión de Inventario:**
+    *   **📤 Despachos:** Registra y sigue las salidas de productos del almacén.
+    *   **📥 Recepciones:** Registra y gestiona las entradas de nuevos productos o devoluciones.
+    *   **🏷️ Control de Lotes:** Gestión detallada del inventario por lotes de productos.
+*   **💰 Gestión de Ventas:** Registra y haz seguimiento de todas las transacciones de venta.
+*   **🔒 Autenticación Segura:** Acceso protegido mediante inicio de sesión con JSON Web Tokens (JWT).
+*   **🎨 Interfaz de Usuario Intuitiva:** Diseño moderno y fácil de usar, con componentes reutilizables y una experiencia de usuario fluida.
+*   **📈 Dashboards y Reportes:** Visualiza datos clave a través de gráficos interactivos (barras, líneas) para una toma de decisiones informada sobre inventario y ventas.
+*   **🌙 Temas Personalizables:** Soporte para cambiar entre diferentes temas de interfaz, mejorando la experiencia visual del usuario.
 
-| Herramienta                    | Uso                                             |
-|-------------------------------|--------------------------------------------------|
-| `vite`                        | Bundler ultrarrápido                            |
-| `typescript`                  | Tipado estático                                 |
-| `eslint`                      | Linter de código                                |
-| `tailwindcss`                 | Estilos utilitarios                             |
-| `vite-plugin-svgr`           | Importar SVG como componentes React             |
+## ⚙️ Requisitos Previos
 
-## 📂 Estructura del proyecto (resumida)
+Antes de ejecutar este proyecto, asegúrate de tener instalado lo siguiente en tu entorno de desarrollo:
 
+*   **Node.js:** Versión 18 o superior. Puedes descargarlo desde [nodejs.org](https://nodejs.org/).
+*   **npm** o **Yarn:** Un gestor de paquetes de JavaScript. `npm` viene incluido con Node.js; `Yarn` se puede instalar globalmente.
+*   **Git:** Para clonar el repositorio. Descárgalo desde [git-scm.com](https://git-scm.com/).
+
+## 🚀 Instrucciones de Instalación
+
+Sigue estos pasos para configurar y ejecutar el proyecto localmente:
+
+1.  **Clonar el repositorio:**
+    ```bash
+    git clone https://github.com/Mah0j0/CrocaChips-Frontend.git
+    cd CrocaChips-Frontend
+    ```
+
+2.  **Instalar dependencias:**
+    ```bash
+    npm install
+    # o si usas Yarn
+    # yarn install
+    ```
+
+3.  **Configuración de Variables de Entorno:**
+    Crea un archivo `.env` en la raíz del proyecto (si no existe) y configura las variables de entorno necesarias, como la URL de la API backend.
+    ```
+    VITE_API_URL=http://localhost:3000/api
+    ```
+    *(Ajusta `VITE_API_URL` según la configuración de tu backend. Asegúrate de que el backend esté en funcionamiento.)*
+
+4.  **Iniciar el servidor de desarrollo:**
+    ```bash
+    npm run dev
+    # o si usas Yarn
+    # yarn dev
+    ```
+    Esto iniciará la aplicación en modo de desarrollo, generalmente accesible en `http://localhost:5173`. Abre esta URL en tu navegador.
+
+5.  **Construir para producción (opcional):**
+    ```bash
+    npm run build
+    # o si usas Yarn
+    # yarn build
+    ```
+    Esto generará los archivos optimizados y estáticos para producción en la carpeta `dist/`.
+
+## 🧑‍💻 Guía de Uso
+
+Una vez que la aplicación esté en funcionamiento, sigue estos pasos básicos:
+
+1.  **Inicio de Sesión:** Accede a la aplicación utilizando tus credenciales de usuario. Si es la primera vez, asegúrate de que el backend tenga usuarios preconfigurados o un mecanismo de registro.
+2.  **Navegación:** Utiliza la barra lateral intuitiva para navegar entre las diferentes secciones: `Dashboard`, `Clientes`, `Empleados`, `Productos`, `Despachos`, `Recepciones`, `Ventas`, y `Lotes`.
+3.  **Gestión de Datos:** En cada sección, podrás realizar operaciones de crear, leer, actualizar y eliminar (CRUD) según tus permisos. Por ejemplo, en "Productos" podrás añadir un nuevo producto, editar su información o actualizar su stock.
+4.  **Filtros y Búsquedas:** Utiliza las opciones de filtrado y búsqueda disponibles en las tablas para encontrar información específica rápidamente.
+5.  **Reportes:** Consulta los dashboards para obtener una visión gráfica y en tiempo real del rendimiento del negocio y el estado del inventario.
+
+## 🌳 Estructura del Proyecto
+
+El proyecto sigue la arquitectura **Feature-Sliced Design (FSD)**, lo que garantiza una organización clara, modular y escalable. A continuación, se detalla la estructura principal:
 ```
-src/
-│
-├── components/         # Componentes reutilizables
-├── pages/              # Páginas del sistema
-├── services/           # Peticiones HTTP (axios)
-├── hooks/              # Hooks personalizados
-├── assets/             # Imágenes, íconos, etc.
-└── App.tsx             # Componente principal
+CrocaChips-Frontend/
+├── public/                 # 🌐 Archivos estáticos (imágenes, favicon, etc.)
+├── src/                    # 🚀 Código fuente de la aplicación
+│   ├── app/                # ⚙️ Lógica global de la aplicación, proveedores (contextos)
+│   │   ├── providers/      # Contextos globales (Modal, Sidebar, Theme, etc.)
+│   │   ├── App.tsx         # Componente principal de la aplicación
+│   │   └── main.tsx        # Punto de entrada de la aplicación
+│   ├── entities/           # 🧩 Definiciones de entidades de negocio y su lógica básica
+│   │   ├── clientes/
+│   │   ├── dashboard/
+│   │   ├── empleados/
+│   │   ├── movimientos/
+│   │   ├── productos/
+│   │   └── ventas/
+│   ├── features/           # ✨ Funcionalidades de negocio específicas (interacciones con entidades)
+│   │   ├── auth/           # Módulo de autenticación (login, registro)
+│   │   ├── clientes/       # Funcionalidades de clientes (crear, editar, eliminar, tablas)
+│   │   ├── despachos/
+│   │   ├── empleados/
+│   │   ├── productos/
+│   │   ├── recepciones/
+│   │   └── ventas/
+│   ├── pages/              # 📄 Páginas de la aplicación (composición de features y entities)
+│   │   ├── Almacen/        # Páginas relacionadas con el almacén (Despachos, Lotes, Productos, Recepciones)
+│   │   ├── AuthPages/      # Páginas de autenticación (SignIn, SignUp)
+│   │   ├── Clientes/
+│   │   ├── Dashboard/
+│   │   ├── Empleados/
+│   │   ├── Plantilla/      # Páginas de ejemplo o utilidades de plantilla
+│   │   └── Ventas/
+│   └── shared/             # 🤝 Código reutilizable y transversal a toda la aplicación
+│       ├── Charts/         # Componentes de gráficos (Barras, Líneas, etc.)
+│       ├── data/           # Datos estáticos o de configuración
+│       ├── hooks/          # Hooks personalizados de React
+│       ├── icons/          # Iconos SVG y componentes de iconos
+│       ├── layout/         # Componentes de layout (Header, Sidebar, Layout principal)
+│       ├── lib/            # Librerías y utilidades (e.g., axios.ts, jwt.ts)
+│       ├── ui/             # Componentes UI básicos y reutilizables (Botones, Inputs, Modales)
+│       └── utils/          # Funciones de utilidad (e.g., ProtectedRoute, formatters)
+├── .eslintrc.js            # 🧹 Configuración de ESLint para linting de código
+├── index.html              # 🌐 Archivo HTML principal de la aplicación
+├── package.json            # 📦 Metadatos del proyecto y dependencias
+├── tsconfig.json           # 📝 Configuración de TypeScript
+├── vite.config.ts          # ⚡ Configuración de Vite
+└── ... otros archivos de configuración y assets
 ```
 
-## ⚙️ Scripts disponibles
+## 🛠️ Tecnologías Utilizadas
 
-| Comando           | Descripción                                     |
-|------------------|-------------------------------------------------|
-| `npm run dev`     | Levanta el servidor de desarrollo (Vite)       |
-| `npm run build`   | Compila la app para producción                  |
-| `npm run preview` | Previsualiza el build de producción             |
-| `npm run lint`    | Ejecuta ESLint sobre el código                  |
+Las principales tecnologías y librerías empleadas en el desarrollo de este proyecto son:
 
-## 🚀 Primeros pasos
-
-1. Clona el repositorio:
-   ```bash
-   git clone https://github.com/Mah0j0/CrocaChips-Frontend.git
-   cd CrocaChips-Frontend
-   ```
-
-2. Instala las dependencias:
-   ```bash
-   npm install
-   ```
-
-3. Crea un archivo `.env` basado en `.env.example` y configura tu API:
-   ```env
-   VITE_API_URL=http://localhost:3000/api
-   ```
-
-4. Inicia el servidor de desarrollo:
-   ```bash
-   npm run dev
-   ```
-
-📊 DASHBOARDS RECOMENDADOS
-🔹 1. Dashboard de Ventas
-KPIs:
-✅ Total de ventas del mes / semana
-
-📈 Tendencia de ventas por fecha
-
-🧍‍♂️ Ventas por vendedor
-
-🛍️ Productos más vendidos (por cantidad y por monto)
-
-🧾 Ticket promedio = Total ventas / número de ventas
-
-🧑‍🤝‍🧑 Clientes frecuentes (mayor cantidad de compras)
-
-Gráficos sugeridos:
-Línea temporal de ventas (por día/semana/mes)
-
-Barras horizontales: Top 10 productos
-
-Pie chart: Participación por vendedor
-
-🔹 2. Dashboard de Inventario
-KPIs:
-📦 Stock actual por producto
-
-🆕 Productos recién producidos (últimos lotes)
-
-⚠️ Productos con bajo stock
-
-♻️ Días promedio para agotar stock
-
-📤 Movimientos de salida (ventas)
-
-📥 Movimientos de entrada (producción)
-
-Gráficos sugeridos:
-Barras apiladas: Movimientos (entradas/salidas) por producto
-
-Tabla: Productos con menor stock
-
-Línea de tiempo: Evolución del inventario por producto
-
-🔹 3. Dashboard de Producción
-KPIs:
-🏭 Total producido en el mes
-
-🕒 Tiempo promedio entre producciones
-
-📅 Productos producidos por fecha
-
-🚨 Diferencia entre producción y ventas (¿sobrestock o falta?)
-
-Gráficos sugeridos:
-Línea temporal: Cantidad producida por día
-
-Tabla: Comparativa entre producción y ventas por producto
-
-🔹 4. Dashboard de Clientes
-KPIs:
-👥 Total de clientes activos
-
-📈 Nuevos clientes por mes
-
-💸 Clientes con mayor volumen de compra
-
-⏱️ Tiempo promedio entre compras
-
-Gráficos sugeridos:
-Tabla: Clientes con más compras
-
-Gráfico de barras: Nuevos clientes por mes
+*   **Frontend Framework:** [React](https://react.dev/) (con Hooks y Context API)
+*   **Lenguaje de Programación:** [TypeScript](https://www.typescriptlang.org/)
+*   **Arquitectura:** [Feature-Sliced Design (FSD)](https://feature-sliced.design/)
+*   **Build Tool:** [Vite](https://vitejs.dev/)
+*   **Gestión de Estado/Datos Asíncronos:** [React Query](https://tanstack.com/query/latest)
+*   **Validación de Esquemas:** [Zod](https://zod.dev/)
+*   **Animaciones:** [Framer Motion](https://www.framer.com/motion/)
+*   **Autenticación:** [JSON Web Tokens (JWT)](https://jwt.io/)
+*   **Peticiones HTTP:** [Axios](https://axios-http.com/)
+*   **Estilización:** (Se recomienda especificar si se usa Tailwind CSS, Styled Components, etc., si aplica)
+*   **Enrutamiento:** [React Router DOM](https://reactrouter.com/en/main)
